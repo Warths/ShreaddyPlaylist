@@ -1,30 +1,29 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <Navigation/>
   <router-view/>
 </template>
 
+<script>
+import Navigation from "./components/Navigation.vue"
+import UrlUtils from './mixins/UrlUtils.vue'
+
+export default {
+  components: {Navigation},
+  mixins: [UrlUtils]
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+body::before {
+  content: "xs";
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  background-color: #000;
+  color: #fff;
 }
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+@media (min-width : 768px) { body::before { content: "sm"; }}
+@media (min-width : 992px) { body::before { content: "md"; }}
+@media (min-width : 1200px) { body::before { content: "lg"; }}
 </style>
