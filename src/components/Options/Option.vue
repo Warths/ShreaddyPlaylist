@@ -9,7 +9,6 @@
 export default {
     mounted() {
         let cookie = this.getCookie(this.id)
-        console.log(cookie)
         if (cookie == null) {
             return
         }
