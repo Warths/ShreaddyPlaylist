@@ -15,8 +15,7 @@
         <option-item id="options-lightmix-cooldown" name="Temps de recharge LightMix" v-model="options.regular.lightmixCooldown"/>
         <hr>
         <option-item id="options-search" name="Recherche" v-model="options.moderator.search"/>
-        <option-item id="options-admintools" name="Raccourci D'administration" v-model="options.moderator.devTools"/>
-        <option-item id="options-devtools" name="Outils de Developpement" v-model="options.moderator.adminTools"/>
+        <option-item id="options-admintools" name="Outils de modération" v-model="options.moderator.adminTools"/>
         <hr>
       </div>
    </div>

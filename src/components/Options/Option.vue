@@ -7,13 +7,22 @@
 
 <script>
 export default {
+    mounted() {
+        let cookie = this.getCookie(this.id)
+        console.log(cookie)
+        if (cookie == null) {
+            return
+        }
+
+        this.inputValue = this.getCookie(this.id) == "true"
+    },
     computed: {
         inputValue: {
             get() {
                 return this.modelValue
             },
             set(value) {
-                console.log(this.modelValue)
+                this.setCookie(this.id, value)
                 this.$emit("update:modelValue", value)
             }
         }
