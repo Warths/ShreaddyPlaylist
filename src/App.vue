@@ -42,13 +42,13 @@ export default {
         showOptions: false,
         options: {
             regular: {
-                requestForm: true,
-                lightmixCooldown: false,
+                requestForm: this.getCookieOrDefault("options-request-form", true, true),
+                lightmixCooldown: this.getCookieOrDefault("options-lightmix-cooldown", false, true)
             },
             moderator: {
-                search: false,
-                devTools: false,
-                adminTools: true
+                search: this.getCookieOrDefault("options-search", false, true),
+                devTools: this.getCookieOrDefault("options-devtools", false, true),
+                adminTools: this.getCookieOrDefault("options-admintools", true, true)
             }
         }
     }
