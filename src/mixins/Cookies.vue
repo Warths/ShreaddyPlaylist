@@ -25,6 +25,18 @@ export default {
                 }
             }
             return null;
+        }, 
+        getCookieOrDefault(cname, defaultValue, forceBoolean=false) {
+            let cookie = this.getCookie(cname)
+            console.log(cname)
+            console.log(cookie)
+            if (cookie == null) {
+                return defaultValue
+            }
+            if (forceBoolean) {
+                return cookie == "true"
+            }
+            return cookie
         }
     }
 } 
