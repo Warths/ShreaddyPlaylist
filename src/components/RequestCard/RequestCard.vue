@@ -39,7 +39,7 @@ import BaseRow from "./BaseRow.vue"
 export default {
     computed: {
         tagWrapperClass() {
-            return this.showPanel ? "py-1" : "py-2"
+            return this.showPanel ? "py-1" : "py-2 pb-1"
         }
     },
     props: ["song", "showPanel"],
