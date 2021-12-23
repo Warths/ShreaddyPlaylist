@@ -18,14 +18,14 @@
         <option-item id="options-admintools" name="Outils de modération" v-model="options.moderator.adminTools"/>
         <hr>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-danger">Déconnexion</button>
+            <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
         </div>
       </div>
    </div>
   </transition>
   <!-- OPTIONS END -->
   <Navigation @toggleOptions="showOptions = !showOptions" :identity="identity" :userLevel="userLevel" :userData="userData" />
-  <router-view :options="options"/>
+  <router-view :options="options" :userLevel="userLevel"/>
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
         identity: null,
         userData: null,
         devTools: false,
-        showOptions: true,
+        showOptions: false,
         options: {
             regular: {
                 requestForm: true,
@@ -102,6 +102,13 @@ export default {
           // Error Management TODO
           this.showError(error.message)
       })
+    },
+    disconnect() {
+        this.showOptions = false
+        this.setCookie("access_token", null)
+        this.identity = null
+        this.userData = null
+
     }
   },
   beforeMount() {
