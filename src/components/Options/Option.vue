@@ -7,14 +7,6 @@
 
 <script>
 export default {
-    mounted() {
-        let cookie = this.getCookie(this.id)
-        if (cookie == null) {
-            return
-        }
-
-        this.inputValue = this.getCookie(this.id) == "true"
-    },
     computed: {
         inputValue: {
             get() {
