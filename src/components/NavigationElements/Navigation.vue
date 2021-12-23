@@ -1,0 +1,43 @@
+<template>
+    <nav class="navbar navbar-expand navbar-light bg-light mb-2 shadow position-relative">
+        <div class="container-fluid">
+            <a class="navbar-brand h1 mb-0 d-flex align-items-center me-auto" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <nav-link v-if="userLevel == 0" href="/login" text="Login"/>
+                    <nav-profile v-else :identity="identity" :userLevel="userLevel" :userData="userData"/>
+                </li>
+            </ul>
+            <div>
+                <button v-if="userLevel != 0" @click="$emit('toggleOptions')" class="options-toggler ms-2 p-0 px-1 sized-1">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav> 
+</template>
+
+<script>
+import NavLink from "./NavLink.vue"
+import NavProfile from "./NavProfile.vue"
+
+export default {
+    components: { NavLink, NavProfile }, 
+    props: ["userLevel", "identity", "userData"]
+}
+</script>
+
+<style scoped>
+.options-toggler {
+    padding: 0.25rem 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: box-shadow .15s ease-in-out;
+    color: rgba(0,0,0,.55);
+    border-color: rgba(0,0,0,.1);
+    display: block;
+}
+</style>

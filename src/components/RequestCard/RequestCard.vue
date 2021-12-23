@@ -1,35 +1,28 @@
 <template>
 <div class="w-100 p-2">
     <div class="card shadow shadow-stronger-hover rounded-frame-1">
-        <div class="card-body d-flex flex-column pt-1 pb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <div class="card-body d-flex flex-column pt-1 pb-2">
             <!-- QUICK BUTTONS -->
             <transition name="fade">
-                <div v-if="showPanel" class="d-flex justify-content-between flex-wrap">
-                    <div class="card-text me-1">
-                        <button type="button" class="btn btn-primary bg-purple border-0 mt-1 me-1 modal-cancel" data-bs-toggle="modal" data-bs-target="#exampleModal">Play</button>
-                        <button type="button" class="btn btn-primary bg-purple border-0 mt-1 me-1  modal-cancel" data-bs-toggle="modal" data-bs-target="#exampleModal">Freeze</button>
+                <div v-if="showPanel" class="d-flex flex-wrap gap-1">
+                        <div class="pt-1"><button type="button" class="btn btn-primary bg-purple border-0 p-1 p-sm-2">Play</button></div>
+                        <div class="pt-1"><button type="button" class="btn btn-primary bg-purple border-0 p-1 p-sm-2">Freeze</button></div>
                         <!-- Custom Dropdown button-->
-                        <div class="btn-group modal-cancel" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <button type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 mt-1 me-1 modal-cancel" data-bs-toggle="dropdown" aria-expanded="false">Boost</button>
+                        <div class="btn-group pt-1">
+                            <button type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 p-sm-2" data-bs-toggle="dropdown" aria-expanded="false">Boost</button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">+50%</a></li>
                                 <li><a class="dropdown-item" href="#">+100%</a></li>
                                 <li><a class="dropdown-item" href="#">+250%</a></li>
                             </ul>
                         </div>
+                        <div class="pt-1"><button type="button" class="btn btn-primary bg-purple border-0 p-1 p-sm-2">Preview</button></div>
 
-                        <button type="button" class="btn btn-primary bg-purple border-0 mt-1 me-1  modal-cancel" data-bs-toggle="modal" data-bs-target="#exampleModal">Preview</button>
-                    </div>
-                    <div class="card-text">
-                        <button type="button" class="btn btn-danger border-0 mt-1 me-1 modal-cancel" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-                        <button type="button" class="btn btn-danger border-0 mt-1 modal-cancel" data-bs-toggle="modal" data-bs-target="#exampleModal">Banlist</button>
-                    </div>
+                        <div class="pt-1 ms-auto"><button type="button" class="btn btn-danger bg-purple border-0 p-1 p-sm-2">Delete</button></div>
+                        <div class="pt-1"><button type="button" class="btn btn-danger bg-purple border-0 p-1 p-sm-2">Banlist</button></div>
                 </div>
             </transition>
-            <!-- TAGS -->
-            <div :class="tagWrapperClass">
-                <request-tag v-for="tag in song.tags" :tag="tag" :key="tag.id"/>
-            </div>
+            <tag-list :class="tagWrapperClass" :tags="song.tags"/>
             <base-row class="fs-4" :text="song.title"/>
             <base-row class="fs-5" :text="song.artist"/>
             <requester-row :requester="song.requester"/>
@@ -39,18 +32,18 @@
 </template>
 
 <script>
-import RequestTag from "./Tag.vue"
+import TagList from "./TagList.vue"
 import RequesterRow from "./RequesterRow.vue"
 import BaseRow from "./BaseRow.vue"
 
 export default {
     computed: {
         tagWrapperClass() {
-            return this.showPanel ? "tags d-flex py-1" : "tags d-flex py-2"
+            return this.showPanel ? "py-1" : "py-2"
         }
     },
     props: ["song", "showPanel"],
-    components: {RequestTag, RequesterRow, BaseRow}
+    components: {TagList, RequesterRow, BaseRow}
 }
 </script>
 
@@ -58,7 +51,7 @@ export default {
 
 
 
-.tags {
+.tags, .btn {
     transition: padding 1s ease;
 }
 

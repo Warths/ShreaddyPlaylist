@@ -9,16 +9,24 @@
 import RequesterBadge from "./RequesterBadge.vue"
 
 export default {
+    data() {
+        return {
+            color: "ffffff"
+        }
+    },
     props: ["requester"],
+
     computed:{
          displayNameColor() {
-             return {color: "#" + this.requester.color}
+             return {color: "#" + this.color}
          },
         contrastedOutLine() {
-            let r = parseInt(this.requester.color.slice(0,2), 16)
-            let g = parseInt(this.requester.color.slice(2,4), 16)
-            let b = parseInt(this.requester.color.slice(4,6), 16)
-            return (r+g+b)/3 < 125 ? "outlined-light" : "outlined-dark"
+            let r = parseInt(this.color.slice(0,2), 16)
+            let g = parseInt(this.color.slice(2,4), 16)
+            let b = parseInt(this.color.slice(4,6), 16)
+            let result = (r+g+b)/3;
+            let threshold = 210;
+            return result < threshold? "outlined-light" : "outlined-dark"
         }
 
     },
@@ -28,10 +36,10 @@ export default {
 
 <style scoped>
 .outlined-light {
-    text-shadow: 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
 
 .outlined-dark {
-    text-shadow: 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    text-shadow: 1px 1px 0 rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0);
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
 <!-- ALL MUSIC CARDS -->
-    <div class="d-flex justify-content-around">
+    <div v-if="options.moderator.devTools" class="d-flex justify-content-around">
         <div>
-            <button @click="togglePanel">{{ showPanel ? "Show Panel": "Hide Panel"}}</button>
             <button @click="clicked">Reverse</button>
             <button @click="addItem">Add</button>
             <button @click="removeFirstItem">Remove First</button>
@@ -13,9 +12,10 @@
     <div class="playlist m-auto">
         <p class="fw-bold text-end m-0 p-2" key="heading">Il y a {{list.length}} musiques dans la playlist</p>
         <transition-group name="playlist" tag="div" class="playlist position-relative">
-            <card class="playlist-item" v-for="(content) in list" :song="content" :key="content.id" :showPanel="showPanel"/>
+            <card class="playlist-item" v-for="(content) in list" :song="content" :key="content.id" :showPanel="options.moderator.adminTools"/>
         </transition-group>
     </div>
+    
 </template>
 
 <script>
@@ -25,14 +25,11 @@ export default {
     data() {
         return {
             list: [],
-            showPanel: false,
-            playlistLocation: "https://api.warths.fr/shreaddy/playlist/"
+            playlistLocation: "https://api.warths.fr/shreaddy/playlist/",
+            identity: null
         }
     },
     methods: {
-        togglePanel() {
-            this.showPanel = !this.showPanel
-        },
         clicked() {
             this.list = this.list.reverse();
         },
@@ -55,10 +52,12 @@ export default {
         }
     },
     mounted() {
-        setTimeout(this.update.bind(this), 1000)
-        if (this.getHashValue("access_token") == null) {}
+        // Setting App to update regularly
+        this.update()
+        setInterval(this.update.bind(this), 10000)    
     },
-    components: {card}
+    components: {card},
+    props: ["options"]
 }
 
 </script>
@@ -81,6 +80,7 @@ export default {
 .playlist-leave-active {
     position:absolute;
 }
+
 
 </style>
 

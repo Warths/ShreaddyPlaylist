@@ -1,5 +1,5 @@
 <template>
-    <img class="me-1" :src="badge.icon" :aria-label="badge.alttext" :alt="badge.alttext" width="28" height="28">
+    <img class="me-1" :src="toAbsolute(badge.icon, 'https://playlist.warths.fr')" :aria-label="badge.alttext" :alt="badge.alttext" height="28">
 </template>
 
 <script>

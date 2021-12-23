@@ -1,5 +1,5 @@
 <template>
-    <span class="badge me-1" :style="style"><img class="me-1" :src="formatUrl(tag.icon)"><span>{{tag.text}}</span></span>
+    <span class="badge" :style="style"><img class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{tag.text}}</span></span>
 </template>
 
 <script>
