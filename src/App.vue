@@ -17,6 +17,9 @@
         <option-item id="options-search" name="Recherche" v-model="options.moderator.search"/>
         <option-item id="options-admintools" name="Outils de modération" v-model="options.moderator.adminTools"/>
         <hr>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-danger">Déconnexion</button>
+        </div>
       </div>
    </div>
   </transition>
@@ -82,6 +85,7 @@ export default {
           throw new Error("Session invalide, car delivrée par une application tierce.")
         }
         this.identity = data
+        this.setCookie("access_token", token)
         return data
       })
       // Getting User Infos
@@ -101,7 +105,11 @@ export default {
     }
   },
   beforeMount() {
-    let token = this.getHashValue("access_token")  
+    let token = this.getHashValue("access_token")
+
+    if (token == null) {
+        token = this.getCookie("access_token")
+    }
     // Managing session
     if (token != null) {
       // Validating Session
@@ -130,7 +138,7 @@ body::before {
 
 
 .options-veil {
-    position:absolute;
+    position:fixed;
     z-index: 2;
     width: 100vw;
     height: 100vh;
