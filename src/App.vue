@@ -150,7 +150,7 @@ body::before {
     position:absolute;
     z-index: 2;
     left: calc(100% - 300px);
-    height: 100vh;
+    min-height: 100vh;
     width: 300px;
     background: rgba(0,0,0,0.75);
 }
