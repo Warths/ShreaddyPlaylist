@@ -1,6 +1,6 @@
 <template>
 <!-- ALL MUSIC CARDS -->
-    <div v-if="options.moderator.devTools" class="d-flex justify-content-around">
+    <div v-if="options.moderator.devTools && userLevel" class="d-flex justify-content-around">
         <div>
             <button @click="clicked">Reverse</button>
             <button @click="addItem">Add</button>
@@ -12,7 +12,10 @@
     <div class="playlist m-auto">
         <p class="fw-bold text-end m-0 p-2" key="heading">Il y a {{list.length}} musiques dans la playlist</p>
         <transition-group name="playlist" tag="div" class="playlist position-relative">
-            <card class="playlist-item" v-for="(content) in list" :song="content" :key="content.id" :showPanel="options.moderator.adminTools"/>
+            <card class="playlist-item" v-for="(content) in list" 
+            :song="content" :key="content.id" 
+            :showPanel="options.moderator.adminTools" 
+            :userLevel="userLevel"/>
         </transition-group>
     </div>
     
@@ -59,7 +62,7 @@ export default {
 
     },
     components: {card},
-    props: ["options"]
+    props: ["options", "userLevel"]
 }
 
 </script>
