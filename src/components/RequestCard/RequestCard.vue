@@ -30,36 +30,34 @@
             <div :class="tagWrapperClass">
                 <request-tag v-for="tag in song.tags" :tag="tag" :key="tag.id"/>
             </div>
-            <div class="card-text fs-4">{{ song.title }}</div>
-            <div class="card-text fs-5">{{ song.artist }}</div>
-            <div class="card-text align-self-end fs-4 d-flex align-items-center">
-                <requester-badge v-for="badge in song.requester.badges" :badge="badge" :key="badge.alttext"/>
-                <p class="m-0 fw-bold" :style="displayNameColor">{{ song.requester.displayName }}</p>
-            </div>
+            <base-row class="fs-4" :text="song.title"/>
+            <base-row class="fs-5" :text="song.artist"/>
+            <requester-row :requester="song.requester"/>
         </div>
     </div>
 </div>
 </template>
 
 <script>
-import RequestTag from "../components/RequestTag.vue"
-import RequesterBadge from '../components/RequesterBadge.vue'
+import RequestTag from "./Tag.vue"
+import RequesterRow from "./RequesterRow.vue"
+import BaseRow from "./BaseRow.vue"
 
 export default {
     computed: {
         tagWrapperClass() {
             return this.showPanel ? "tags d-flex py-1" : "tags d-flex py-2"
-        },
-        displayNameColor() {
-            return {color: "#" + this.song.requester.color}
         }
     },
     props: ["song", "showPanel"],
-    components: {RequestTag, RequesterBadge}
+    components: {RequestTag, RequesterRow, BaseRow}
 }
 </script>
 
 <style scoped>
+
+
+
 .tags {
     transition: padding 1s ease;
 }

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import card from "../components/RequestCard.vue"
+import card from "../components/RequestCard/RequestCard.vue"
 
 export default {
     data() {
@@ -55,7 +55,7 @@ export default {
         }
     },
     mounted() {
-        setInterval(this.update.bind(this), 1000)
+        setTimeout(this.update.bind(this), 1000)
         if (this.getHashValue("access_token") == null) {}
     },
     components: {card}
