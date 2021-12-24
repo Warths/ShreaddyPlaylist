@@ -34,18 +34,22 @@ export default {
         showOptions: false,
         options: {
             regular: {
-                requestForm: {
-                  name: "options-request-form",
-                  value: this.getCookieOrDefault("options-request-form", true, true),
-                  text: "Formulaire de request"
+                fields: {
+                  requestForm: {
+                    name: "options-request-form",
+                    value: this.getCookieOrDefault("options-request-form", true, true),
+                    text: "Formulaire de request"
+                  },
+                  lightmixCooldown: {
+                    name: "options-lightmix-cooldown",
+                    value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
+                    text: "Temps de recharge LightMix"
+                  }
                 },
-                lightmixCooldown: {
-                  name: "options-lightmix-cooldown",
-                  value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
-                  text: "Temps de recharge LightMix"
-                }
+                userLevel: 1
             },
             moderator: {
+              fields: {
                 search: {
                   name: "options-search",
                   value: this.getCookieOrDefault("options-search", false, true),
@@ -61,6 +65,8 @@ export default {
                   value: this.getCookieOrDefault("options-admintools", true, true),
                   text: "Raccourcis de modération"
                 }
+              },
+              userLevel: 2
             }
         }
     }
@@ -80,9 +86,7 @@ export default {
   },
   methods: {
     updateOption(event) {
-      console.log("UpdateOption !")
-      console.log(event)
-      this.options[event.group][event.name].value = event.value
+      this.options[event.group].fields[event.name].value = event.value
     },
     showError(errorText) {
       return "NOT IMPLEMENTED"
@@ -137,7 +141,6 @@ export default {
     // Managing session
     if (token != null) {
       // Validating Session
-      console.log("Setting ID")
       this.setIdentity(token)
     }
   }
