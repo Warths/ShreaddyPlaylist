@@ -1,6 +1,6 @@
 <template>
 <!-- ALL MUSIC CARDS -->
-    <div v-if="options.moderator.devTools.value && userLevel == 2" class="d-flex justify-content-around">
+    <div v-if="options.moderator.fields.devTools.value && userLevel == 2" class="d-flex justify-content-around">
         <div>
             <button @click="clicked">Reverse</button>
             <button @click="addItem">Add</button>
@@ -14,7 +14,7 @@
         <transition-group name="playlist" tag="div" class="playlist position-relative">
             <card class="playlist-item" v-for="(content) in list" 
             :song="content" :key="content.id" 
-            :showPanel="options.moderator.adminTools.value" 
+            :showPanel="options.moderator.fields.adminTools.value" 
             :userLevel="userLevel"/>
         </transition-group>
     </div>
