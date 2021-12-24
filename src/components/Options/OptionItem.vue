@@ -14,7 +14,6 @@ export default {
             },
             set(value) {
                 this.setCookie(this.option.name, value)
-                console.log("set cookie: ", this.option.name, " to : ", value)
                 this.$emit("updateOption", {value, name:this.name})
             }
         }

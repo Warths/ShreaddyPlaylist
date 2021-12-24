@@ -28,8 +28,6 @@ export default {
         }, 
         getCookieOrDefault(cname, defaultValue, forceBoolean=false) {
             let cookie = this.getCookie(cname)
-            console.log(cname)
-            console.log(cookie)
             if (cookie == null) {
                 return defaultValue
             }

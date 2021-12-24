@@ -39,7 +39,6 @@ import BaseRow from "./BaseRow.vue"
 export default {
     computed: {
         adminPanelVisible() {
-            console.log(this.userLevel)
             return this.showPanel && this.userLevel == 2
         },
         tagWrapperClass() {
