@@ -9,7 +9,7 @@
         <button @click="showOptions = False" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
-      <option-list :options="options" v-on:updateOption="(event) => updateOption(event)"/>
+      <option-list :options="options" :userLevel="userLevel" v-on:updateOption="(event) => updateOption(event)"/>
       <div class="d-flex justify-content-center">
         <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
       </div>
