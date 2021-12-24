@@ -9,17 +9,9 @@
         <button @click="showOptions = False" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
-      <div class="m-3">
-        <hr>
-        <option-item id="options-request-form" name="Formulaire de Request" v-model="options.regular.requestForm"/>
-        <option-item id="options-lightmix-cooldown" name="Temps de recharge LightMix" v-model="options.regular.lightmixCooldown"/>
-        <hr>
-        <option-item id="options-search" name="Recherche" v-model="options.moderator.search"/>
-        <option-item id="options-admintools" name="Outils de modération" v-model="options.moderator.adminTools"/>
-        <hr>
-        <div class="d-flex justify-content-center">
-            <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
-        </div>
+      <option-list :options="options"/>
+      <div class="d-flex justify-content-center">
+        <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
       </div>
    </div>
   </transition>
@@ -30,7 +22,7 @@
 
 <script>
 import Navigation from "./components/NavigationElements/Navigation.vue"
-import OptionItem from './components/Options/Option.vue'
+import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
 
 export default {
@@ -42,18 +34,38 @@ export default {
         showOptions: false,
         options: {
             regular: {
-                requestForm: this.getCookieOrDefault("options-request-form", true, true),
-                lightmixCooldown: this.getCookieOrDefault("options-lightmix-cooldown", false, true)
+                requestForm: {
+                  name: "options-request-form",
+                  value: this.getCookieOrDefault("options-request-form", true, true),
+                  text: "Formulaire de request"
+                },
+                lightmixCooldown: {
+                  name: "options-lightmix-cooldown",
+                  value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
+                  text: "Temps de recharge LightMix"
+                }
             },
             moderator: {
-                search: this.getCookieOrDefault("options-search", false, true),
-                devTools: this.getCookieOrDefault("options-devtools", false, true),
-                adminTools: this.getCookieOrDefault("options-admintools", true, true)
+                search: {
+                  name: "options-search",
+                  value: this.getCookieOrDefault("options-search", false, true),
+                  text: "Recherche"
+                },
+                devTools: {
+                  name: "options-devtools",
+                  value: this.getCookieOrDefault("options-devtools", false, true),
+                  text: "Outils de développement"
+                },
+                adminTools: {
+                  name: "options-admintools",
+                  value: this.getCookieOrDefault("options-admintools", true, true),
+                  text: "Raccourcis de modération"
+                }
             }
         }
     }
   },
-  components: {Navigation, OptionItem},
+  components: {Navigation, OptionList},
   mixins: [UrlUtils],
   computed: {
       userLevel() {
