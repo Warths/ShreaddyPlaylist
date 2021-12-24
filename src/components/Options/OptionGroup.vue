@@ -1,7 +1,7 @@
 <template>
     <div>
         <hr>
-        <option-item v-on:updateOption="(e) => update(e)" v-for="(optionValues, optionName, i) in options" :key="i" :option="optionValues" :name="optionName"/>
+        <option-item v-on:updateOption="(e) => update(e)" v-for="(optionValues, optionName, i) in options.fields" :key="i" :option="optionValues" :name="optionName"/>
     </div>
 </template>
 
