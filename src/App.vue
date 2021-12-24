@@ -9,13 +9,13 @@
         <button @click="showOptions = False" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
-      <option-list :options="options"/>
+      <option-list :options="options" v-on:updateOption="(event) => updateOption(event)"/>
       <div class="d-flex justify-content-center">
         <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
       </div>
    </div>
   </transition>
-  <!-- OPTIONS END -->
+
   <Navigation @toggleOptions="showOptions = !showOptions" :identity="identity" :userLevel="userLevel" :userData="userData" />
   <router-view :options="options" :userLevel="userLevel"/>
 </template>
@@ -79,6 +79,11 @@ export default {
       }
   },
   methods: {
+    updateOption(event) {
+      console.log("UpdateOption !")
+      console.log(event)
+      this.options[event.group][event.name].value = event.value
+    },
     showError(errorText) {
       return "NOT IMPLEMENTED"
     },
