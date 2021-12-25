@@ -1,8 +1,15 @@
 <template>
-<svg :height="size" :width="size" class="me-2">
+<svg :height="size" :width="size" class="me-2 wrapper">
   <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2 + 1)" :style="{...dashOffset, ...stroke}"/>
   <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2 + 1)" :style="stroke"/>
-  <image :href="icon" :height="size" :width="size"/>
+  <image class="main-icon" :href="icon" :height="size" :width="size"/>
+  <transition name="fade">
+  <svg v-if="this.unknown" :height="size" :width="size">
+    <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2 + 1)"/>
+    <image class="corner" href="../../assets/questionmark.png" :height="size" :width="size"/>
+  </svg>
+  </transition> 
+
 </svg>
 </template>
 
@@ -10,7 +17,34 @@
 export default {
     data() {
         return {
-            offset: 82
+            offset: 0,
+            temp: undefined
+        }
+    },
+    methods: {
+        pushEvent() {
+            this.temp = {
+                emited: Date.now(),
+                cooldown: 5000,
+            }
+        },
+        update() {
+            if (this.temp == undefined) {
+                return
+            }
+            
+            let currentTime = Date.now()
+            let progress = currentTime - this.temp.emited;
+            
+            if (progress < 0) {
+                progress = 0;
+            } else if (progress > this.temp.cooldown) {
+                progress = this.temp.cooldown
+            }
+
+            this.offset = this.strokeDashArray - (progress / this.temp.cooldown * this.strokeDashArray)
+
+
         }
     },
     computed: {
@@ -19,10 +53,13 @@ export default {
         },
         stroke() {
             return {"stroke-width": this.strokeWidth}
+        },
+        unknown() {
+            return this.temp == undefined
         }
     },
     mounted() {
-        setInterval(() => this.offset -= 1, 30)
+        setInterval(() => this.update(), 30)
     },
     props: {
         size: {
@@ -40,15 +77,21 @@ export default {
         icon: {
             type: String,
             default: ""
+        },
+        state: {
+            default:undefined
         }
     }
 }
 </script>
 
 <style scoped>
-svg {
+.wrapper {
     position:relative;
     transition: all 0.3s ease-out;
+}
+.wrapper:hover {
+    transform: scale(1.2)
 }
 
 circle {
@@ -56,7 +99,8 @@ circle {
   fill: transparent;
   stroke-dasharray: 82; /* Magic value, STFU and don't ask */
   stroke: rgb(146, 146, 146);
-  transform: translateY(100%) rotate(-90deg)
+  transform-origin: center;
+  transform: rotate(-90deg)
 
 }
 
@@ -64,20 +108,25 @@ circle {
   opacity: 0.2;
 }
 
-image {
+.main-icon {
     transform-origin: center;
     transform: scale(0.6);
     opacity: 0.7;
     filter: grayscale(100%);
+}
+.corner-circle {
+    fill:white;
+}
+.corner {
+    position:absolute;
+    transform-origin: bottom right;
+    transform: scale(0.44);
 }
 
 .unavailable {
     opacity: 0.3;
 }
 
-svg:hover {
-    transform-origin: center;
-    transform: scale(1.2);
-}
+
 </style>
 
