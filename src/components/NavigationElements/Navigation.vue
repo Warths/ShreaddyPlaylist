@@ -1,7 +1,9 @@
 <template>
     <nav class="navbar navbar-expand navbar-light bg-light mb-2 shadow position-relative">
         <div class="container-fluid">
-            <a class="navbar-brand h1 mb-0 d-flex align-items-center me-auto" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
+            <a class="navbar-brand h1 mb-0 d-flex align-items-center" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
+            <cooldown />
+            <div class="me-auto spacer"></div>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <nav-link v-if="userLevel == 0" href="/login" text="Login"/>
@@ -18,11 +20,12 @@
 </template>
 
 <script>
+import Cooldown from "../Cooldowns/Cooldown.vue"
 import NavLink from "./NavLink.vue"
 import NavProfile from "./NavProfile.vue"
 
 export default {
-    components: { NavLink, NavProfile }, 
+    components: { NavLink, NavProfile, Cooldown }, 
     props: ["userLevel", "identity", "userData"]
 }
 </script>
