@@ -16,7 +16,7 @@
    </div>
   </transition>
 
-  <Navigation @toggleOptions="showOptions = !showOptions" :identity="identity" :userLevel="userLevel" :userData="userData" />
+  <Navigation @toggleOptions="showOptions = !showOptions" :options="options" :identity="identity" :userLevel="userLevel" :userData="userData" />
   <router-view :options="options" :userLevel="userLevel"/>
 </template>
 
