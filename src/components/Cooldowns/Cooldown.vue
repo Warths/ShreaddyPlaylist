@@ -11,7 +11,7 @@
   </transition>
 
 </svg>
-<!-- <button @click="pushEvent">Push me !</button> -->
+<!-- <button @click="pushEvent" class="me-2">!</button> -->
 </template>
 
 <script>
@@ -19,7 +19,8 @@ export default {
     data() {
         return {
             offset: 0,
-            temp: undefined
+            temp: undefined,
+            justMounted: true,
         }
     },
     methods: {
@@ -44,11 +45,15 @@ export default {
             }
 
             this.offset = this.strokeDashArray - (progress / this.temp.cooldown * this.strokeDashArray)
+
+            if (this.offset != 0) {
+                this.justMounted = false
+            }
         }
     },
     computed: {
         readyClass() {
-            return  this.offset == 0 ? "ready" : ""
+            return  this.offset == 0 && this.justMounted == false ? "ready" : ""
         },
         dash() {
             return {
