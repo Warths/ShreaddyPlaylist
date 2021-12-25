@@ -2,7 +2,8 @@
     <nav class="navbar navbar-expand navbar-light bg-light mb-2 shadow position-relative">
         <div class="container-fluid">
             <a class="navbar-brand h1 mb-0 d-flex align-items-center" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
-            <cooldown />
+            <cooldown :icon="require('../../assets/sun.png')"/>
+            <cooldown :icon="require('../../assets/fx.png')"/>
             <div class="me-auto spacer"></div>
             <ul class="navbar-nav">
                 <li class="nav-item">
