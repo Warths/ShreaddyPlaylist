@@ -1,16 +1,17 @@
 <template>
 <svg :height="size" :width="size" class="me-2 wrapper">
-  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2 + 1)" :style="{...dashOffset, ...stroke}"/>
-  <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2 + 1)" :style="stroke"/>
+  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}" :class="ready"/>
+  <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
   <image class="main-icon" :href="icon" :height="size" :width="size"/>
   <transition name="fade">
   <svg v-if="this.unknown" :height="size" :width="size">
-    <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2 + 1)"/>
+    <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)"/>
     <image class="corner" href="../../assets/questionmark.png" :height="size" :width="size"/>
   </svg>
   </transition> 
 
 </svg>
+<!-- <button @click="pushEvent">Push me !</button> -->
 </template>
 
 <script>
@@ -48,8 +49,11 @@ export default {
         }
     },
     computed: {
-        dashOffset() {
-            return {"stroke-dashoffset": this.offset}
+        dash() {
+            return {
+                "stroke-dashoffset": this.offset,
+                "stroke-dasharray": 88
+                }
         },
         stroke() {
             return {"stroke-width": this.strokeWidth}
@@ -72,7 +76,7 @@ export default {
         },
         strokeDashArray: {
             type: Number,
-            default: 82
+            default: 84
         },
         icon: {
             type: String,
@@ -97,7 +101,6 @@ export default {
 circle {
   position:absolute;
   fill: transparent;
-  stroke-dasharray: 82; /* Magic value, STFU and don't ask */
   stroke: rgb(146, 146, 146);
   transform-origin: center;
   transform: rotate(-90deg)
@@ -110,7 +113,7 @@ circle {
 
 .main-icon {
     transform-origin: center;
-    transform: scale(0.6);
+    transform: scale(0.64);
     opacity: 0.7;
     filter: grayscale(100%);
 }
