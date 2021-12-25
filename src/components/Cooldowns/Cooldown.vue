@@ -1,14 +1,14 @@
 <template>
 <svg :height="size" :width="size" class="me-2 wrapper">
-  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}" :class="ready"/>
   <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
+  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}" :class="readyClass"/>
   <image class="main-icon" :href="icon" :height="size" :width="size"/>
   <transition name="fade">
   <svg v-if="this.unknown" :height="size" :width="size">
     <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)"/>
     <image class="corner" href="../../assets/questionmark.png" :height="size" :width="size"/>
   </svg>
-  </transition> 
+  </transition>
 
 </svg>
 <!-- <button @click="pushEvent">Push me !</button> -->
@@ -26,17 +26,17 @@ export default {
         pushEvent() {
             this.temp = {
                 emited: Date.now(),
-                cooldown: 5000,
+                cooldown: 2000,
             }
         },
         update() {
             if (this.temp == undefined) {
                 return
             }
-            
+
             let currentTime = Date.now()
             let progress = currentTime - this.temp.emited;
-            
+
             if (progress < 0) {
                 progress = 0;
             } else if (progress > this.temp.cooldown) {
@@ -44,15 +44,16 @@ export default {
             }
 
             this.offset = this.strokeDashArray - (progress / this.temp.cooldown * this.strokeDashArray)
-
-
         }
     },
     computed: {
+        readyClass() {
+            return  this.offset == 0 ? "ready" : ""
+        },
         dash() {
             return {
                 "stroke-dashoffset": this.offset,
-                "stroke-dasharray": 88
+                "stroke-dasharray": this.strokeDashArray
                 }
         },
         stroke() {
@@ -76,7 +77,7 @@ export default {
         },
         strokeDashArray: {
             type: Number,
-            default: 84
+            default: 88
         },
         icon: {
             type: String,
@@ -90,6 +91,7 @@ export default {
 </script>
 
 <style scoped>
+
 .wrapper {
     position:relative;
     transition: all 0.3s ease-out;
@@ -105,6 +107,16 @@ circle {
   transform-origin: center;
   transform: rotate(-90deg)
 
+}
+
+.ready {
+    animation-duration: .3s;
+    animation-iteration-count: 3;
+    animation-name: flash;
+}
+
+@keyframes flash {
+    50% {stroke: white}
 }
 
 .print {
