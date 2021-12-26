@@ -50,8 +50,8 @@ export default {
         }
     },
     mounted() {
-        setInterval(() => {if (Math.random() > 0.6) {this.updateState("light")}}, 5000)
-        setInterval(() => {if (Math.random() > 0.1) {this.updateState("fx")}}, 21000)
+        //setInterval(() => {if (Math.random() > 0.6) {this.updateState("light")}}, 5000)
+        //setInterval(() => {if (Math.random() > 0.1) {this.updateState("fx")}}, 21000)
     },
     components: { NavLink, NavProfile, Cooldown }, 
     props: ["userLevel", "identity", "userData", "options"]
