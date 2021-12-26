@@ -2,7 +2,7 @@
 <svg :height="size" :width="size" class="me-2 wrapper">
   <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
   <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}" :class="readyClass"/>
-  <image class="main-icon" :href="icon" :height="size" :width="size"/>
+  <image class="main-icon" :href="icon" :height="size" :width="size" :class="readyClass + ' ' + loadingClass"/>
   <transition name="fade">
   <svg v-if="this.unknown" :height="size" :width="size">
     <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)"/>
@@ -11,7 +11,6 @@
   </transition>
 
 </svg>
-<!-- <button @click="pushEvent" class="me-2">!</button> -->
 </template>
 
 <script>
@@ -19,7 +18,6 @@ export default {
     data() {
         return {
             offset: 0,
-            temp: undefined,
             justMounted: true,
         }
     },
@@ -31,20 +29,20 @@ export default {
             }
         },
         update() {
-            if (this.temp == undefined) {
+            if (this.state == undefined) {
                 return
             }
 
             let currentTime = Date.now()
-            let progress = currentTime - this.temp.emited;
+            let progress = currentTime - this.state.emited;
 
             if (progress < 0) {
                 progress = 0;
-            } else if (progress > this.temp.cooldown) {
-                progress = this.temp.cooldown
+            } else if (progress > this.state.cooldown) {
+                progress = this.state.cooldown
             }
 
-            this.offset = this.strokeDashArray - (progress / this.temp.cooldown * this.strokeDashArray)
+            this.offset = this.strokeDashArray - (progress / this.state.cooldown * this.strokeDashArray)
 
             if (this.offset != 0) {
                 this.justMounted = false
@@ -54,6 +52,9 @@ export default {
     computed: {
         readyClass() {
             return  this.offset == 0 && this.justMounted == false ? "ready" : ""
+        },
+        loadingClass() {
+            return this.offset != 0 && this.justMounted == false ? "loading" : ""
         },
         dash() {
             return {
@@ -65,7 +66,7 @@ export default {
             return {"stroke-width": this.strokeWidth}
         },
         unknown() {
-            return this.temp == undefined
+            return this.state == undefined
         }
     },
     mounted() {
@@ -133,6 +134,12 @@ circle {
     transform: scale(0.64);
     opacity: 0.7;
     filter: grayscale(100%);
+    transition: all 0.5s;
+}
+
+.main-icon.loading {
+    transform: scale(0.5);
+    opacity: 0.2
 }
 .corner-circle {
     fill:white;
