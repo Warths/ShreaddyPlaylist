@@ -4,10 +4,14 @@
             <a class="navbar-brand h1 mb-0 d-flex align-items-center" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
             <transition name="fade">
             <div v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
-                <cooldown :icon="require('../../assets/sun.png')"/>
-                <cooldown :icon="require('../../assets/fx.png')"/>
+                <cooldown :icon="require('../../assets/sun.png')" :state="light"/>
+                <cooldown :icon="require('../../assets/fx.png')" :state="fx"/>
             </div>
             </transition>
+            <div v-if="userLevel == 2 && options.moderator.fields.devTools.value">
+                <button @click="updateState('light')">Light</button>
+                <button @click="updateState('fx')" >FX</button>
+            </div>
             <div class="me-auto spacer"></div>
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -30,6 +34,25 @@ import NavLink from "./NavLink.vue"
 import NavProfile from "./NavProfile.vue"
 
 export default {
+    data() {
+        return {
+            light:undefined,
+            fx: undefined
+        }
+    },
+    methods: {
+        updateState(target) {
+            this[target] = {
+                emited: Date.now(),
+                serverTime: Date.now(),
+                cooldown: (target == "fx") ? 20000 : 5000,
+            }
+        }
+    },
+    mounted() {
+        setInterval(() => {if (Math.random() > 0.6) {this.updateState("light")}}, 5000)
+        setInterval(() => {if (Math.random() > 0.1) {this.updateState("fx")}}, 21000)
+    },
     components: { NavLink, NavProfile, Cooldown }, 
     props: ["userLevel", "identity", "userData", "options"]
 }
