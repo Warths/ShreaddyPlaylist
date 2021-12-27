@@ -16,14 +16,25 @@
    </div>
   </transition>
 
-  <Navigation @toggleOptions="showOptions = !showOptions" :options="options" :identity="identity" :userLevel="userLevel" :userData="userData" />
-  <router-view :options="options" :userLevel="userLevel"/>
+  <Navigation 
+    @toggleOptions="showOptions = !showOptions" 
+    :options="options" 
+    :identity="identity" 
+    :userLevel="userLevel" 
+    :userData="userData" 
+    :pubsub="pubsub"
+  />
+  <router-view 
+    :options="options" 
+    :userLevel="userLevel"
+  />
 </template>
 
 <script>
 import Navigation from "./components/NavigationElements/Navigation.vue"
 import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
+import PubSubClient from './vendors/PubSubClient.js'
 
 export default {
   data() {
@@ -32,6 +43,8 @@ export default {
         userData: null,
         devTools: false,
         showOptions: false,
+        pubsub: new PubSubClient("ws://127.0.0.1:5000"),
+        //pubsub: new PubSubClient("wss://pubsub.warths.fr"),
         options: {
             regular: {
                 fields: {
@@ -93,6 +106,7 @@ export default {
     },
     setIdentity(token) {
       // Checking if token is valid
+      console.log(token)
       let headers = {"Authorization": `Bearer ${token}`};
       fetch("https://id.twitch.tv/oauth2/validate", {headers})
       .then(response => response.json())
@@ -143,6 +157,16 @@ export default {
       // Validating Session
       this.setIdentity(token)
     }
+
+    this.pubsub.subscribe(
+      [
+        "light_availability", 
+        "light_fx_availability", 
+        "light_cooldown", 
+        "light_fx_cooldown",
+        "playlist",
+      ]
+    )
   }
 }
 </script>
