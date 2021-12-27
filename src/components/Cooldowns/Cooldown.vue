@@ -1,5 +1,5 @@
 <template>
-<svg :height="size" :width="size" class="me-2 wrapper">
+<svg :height="size" :width="size" class="me-2 wrapper" :class="availableClass">
   <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
   <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}"/>
   <image class="main-icon" :href="icon" :height="size" :width="size" :class="readyClass + ' ' + loadingClass"/>
@@ -21,6 +21,7 @@ export default {
             justMounted: true,
             lastEventDate: 0,
             processedState: undefined
+            
         }
     },
     methods: {
@@ -70,6 +71,9 @@ export default {
         loadingClass() {
             return this.offset != 0 && this.justMounted == false ? "loading" : ""
         },
+        availableClass() {
+            return this.available ? "" : "unavailable"
+        },
         dash() {
             return {
                 "stroke-dashoffset": this.offset,
@@ -105,6 +109,10 @@ export default {
         },
         state: {
             default:undefined
+        },
+        available: {
+            type: Boolean,
+            default: true
         }
     }
 }
