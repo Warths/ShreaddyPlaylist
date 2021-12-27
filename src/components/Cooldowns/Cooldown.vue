@@ -1,7 +1,7 @@
 <template>
 <svg :height="size" :width="size" class="me-2 wrapper">
   <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
-  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}" :class="readyClass"/>
+  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}"/>
   <image class="main-icon" :href="icon" :height="size" :width="size" :class="readyClass + ' ' + loadingClass"/>
   <transition name="fade">
   <svg v-if="this.unknown" :height="size" :width="size">
@@ -19,6 +19,8 @@ export default {
         return {
             offset: 0,
             justMounted: true,
+            lastEventDate: 0,
+            processedState: undefined
         }
     },
     methods: {
@@ -33,16 +35,28 @@ export default {
                 return
             }
 
+            if (this.state.emitted != this.lastEventDate) {
+                console.log("new event!")
+                console.log(this.state)
+                console.log(Date.now())
+                this.lastEventDate = this.state.emitted
+                let serverTimeOffset = Date.now() - this.state.server_time
+                this.processedState = {
+                    emitted: this.lastEventDate + serverTimeOffset,
+                    cooldown: this.state.cooldown
+                }
+            }
+
             let currentTime = Date.now()
-            let progress = currentTime - this.state.emited;
+            let progress = currentTime - this.processedState.emitted;
 
             if (progress < 0) {
                 progress = 0;
-            } else if (progress > this.state.cooldown) {
-                progress = this.state.cooldown
+            } else if (progress > this.processedState.cooldown) {
+                progress = this.processedState.cooldown
             }
 
-            this.offset = this.strokeDashArray - (progress / this.state.cooldown * this.strokeDashArray)
+            this.offset = this.strokeDashArray - (progress / this.processedState.cooldown * this.strokeDashArray)
 
             if (this.offset != 0) {
                 this.justMounted = false
