@@ -4,8 +4,8 @@
             <a class="navbar-brand h1 mb-0 d-flex align-items-center" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
             <transition name="fade">
             <div v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
-                <cooldown :icon="require('../../assets/sun.png')" :state="light"/>
-                <cooldown :icon="require('../../assets/fx.png')" :state="fx"/>
+                <cooldown :icon="require('../../assets/sun.png')" :state="lightState"/>
+                <cooldown :icon="require('../../assets/fx.png')" :state="fxState"/>
             </div>
             </transition>
             <div v-if="userLevel == 2 && options.moderator.fields.devTools.value">
@@ -36,8 +36,12 @@ import NavProfile from "./NavProfile.vue"
 export default {
     data() {
         return {
-            light:undefined,
-            fx: undefined
+            lightState:undefined,
+            lightAvailable: true,
+            fxState: undefined,
+            fxAvailable: true,
+
+            
         }
     },
     methods: {
@@ -50,11 +54,15 @@ export default {
         }
     },
     mounted() {
+        this.pubsub.addHandler("light_fx_availability", e => this.fxAvailable = e.message.available)
+        this.pubsub.addHandler("light_availability", e => this.lightAvailable = e.message.available)
+        this.pubsub.addHandler("light_cooldown", e => this.lightState = e.message)
+        this.pubsub.addHandler("light_fx_cooldown", e => this.fxState = e.message)
         //setInterval(() => {if (Math.random() > 0.6) {this.updateState("light")}}, 5000)
         //setInterval(() => {if (Math.random() > 0.1) {this.updateState("fx")}}, 21000)
     },
     components: { NavLink, NavProfile, Cooldown }, 
-    props: ["userLevel", "identity", "userData", "options"]
+    props: ["userLevel", "identity", "userData", "options", "pubsub"]
 }
 </script>
 
