@@ -22,59 +22,31 @@ export default {
     data() {
         return {
             offset: 0,
-            justMounted: true,
             lastEventDate: 0,
-            processedState: undefined,
-            remaining: 0
-            
+            state: undefined,
+            available: true,
         }
     },
     methods: {
-        remainingTimeStr() {
-            return `${(this.remaining / 1000).toFixed(1)}s`
-        },
-        pushEvent() {
-            this.temp = {
-                emited: Date.now(),
-                cooldown: 2000,
-            }
-        },
         update() {
             if (this.state == undefined) {
                 return
             }
 
             if (this.state.emitted != this.lastEventDate) {
+                this.state.emitted += Date.now() - this.state.server_time
                 this.lastEventDate = this.state.emitted
-                let serverTimeOffset = Date.now() - this.state.server_time
-                this.processedState = {
-                    emitted: this.lastEventDate + serverTimeOffset,
-                    cooldown: this.state.cooldown
-                }
             } 
-
-            let currentTime = Date.now()
-            let progress = currentTime - this.processedState.emitted;
-
-            if (progress < 0) {
-                progress = 0;
-            } else if (progress > this.processedState.cooldown) {
-                progress = this.processedState.cooldown
-            }
-            this.remaining = this.processedState.cooldown - progress
-            this.offset = this.strokeDashArray - (progress / this.processedState.cooldown * this.strokeDashArray)
-
-            if (this.offset != 0) {
-                this.justMounted = false
-            }
+            let progress = Math.max(0, Math.min(this.state.cooldown, Date.now() - this.state.emitted))
+            this.offset = this.strokeDashArray - (progress / this.state.cooldown * this.strokeDashArray)
         }
     },
     computed: {
-        readyClass() {
-            return  this.offset == 0 && this.justMounted == false ? "ready" : ""
+        age() {
+            return Date.now() - this.mountDate
         },
         loadingClass() {
-            return this.offset != 0 && this.justMounted == false ? "loading" : ""
+            return this.offset != 0 ? "loading" : ""
         },
         availableClass() {
             return this.available ? "" : "unavailable"
@@ -89,10 +61,16 @@ export default {
             return {"stroke-width": this.strokeWidth}
         },
         unknown() {
-            return this.state == undefined
+            return this.state == undefined && this.age > 5000
         }
     },
     mounted() {
+        let cooldown = `${this.name}_cooldown`
+        let available = `${this.name}_availability`
+        this.pubsub.addHandler(available, e => this.available = e.message.available)
+        this.pubsub.addHandler(cooldown, e => this.state = e.message)
+        this.pubsub.subscribe([available])
+        this.pubsub.subscribe([cooldown])
         setInterval(() => this.update(), 30)
     },
     props: {
@@ -112,16 +90,21 @@ export default {
             type: String,
             default: ""
         },
-        state: {
-            default:undefined
+        name: {
+            type: String,
+            required: true
         },
-        available: {
-            type: Boolean,
-            default: true
+        pubsub: {
+            type: Object,
+            required: true,
         },
         toolTipText: {
             type: String,
-            default: ""
+            default: "Test"
+        },
+        mountDate: {
+            type: Number,
+            default: Date.now()
         }
     }
 }
@@ -159,14 +142,14 @@ circle {
 
 .main-icon {
     transform-origin: center;
-    transform: scale(0.64);
+    transform: scale(0.57);
     opacity: 0.7;
     filter: grayscale(100%);
     transition: all 0.5s;
 }
 
 .main-icon.loading {
-    transform: scale(0.5);
+    transform: scale(0.45);
     opacity: 0.2
 }
 .corner-circle {
