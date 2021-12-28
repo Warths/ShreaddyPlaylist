@@ -2,16 +2,24 @@
     <nav class="navbar navbar-expand navbar-light bg-light mb-2 shadow position-relative">
         <div class="container-fluid">
             <a class="navbar-brand h1 mb-0 d-flex align-items-center" href="/"><img src="../../assets/icon.png" class="sized-1 d-inline-block align-text-top me-2" alt="Logo de Warths"/> Playlist</a>
+            
             <transition name="fade">
-            <div v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
-                <cooldown :icon="require('../../assets/sun.png')" :state="lightState" :available="lightAvailable"/>
-                <cooldown :icon="require('../../assets/fx.png')" :state="fxState" :available="fxAvailable"/>
-            </div>
+                <div v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
+                    <cooldown 
+                        
+                        :icon="require('../../assets/sun.png')" 
+                        :state="lightState" 
+                        :available="lightAvailable"
+                        toolTipText="Cooldown des contrôles RGB"
+                    />
+                    <cooldown 
+                        :icon="require('../../assets/fx.png')" 
+                        :state="fxState" 
+                        :available="fxAvailable"
+                        toolTipText="Cooldown des contrôles<br>des effets visuels"
+                    />
+                </div>
             </transition>
-            <div v-if="userLevel == 2 && options.moderator.fields.devTools.value">
-                <button @click="updateState('light')">Light</button>
-                <button @click="updateState('fx')" >FX</button>
-            </div>
             <div class="me-auto spacer"></div>
             <ul class="navbar-nav">
                 <li class="nav-item">

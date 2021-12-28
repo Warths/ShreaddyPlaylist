@@ -1,30 +1,38 @@
 <template>
-<svg :height="size" :width="size" class="me-2 wrapper" :class="availableClass">
-  <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
-  <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}"/>
-  <image class="main-icon" :href="icon" :height="size" :width="size" :class="readyClass + ' ' + loadingClass"/>
-  <transition name="fade">
-  <svg v-if="this.unknown" :height="size" :width="size">
-    <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)"/>
-    <image class="corner" href="../../assets/questionmark.png" :height="size" :width="size"/>
-  </svg>
-  </transition>
-
-</svg>
+<span class="me-2">
+    <tippy :content="toolTipText" placement="bottom" :offset="[0,18]">
+        <svg :height="size" :width="size" class="wrapper" :class="availableClass" >
+            <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
+            <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}"/>
+            <image class="main-icon" :href="icon" :height="size" :width="size" :class="loadingClass"/>
+            <transition name="fade">
+                <svg v-if="this.unknown" :height="size" :width="size" >
+                    <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)"/>
+                    <image class="corner" href="../../assets/questionmark.png" :height="size" :width="size"/>
+                </svg>
+            </transition>
+        </svg>
+    </tippy>
+</span>
 </template>
 
 <script>
+
 export default {
     data() {
         return {
             offset: 0,
             justMounted: true,
             lastEventDate: 0,
-            processedState: undefined
+            processedState: undefined,
+            remaining: 0
             
         }
     },
     methods: {
+        remainingTimeStr() {
+            return `${(this.remaining / 1000).toFixed(1)}s`
+        },
         pushEvent() {
             this.temp = {
                 emited: Date.now(),
@@ -37,16 +45,13 @@ export default {
             }
 
             if (this.state.emitted != this.lastEventDate) {
-                console.log("new event!")
-                console.log(this.state)
-                console.log(Date.now())
                 this.lastEventDate = this.state.emitted
                 let serverTimeOffset = Date.now() - this.state.server_time
                 this.processedState = {
                     emitted: this.lastEventDate + serverTimeOffset,
                     cooldown: this.state.cooldown
                 }
-            }
+            } 
 
             let currentTime = Date.now()
             let progress = currentTime - this.processedState.emitted;
@@ -56,7 +61,7 @@ export default {
             } else if (progress > this.processedState.cooldown) {
                 progress = this.processedState.cooldown
             }
-
+            this.remaining = this.processedState.cooldown - progress
             this.offset = this.strokeDashArray - (progress / this.processedState.cooldown * this.strokeDashArray)
 
             if (this.offset != 0) {
@@ -113,6 +118,10 @@ export default {
         available: {
             type: Boolean,
             default: true
+        },
+        toolTipText: {
+            type: String,
+            default: ""
         }
     }
 }
@@ -123,9 +132,6 @@ export default {
 .wrapper {
     position:relative;
     transition: all 0.3s ease-out;
-}
-.wrapper:hover {
-    transform: scale(1.2)
 }
 
 circle {
