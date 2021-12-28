@@ -165,6 +165,7 @@ export default {
         "light_cooldown", 
         "light_fx_cooldown",
         "playlist",
+        "playlist_state"
       ]
     )
   }
