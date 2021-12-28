@@ -163,17 +163,6 @@ export default {
       // Validating Session
       this.setIdentity(token)
     }
-
-    this.pubsub.subscribe(
-      [
-        "light_availability", 
-        "light_fx_availability", 
-        "light_cooldown", 
-        "light_fx_cooldown",
-        "playlist",
-        "playlist_state"
-      ]
-    )
   }
 }
 </script>
