@@ -27,6 +27,7 @@
   <router-view 
     :options="options" 
     :userLevel="userLevel"
+    :pubsub="pubsub"
   />
 </template>
 
@@ -57,6 +58,11 @@ export default {
                     name: "options-lightmix-cooldown",
                     value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
                     text: "Temps de recharge LightMix"
+                  },
+                  displayPlaylistState: {
+                    name: "options-display-playlist-state",
+                    value: this.getCookieOrDefault("options-display-playlist-state", true, true),
+                    text: "Affiche le statut de la playlist"
                   }
                 },
                 userLevel: 1
