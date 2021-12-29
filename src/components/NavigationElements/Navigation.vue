@@ -51,7 +51,7 @@ export default {
     mounted() {console.log(this.clientId)},
     computed: {
         href() {
-            return `https://id.twitch.tv/oauth2/authorize?response_type=token&force_verify=true&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
+            return `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
         }
     },
     components: { NavLink, NavProfile, Cooldown }, 
