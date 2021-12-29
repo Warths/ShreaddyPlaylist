@@ -146,8 +146,8 @@ export default class PubSubClient {
     handleSends() {
         while (this.queue.length > 0) {
             let data = this.queue.shift();
-            console.log("Data SEND >>");
-            console.log(JSON.stringify(data, null, 2))
+            //console.log("Data SEND >>");
+            //console.log(JSON.stringify(data, null, 2))
             data = JSON.stringify(data);
             this.ws.send(data);
         }
@@ -157,8 +157,8 @@ export default class PubSubClient {
         // Parsing received message
 
         let data = JSON.parse(event.data);
-        console.log("Data RECV <<");
-        console.log(JSON.stringify(data, null, 2))
+        //console.log("Data RECV <<");
+        //console.log(JSON.stringify(data, null, 2))
 
 
         // ANY Handlers
