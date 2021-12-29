@@ -1,7 +1,7 @@
 <template>
     <div class="card-text align-self-end fs-4 d-flex align-items-center">
         <requester-badge v-for="badge in requester.badges" :badge="badge" :key="badge.alttext"/>
-        <p class="m-0 fw-bold" :class="contrastedOutLine" :style="displayNameColor">{{ requester.displayName }}</p>
+        <p class="m-0 fw-bold" :class="contrastedOutLine" :style="displayNameColor">{{ requester.displayName }} {{ contrastResult.toFixed(2)}}</p>
     </div>
 </template>
 
@@ -9,26 +9,26 @@
 import RequesterBadge from "./RequesterBadge.vue"
 
 export default {
-    data() {
-        return {
-            color: "ffffff"
-        }
-    },
     props: ["requester"],
-
     computed:{
-         displayNameColor() {
-             return {color: "#" + this.color}
-         },
+        displayNameColor() {
+            return {color: "#" + this.color}
+        },
+        color() {
+            return this.requester.color
+        },
         contrastedOutLine() {
+            return ''
+        },
+        contrastResult() {
             let r = parseInt(this.color.slice(0,2), 16)
             let g = parseInt(this.color.slice(2,4), 16)
             let b = parseInt(this.color.slice(4,6), 16)
-            let result = (r+g+b)/3;
-            let threshold = 210;
-            return result < threshold? "outlined-light" : "outlined-dark"
+            return this.contrast([255,255,255],[r,g,b])
         }
-
+    },
+    mounted() {
+        console.log(this.requester)
     },
     components: {RequesterBadge}
 }
