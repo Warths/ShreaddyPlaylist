@@ -24,7 +24,7 @@
             <div class="me-auto spacer"></div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <nav-link v-if="userLevel == 0" href="/login" text="Login"/>
+                    <nav-link v-if="userLevel == 0" :href="href" :text="text"/>
                     <nav-profile v-else :identity="identity" :userLevel="userLevel" :userData="userData"/>
                 </li>
             </ul>
@@ -43,6 +43,17 @@ import NavLink from "./NavLink.vue"
 import NavProfile from "./NavProfile.vue"
 
 export default {
+    data() {
+        return {
+            text: 'Login'
+        }
+    },
+    mounted() {console.log(this.clientId)},
+    computed: {
+        href() {
+            return `https://id.twitch.tv/oauth2/authorize?response_type=token&force_verify=true&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
+        }
+    },
     components: { NavLink, NavProfile, Cooldown }, 
     props: ["userLevel", "identity", "userData", "options", "pubsub"]
 }
