@@ -13,7 +13,7 @@
         <div class="text-end p-2 d-flex flex-column">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
-                <small v-if="options.regular.fields.displayPlaylistState.value && playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
+                <small v-if="options.regular.fields.displayPlaylistState.value && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
             </transition>
         </div>
         <transition-group name="playlist" tag="div" class="playlist position-relative">
@@ -33,7 +33,6 @@ export default {
     data() {
         return {
             list: [],
-            playlistLocation: "https://api.warths.fr/shreaddy/playlist/",
             identity: null,
             playlistState: undefined,
         }
@@ -53,11 +52,6 @@ export default {
         },
         shuffleItems() {
             this.list = this.list.sort((a, b) => 0.5 - Math.random())
-        },
-        update() {
-            fetch(this.playlistLocation).then(
-                request => request.json()
-            ).then(data => this.list = data)
         }
     },
     computed: {
@@ -66,12 +60,12 @@ export default {
                 open: [],
                 closed: []
             }
-
             for (let key in this.playlistState) {
+                console.log(this.playlistState[key])
                 this.playlistState[key] ? states.open.push(key) : states.closed.push(key)
                 
             }
-
+            console.log(states)
 
             let texts = {
                 open: "Les requests ",
@@ -107,9 +101,11 @@ export default {
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
-        this.update()
-        setInterval(this.update.bind(this), 1000)
-        this.pubsub.addHandler("playlist_state", (e) => {this.playlistState = e.message})
+        this.pubsub.addHandler("playlist", e => {this.list = e.message.data})
+        this.pubsub.addHandler("playlist_state", e => {this.playlistState = e.message})
+        this.pubsub.subscribe(["playlist_state"])
+        this.pubsub.subscribe(["playlist"])
+
 
     },
     components: {card},
