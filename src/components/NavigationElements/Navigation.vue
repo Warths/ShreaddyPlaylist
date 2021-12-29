@@ -8,17 +8,17 @@
             <transition name="fade">
                 <div v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
                     <cooldown 
+                        name="light"
                         :icon="require('../../assets/sun.png')" 
-                        :state="lightState" 
-                        :available="lightAvailable"
                         toolTipText="Cooldown des contrôles RGB"
+                        :pubsub="pubsub"
                     />
                     <cooldown 
+                        name="light_fx"
                         :icon="require('../../assets/fx.png')" 
-                        :state="fxState" 
-                        :available="fxAvailable"
                         toolTipText="Cooldown des contrôles<br>des effets visuels"
-                    />
+                        :pubsub="pubsub"
+                    />                    
                 </div>
             </transition>
             <div class="me-auto spacer"></div>
@@ -43,33 +43,6 @@ import NavLink from "./NavLink.vue"
 import NavProfile from "./NavProfile.vue"
 
 export default {
-    data() {
-        return {
-            lightState:undefined,
-            lightAvailable: true,
-            fxState: undefined,
-            fxAvailable: true,
-
-            
-        }
-    },
-    methods: {
-        updateState(target) {
-            this[target] = {
-                emited: Date.now(),
-                serverTime: Date.now(),
-                cooldown: (target == "fx") ? 20000 : 5000,
-            }
-        }
-    },
-    mounted() {
-        this.pubsub.addHandler("light_fx_availability", e => this.fxAvailable = e.message.available)
-        this.pubsub.addHandler("light_availability", e => this.lightAvailable = e.message.available)
-        this.pubsub.addHandler("light_cooldown", e => this.lightState = e.message)
-        this.pubsub.addHandler("light_fx_cooldown", e => this.fxState = e.message)
-        //setInterval(() => {if (Math.random() > 0.6) {this.updateState("light")}}, 5000)
-        //setInterval(() => {if (Math.random() > 0.1) {this.updateState("fx")}}, 21000)
-    },
     components: { NavLink, NavProfile, Cooldown }, 
     props: ["userLevel", "identity", "userData", "options", "pubsub"]
 }
