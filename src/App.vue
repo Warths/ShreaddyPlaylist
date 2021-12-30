@@ -63,6 +63,12 @@ export default {
                     name: "options-display-playlist-state",
                     value: this.getCookieOrDefault("options-display-playlist-state", true, true),
                     text: "Affiche le statut de la playlist"
+                  },
+                  darkTheme: {
+                    name: "options-dark-theme",
+                    value: this.getCookieOrDefault("options-dark-theme", false, true),
+                    text: "Mode sombre",
+                    on_update: this.setTheme
                   }
                 },
                 userLevel: 1
@@ -104,15 +110,19 @@ export default {
       }
   },
   methods: {
+    setTheme() {
+      console.log("SET THEME ")
+    },
     updateOption(event) {
       this.options[event.group].fields[event.name].value = event.value
+      let func = this.options[event.group].fields[event.name].on_update
+      if (func) {func()}
     },
     showError(errorText) {
       return "NOT IMPLEMENTED"
     },
     setIdentity(token) {
       // Checking if token is valid
-      console.log(token)
       let headers = {"Authorization": `Bearer ${token}`};
       fetch("https://id.twitch.tv/oauth2/validate", {headers})
       .then(response => response.json())
@@ -167,6 +177,9 @@ export default {
 }
 </script>
 
+<style scoped>
+</style>
+
 <style>
 /**
 body::before {
@@ -184,6 +197,8 @@ body::before {
 */ 
 
 
+/* VEIL APPARITION ANIMATION */
+
 .options-veil {
     position:fixed;
     z-index: 2;
@@ -194,6 +209,7 @@ body::before {
 }
 
 .options-menu {
+    backdrop-filter: blur(3px);
     position:absolute;
     z-index: 2;
     left: calc(100% - 300px);
@@ -201,8 +217,6 @@ body::before {
     width: 300px;
     background: rgba(0,0,0,0.75);
 }
-
-/* VEIL APPARITION ANIMATION */
 
 .fade-enter-from, .fade-leave-to {
     opacity: 0;
