@@ -87,7 +87,7 @@ export default {
                 },
                 adminTools: {
                   name: "options-admintools",
-                  value: this.getCookieOrDefault("options-admintools", true, true),
+                  value: this.getCookieOrDefault("options-admintools", this.prefersDarkTheme, true),
                   text: "Raccourcis de modération"
                 }
               },
@@ -107,11 +107,17 @@ export default {
             return 2
         }
         return 1
+      },
+      prefersDarkTheme() {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
       }
   },
   methods: {
     setTheme() {
-      console.log("SET THEME ")
+        document.body.classList.remove('dark-theme')
+      if (this.options.regular.fields.darkTheme.value) {
+        document.body.classList.add('dark-theme')
+      }
     },
     updateOption(event) {
       this.options[event.group].fields[event.name].value = event.value
@@ -163,6 +169,7 @@ export default {
     }
   },
   beforeMount() {
+    this.setTheme()
     let token = this.getHashValue("access_token")
 
     if (token == null) {
@@ -176,9 +183,6 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>
 
 <style>
 /**
@@ -198,6 +202,14 @@ body::before {
 
 
 /* VEIL APPARITION ANIMATION */
+
+body {
+  transition: background 1s;
+}
+
+body.dark-theme {
+ background-color: rgb(31, 31, 31)
+}
 
 .options-veil {
     position:fixed;
