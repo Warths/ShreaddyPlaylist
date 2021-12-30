@@ -113,6 +113,14 @@ export default {
 </script>
 
 <style scoped>
+span, small {
+    transition: color 1s
+}
+.dark-theme span,
+.dark-theme small {
+    color: white;
+}
+
 .playlist {
     max-width: 800px;
 }

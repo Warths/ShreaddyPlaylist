@@ -48,7 +48,6 @@ export default {
             text: 'Login'
         }
     },
-    mounted() {console.log(this.clientId)},
     computed: {
         href() {
             return `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
@@ -60,6 +59,14 @@ export default {
 </script>
 
 <style scoped>
+nav {
+    transition: background 1s;
+}
+
+.dark-theme nav {
+    background:rgb(43, 43, 43) !important
+}
+
 .options-toggler {
     padding: 0.25rem 0.75rem;
     font-size: 1.25rem;
@@ -68,8 +75,23 @@ export default {
     border: 1px solid transparent;
     border-radius: 0.25rem;
     transition: box-shadow .15s ease-in-out;
-    color: rgba(0,0,0,.55);
+    color: rgba(0, 0, 0, 0.55);
     border-color: rgba(0,0,0,.1);
     display: block;
+}
+
+.options-toggler {
+    transition: filter 1s;
+}
+
+.dark-theme .options-toggler {
+    filter: invert()
+}
+
+span {
+    transition: color 1s;
+}
+.dark-theme span {
+    color: rgb(248, 248, 248)
 }
 </style>

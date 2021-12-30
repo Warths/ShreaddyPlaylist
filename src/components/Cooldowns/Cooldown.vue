@@ -122,7 +122,12 @@ circle {
   fill: transparent;
   stroke: rgb(146, 146, 146);
   transform-origin: center;
-  transform: rotate(-90deg)
+  transform: rotate(-90deg);
+  transition: stroke 1s
+}
+
+.dark-theme circle {
+    stroke: rgb(221, 221, 221);
 
 }
 
@@ -147,6 +152,10 @@ circle {
     filter: grayscale(100%);
     transition: all 0.5s;
 }
+.dark-theme .main-icon{
+    opacity: 0.9;
+    filter: grayscale(100%) invert();
+}
 
 .main-icon.loading {
     transform: scale(0.45);
@@ -159,8 +168,12 @@ circle {
     position:absolute;
     transform-origin: bottom right;
     transform: scale(0.44);
+    transition: all 1s
 }
 
+.dark-theme .corner {
+    filter:invert() contrast(.8);
+}
 .unavailable {
     opacity: 0.3;
 }

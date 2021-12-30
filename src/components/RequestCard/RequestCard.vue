@@ -52,7 +52,12 @@ export default {
 
 <style scoped>
 
-
+.card {
+    transition:background 1s;
+}
+.dark-theme .card {
+    background:rgb(43, 43, 43)
+}
 
 .tags, .btn {
     transition: padding 1s ease;
