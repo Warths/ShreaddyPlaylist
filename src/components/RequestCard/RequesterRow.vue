@@ -27,9 +27,7 @@ export default {
             return this.contrast([255,255,255],[r,g,b])
         }
     },
-    mounted() {
-        console.log(this.requester)
-    },
+
     components: {RequesterBadge}
 }
 </script>

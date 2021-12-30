@@ -61,11 +61,9 @@ export default {
                 closed: []
             }
             for (let key in this.playlistState) {
-                console.log(this.playlistState[key])
                 this.playlistState[key] ? states.open.push(key) : states.closed.push(key)
                 
             }
-            console.log(states)
 
             let texts = {
                 open: "Les requests ",

@@ -24,9 +24,6 @@ export default {
             return options
         }
     },
-    mounted() {
-        console.log(this.optionsFiltered)
-    },
     props: ["options", "userLevel"],
     components: {OptionGroup}
 }
