@@ -40,8 +40,10 @@ export default {
 
 <style scoped>
 p {
-    transition: text-shadow 1s;
+    transition: text-shadow 1s, font-size 1s, line-height 1s;
 }
+
+
 .outlined-dark {
     text-shadow: 0px 0px 1.5px rgb(0, 0, 0),
                  0px 0px 1.5px rgb(0, 0, 0),

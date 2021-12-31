@@ -1,6 +1,6 @@
 <template>
 <div class="badge me-1" :style="style">
-    <div class="d-flex align-items-center"><img class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span class="fs-animated">{{tag.text}}</span></div>
+    <div class="d-flex align-items-center"><img class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{tag.text}}</span></div>
 </div>
 </template>
 
