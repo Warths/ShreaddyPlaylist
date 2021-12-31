@@ -123,6 +123,7 @@ span, small {
 }
 
 .playlist {
+    transition: max-width 1s;
     max-width: 800px;
 }
 .streamer-theme .playlist {

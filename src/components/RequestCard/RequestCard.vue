@@ -23,8 +23,8 @@
                 </div>
             </transition>
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
-            <base-row class="fs-4" :text="song.title"/>
-            <base-row class="fs-5" :text="song.artist"/>
+            <base-row class="fs-animated fs-4" :text="song.title"/>
+            <base-row class="fs-animated fs-5" :text="song.artist"/>
             <requester-row :requester="song.requester" :darkTheme="darkTheme"/>
         </div>
     </div>
@@ -58,14 +58,17 @@ export default {
 .dark-theme .card {
     background:rgb(43, 43, 43)
 }
+.fs-animated {
+    transition: font-size 1s;
+}
 .streamer-theme .card {
     background: rgba(0,0,0,0.5);
 }
 .streamer-theme .fs-4{
     font-size: 2em !important
 }
-.streamer-theme .fs-{
-    font-size: 1.8em !important
+.streamer-theme .fs-5{
+    font-size: 1.7em !important
 }
 .tags, .btn {
     transition: padding 1s ease;

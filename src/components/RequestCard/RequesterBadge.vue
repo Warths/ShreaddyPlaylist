@@ -10,6 +10,7 @@ export default {
 
 <style scoped>
 img {
+    transition: height 1s;
     height:28px
 }
 .streamer-theme img {
