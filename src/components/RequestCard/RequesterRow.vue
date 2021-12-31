@@ -1,7 +1,7 @@
 <template>
     <div class="card-text align-self-end fs-4 d-flex align-items-center">
         <requester-badge v-for="badge in requester.badges" :badge="badge" :key="badge.alttext"/>
-        <p class="m-0 fw-bold" :class="contrastedOutLine" :style="displayNameColor">{{ requester.displayName }} {{ contrastResult.toFixed(2)}}</p>
+        <p class="m-0 fw-bold" :class="contrastedOutLine" :style="displayNameColor">{{ requester.displayName }}</p>
     </div>
 </template>
 
