@@ -1,7 +1,7 @@
 <template>
-    <div class="tags d-flex gap-1">
-        <tag v-for="tag in tags" :tag="tag" :key="tag.id"/>
-    </div>
+    <transition-group tag="div" name="tags" class="tags">
+        <tag class="tags-item" v-for="tag in tags" :tag="tag" :key="tag.id"/>
+    </transition-group>
 </template>
 
 
@@ -13,3 +13,23 @@ export default {
     components: {Tag}
 }
 </script>
+
+<style scoped>
+.tags {
+    white-space: nowrap;
+    overflow:hidden;
+}
+.tags-item {
+    transition: all 1s;
+}
+
+.tags-enter-from, 
+.tags-leave-to {
+    opacity: 0;
+    transform: scale(0)
+}
+
+.tags-leave-active {
+    position: absolute;
+}
+</style>
