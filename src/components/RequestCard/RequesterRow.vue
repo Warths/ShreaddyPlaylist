@@ -9,8 +9,11 @@
 import RequesterBadge from "./RequesterBadge.vue"
 
 export default {
-    props: ["requester"],
+    props: ["requester", "darkTheme"],
     computed:{
+        backgroundColor() {
+            return this.darkTheme ? [0,0,0] : [255, 255, 255] 
+        },
         displayNameColor() {
             return {color: "#" + this.color}
         },
@@ -18,13 +21,16 @@ export default {
             return this.requester.color
         },
         contrastedOutLine() {
-            return ''
+            return this.needsContrast ? this.darkTheme ? 'outlined-light' : "outlined-dark" : ''
         },
         contrastResult() {
             let r = parseInt(this.color.slice(0,2), 16)
             let g = parseInt(this.color.slice(2,4), 16)
             let b = parseInt(this.color.slice(4,6), 16)
-            return this.contrast([255,255,255],[r,g,b])
+            return this.contrast(this.backgroundColor,[r,g,b])
+        },
+        needsContrast() {
+            return this.contrastResult < 4
         }
     },
 
@@ -33,11 +39,25 @@ export default {
 </script>
 
 <style scoped>
-.outlined-light {
-    text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+p {
+    transition: text-shadow 1s;
 }
-
 .outlined-dark {
-    text-shadow: 1px 1px 0 rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0);
+    text-shadow: 0px 0px 1.5px rgb(0, 0, 0),
+                 0px 0px 1.5px rgb(0, 0, 0),
+                 0px 0px 1.5px rgb(0, 0, 0),
+                 0px 0px 1.5px rgb(0, 0, 0),
+                 0px 0px 1.5px rgb(0, 0, 0),
+                 0px 0px 1.5px rgb(0, 0, 0),
+                 0px 0px 1.5px rgb(0, 0, 0)
+}
+.outlined-light {
+    text-shadow: 0px 0px 1.5px white,
+                 0px 0px 1.5px white,
+                 0px 0px 1.5px white,
+                 0px 0px 1.5px white,
+                 0px 0px 1.5px white,
+                 0px 0px 1.5px white,
+                 0px 0px 1.5px white
 }
 </style>
