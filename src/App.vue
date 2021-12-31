@@ -89,6 +89,12 @@ export default {
                   name: "options-admintools",
                   value: this.getCookieOrDefault("options-admintools", this.prefersDarkTheme, true),
                   text: "Raccourcis de modération"
+                },
+                streamerTheme: {
+                  name: "options-streamer-theme",
+                  value: this.getCookieOrDefault("options-streamer-theme", false, true),
+                  text: "Mode Streamer",
+                  on_update: this.setStreamerMode
                 }
               },
               userLevel: 2
@@ -113,10 +119,19 @@ export default {
       }
   },
   methods: {
-    setTheme() {
-        document.body.classList.remove('dark-theme')
+    setTheme(animate = true) {     
+      if (animate) {
+        document.body.classList.add("animate-bg")
+      }   
+      document.body.classList.remove('dark-theme')
       if (this.options.regular.fields.darkTheme.value) {
         document.body.classList.add('dark-theme')
+      }
+    },
+    setStreamerMode() {
+      document.body.classList.remove("streamer")
+      if (this.options.moderator.fields.streamerTheme.value) {
+        document.body.classList.add("streamer")
       }
     },
     updateOption(event) {
@@ -169,7 +184,7 @@ export default {
     }
   },
   beforeMount() {
-    this.setTheme()
+    this.setTheme(false)
     let token = this.getHashValue("access_token")
 
     if (token == null) {
@@ -203,13 +218,14 @@ body::before {
 
 /* VEIL APPARITION ANIMATION */
 
-body {
-  transition: background 1s;
+body.dark-theme {
+ background-color: rgb(31, 31, 31);
 }
 
-body.dark-theme {
- background-color: rgb(31, 31, 31)
+.animate-bg {
+  transition: background-color, 1s
 }
+
 
 .options-veil {
     position:fixed;
