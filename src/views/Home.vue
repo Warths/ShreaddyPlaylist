@@ -125,7 +125,9 @@ span, small {
 .playlist {
     max-width: 800px;
 }
-
+.streamer-theme .playlist {
+    max-width: 1200px
+}
 .playlist-item {
   transition: all .5s
 }

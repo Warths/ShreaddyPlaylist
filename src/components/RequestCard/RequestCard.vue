@@ -58,7 +58,15 @@ export default {
 .dark-theme .card {
     background:rgb(43, 43, 43)
 }
-
+.streamer-theme .card {
+    background: rgba(0,0,0,0.5);
+}
+.streamer-theme .fs-4{
+    font-size: 2em !important
+}
+.streamer-theme .fs-{
+    font-size: 1.8em !important
+}
 .tags, .btn {
     transition: padding 1s ease;
 }

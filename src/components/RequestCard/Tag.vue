@@ -1,5 +1,7 @@
 <template>
-    <span class="badge" :style="style"><img class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{tag.text}}</span></span>
+<div class="badge me-1" :style="style">
+    <div class="d-flex align-items-center"><img class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{tag.text}}</span></div>
+</div>
 </template>
 
 <script>
@@ -31,5 +33,10 @@ img {
 span {
     vertical-align: middle;
     line-height: 1;
+}
+
+.streamer-theme .badge{
+    font-size: 1.1em;
+    line-height: 1.1em;
 }
 </style>
