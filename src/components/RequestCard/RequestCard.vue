@@ -25,7 +25,7 @@
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
             <base-row class="fs-4" :text="song.title"/>
             <base-row class="fs-5" :text="song.artist"/>
-            <requester-row :requester="song.requester"/>
+            <requester-row :requester="song.requester" :darkTheme="darkTheme"/>
         </div>
     </div>
 </div>
@@ -45,7 +45,7 @@ export default {
             return this.adminPanelVisible ? "py-1" : "py-2 pb-1"
         }
     },
-    props: ["song", "showPanel", "userLevel"],
+    props: ["song", "showPanel", "userLevel", "darkTheme"],
     components: {TagList, RequesterRow, BaseRow}
 }
 </script>

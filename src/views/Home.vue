@@ -20,7 +20,8 @@
             <card class="playlist-item" v-for="(content) in list" 
             :song="content" :key="content.id" 
             :showPanel="options.moderator.fields.adminTools.value" 
-            :userLevel="userLevel"/>
+            :userLevel="userLevel"
+            :darkTheme="options.regular.fields.darkTheme.value"/>
         </transition-group>
     </div>
     
