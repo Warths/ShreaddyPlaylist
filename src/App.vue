@@ -129,9 +129,9 @@ export default {
       }
     },
     setStreamerMode() {
-      document.body.classList.remove("streamer")
+      document.body.classList.remove("streamer-theme")
       if (this.options.moderator.fields.streamerTheme.value) {
-        document.body.classList.add("streamer")
+        document.body.classList.add("streamer-theme")
       }
     },
     updateOption(event) {
@@ -185,6 +185,7 @@ export default {
   },
   beforeMount() {
     this.setTheme(false)
+    this.setStreamerMode()
     let token = this.getHashValue("access_token")
 
     if (token == null) {
@@ -226,6 +227,9 @@ body.dark-theme {
   transition: background-color, 1s
 }
 
+body.streamer-theme {
+  background-color: rgba(0,0,0,0)
+}
 
 .options-veil {
     position:fixed;
