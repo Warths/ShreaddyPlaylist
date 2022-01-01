@@ -1,5 +1,5 @@
 <template>
-<div class="badge me-1" :style="style">
+<div class="tag d-flex me-1" :style="style">
     <div class="d-flex align-items-center"><img v-if="this.tag.icon" class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{tag.text}}</span></div>
 </div>
 </template>
@@ -25,20 +25,23 @@ export default {
 
 <style scoped>
 img {
-    display:inline;
-    vertical-align: middle;
     height:1.125em;
+}
 
-}
-span {
-    vertical-align: middle;
-    line-height: 1;
-}
+
 .fs-animated {
     transition: font-size 1s, line-height 1s;
 }
-.streamer-theme .badge{
-    font-size: 1.1em;
-    line-height: 1.1em;
+
+.tag {
+    padding: 0.15em 0.65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 0.25rem;
+}
+
+.streamer-theme .tag {
+    font-size: 1em;
 }
 </style>

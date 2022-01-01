@@ -1,5 +1,5 @@
 <template>
-    <transition-group tag="div" name="tags" class="tags">
+    <transition-group tag="div" name="tags" class="tags d-flex">
         <tag class="tags-item" v-for="tag in tags" :tag="tag" :key="tag.id"/>
     </transition-group>
 </template>
