@@ -1,12 +1,18 @@
 <template>
 <div class="tag d-flex me-1" :style="style">
-    <div class="d-flex align-items-center"><img v-if="this.tag.icon" class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{tag.text}}</span></div>
+    <div class="d-flex align-items-center"><img v-if="this.tag.icon" class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{text}}</span></div>
 </div>
 </template>
 
 <script>
 export default {
     computed: {
+        text() {
+            if (this.tag.type == "timer") {
+                console.log(this.tag)
+            }
+            return this.tag.text
+        },
         style() {
             return {
                 "background-color": "#" + this.tag.color
