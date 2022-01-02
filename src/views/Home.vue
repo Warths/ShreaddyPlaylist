@@ -100,7 +100,7 @@ export default {
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
-        this.pubsub.addHandler("playlist", e => {this.list = e.message.data})
+        this.pubsub.addHandler("playlist", e => {this.list = e.message.data.public})
         this.pubsub.addHandler("playlist_state", e => {this.playlistState = e.message})
         this.pubsub.subscribe(["playlist_state"])
         this.pubsub.subscribe(["playlist"])
