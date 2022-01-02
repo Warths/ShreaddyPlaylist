@@ -44,16 +44,17 @@ export default {
         userData: null,
         devTools: false,
         showOptions: false,
-        pubsub: new PubSubClient("ws://127.0.0.1:5000"),
+        pubsub: new PubSubClient("wss://pubsub.warths.fr/"),
         //pubsub: new PubSubClient("wss://pubsub.warths.fr"),
         options: {
             regular: {
                 fields: {
+                  /*
                   requestForm: {
                     name: "options-request-form",
                     value: this.getCookieOrDefault("options-request-form", true, true),
                     text: "Formulaire de request"
-                  },
+                  }, */
                   lightmixCooldown: {
                     name: "options-lightmix-cooldown",
                     value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
@@ -75,11 +76,13 @@ export default {
             },
             moderator: {
               fields: {
+                /*
                 search: {
                   name: "options-search",
                   value: this.getCookieOrDefault("options-search", false, true),
                   text: "Recherche"
                 },
+                */
                 devTools: {
                   name: "options-devtools",
                   value: this.getCookieOrDefault("options-devtools", false, true),
@@ -201,24 +204,9 @@ export default {
 </script>
 
 <style>
-/**
-body::before {
-  content: "xs";
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999999;
-  background-color: #000;
-  color: #fff;
+body {
+  overflow-x:hidden;
 }
-@media (min-width : 768px) { body::before { content: "sm"; }}
-@media (min-width : 992px) { body::before { content: "md"; }}
-@media (min-width : 1200px) { body::before { content: "lg"; }}
-*/ 
-
-
-/* VEIL APPARITION ANIMATION */
-
 body.dark-theme {
  background-color: rgb(31, 31, 31);
 }
@@ -230,6 +218,9 @@ body.dark-theme {
 body.streamer-theme {
   background-color: rgba(0,0,0,0)
 }
+
+/* VEIL APPARITION ANIMATION */
+
 
 .options-veil {
     position:fixed;
