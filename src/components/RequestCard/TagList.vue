@@ -1,5 +1,5 @@
 <template>
-    <transition-group tag="div" name="tags" class="tags d-flex">
+    <transition-group tag="div" name="tags" class="tags d-flex position-relative">
         <tag class="tags-item" v-for="tag in tags" :tag="tag" :key="tag.id"/>
     </transition-group>
 </template>
@@ -31,5 +31,9 @@ export default {
 
 .tags-leave-active {
     position: absolute;
+}
+
+.playlist-move .tags-item {
+    transition:none;
 }
 </style>
