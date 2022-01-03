@@ -1,6 +1,6 @@
 <template>
 <div class="tag d-flex me-1" :style="style">
-    <div class="d-flex align-items-center"><img v-if="this.tag.icon" class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span>{{text}}</span></div>
+    <div class="d-flex align-items-center"><img v-if="this.tag.icon" class="me-1" :src="toAbsolute(tag.icon, 'https://playlist.warths.fr/')"><span class="shadowed">{{text}}</span></div>
 </div>
 </template>
 
@@ -13,9 +13,7 @@ export default {
     },
     computed: {
         style() {
-            return {
-                "background-color": "#" + this.tag.color
-            }
+            return {"background-color": "#" + this.tag.color}
         }
     },
     mounted() {
@@ -58,4 +56,7 @@ img {
 .streamer-theme .tag {
     font-size: 1em;
 }
+
+.shadowed {
+text-shadow: 0px 0px 0.3em rgba(0, 0, 0, 0.7);}
 </style>
