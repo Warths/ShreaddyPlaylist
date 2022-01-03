@@ -13,7 +13,9 @@ export default {
     color: #F8F8F8
 }
 
+.dark-theme .nav-link:active,
 .dark-theme .nav-link:hover {
     color: white
 }
+
 </style>
