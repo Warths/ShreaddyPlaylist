@@ -6,17 +6,25 @@
 
 <script>
 export default {
+    data () {
+        return {
+            text: this.tag.text
+        }
+    },
     computed: {
-        text() {
-            if (this.tag.type == "timer") {
-                console.log(this.tag)
-            }
-            return this.tag.text
-        },
         style() {
             return {
                 "background-color": "#" + this.tag.color
             }
+        }
+    },
+    mounted() {
+        if (this.tag.type == "timer") {
+            let updateFunc = () => {
+                this.text = this.tag.text.replace("%TIME%", this.durationFromEllapsedText(this.tag.time))
+            }
+            updateFunc()
+            setInterval(updateFunc, 2000)
         }
     },
     methods: {
