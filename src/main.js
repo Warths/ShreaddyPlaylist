@@ -6,6 +6,7 @@ import urlUtils from './mixins/UrlUtils.vue'
 import cookies from './mixins/Cookies.vue'
 import globals from './mixins/Globals.vue'
 import ContrastUtils from './mixins/ContrastUtils.vue'
+import TimeUtils from './mixins/TimeUtils.vue'
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css'; // optional for styling
 
@@ -14,6 +15,8 @@ app.mixin(urlUtils)
 app.mixin(cookies)
 app.mixin(globals)
 app.mixin(ContrastUtils)
+app.mixin(TimeUtils)
+
 app.use(router)
 
 app.use(
