@@ -1,6 +1,6 @@
 <template>
 <div class="w-100 p-2">
-    <div class="card shadow shadow-stronger-hover rounded-frame-1">
+    <div class="card shadow shadow-stronger-hover rounded-frame-1" :class="tagClasses">
         <div class="card-body d-flex flex-column pt-1 pb-2">
             <!-- QUICK BUTTONS -->
             <transition name="fade">
@@ -38,6 +38,15 @@ import BaseRow from "./BaseRow.vue"
 
 export default {
     computed: {
+        tagClasses() {
+          let classes = []
+          for (let tag of this.song.tags) {
+              if (tag.hasOwnProperty('class')) {
+                  classes.push()
+              }
+          }
+          return classes.join(" ")
+        },
         adminPanelVisible() {
             return this.showPanel && this.userLevel == 2
         },
