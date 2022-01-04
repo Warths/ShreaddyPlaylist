@@ -42,7 +42,7 @@ export default {
           let classes = []
           for (let tag of this.song.tags) {
               if (tag.hasOwnProperty('class')) {
-                  classes.push()
+                  classes.push(tag.class)
               }
           }
           return classes.join(" ")
