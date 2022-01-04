@@ -14,7 +14,8 @@ export default {
 }
 
 .dark-theme .nav-link:active,
-.dark-theme .nav-link:hover {
+.dark-theme .nav-link:hover,
+.dark-theme .nav-link:focus {
     color: white
 }
 
