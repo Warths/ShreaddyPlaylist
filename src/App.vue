@@ -65,6 +65,11 @@ export default {
                     value: this.getCookieOrDefault("options-display-playlist-state", true, true),
                     text: "Affiche le statut de la playlist"
                   },
+                  foldPlaylist: {
+                    name: "options-fold-playlist",
+                    value: this.getCookieOrDefault("options-fold-playlist", false, true),
+                    text: "Replier la playlist"
+                  },
                   darkTheme: {
                     name: "options-dark-theme",
                     value: this.getCookieOrDefault("options-dark-theme", false, true),
