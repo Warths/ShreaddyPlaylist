@@ -2,9 +2,9 @@
 export default {
     methods: {
         setCookie(key, value, daysBeforeExpire=1000) {
-            const d = new Date();
-            d.setTime(d.getTime() + (daysBeforeExpire*24*60*60*1000));
-            let expires = "expires="+ d.toUTCString();
+            const date = new Date();
+            date.setTime(date.getTime() + (daysBeforeExpire*24*60*60*1000));
+            let expires = "expires="+ date.toUTCString();
             document.cookie = key + "=" + value + ";" + expires + ";path=/";
         },
         getCookie(cname) {
