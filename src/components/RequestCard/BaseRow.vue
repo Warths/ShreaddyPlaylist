@@ -18,7 +18,7 @@ export default {
 }
 
 .fadable-item {
-    transition: color 1s;
+    transition: color 1s, font-size 1s;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow:hidden;
