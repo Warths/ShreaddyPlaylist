@@ -38,6 +38,7 @@ export default {
 }
 
 .VIP .fadable-item,
+.streamer-theme .fadable-item,
 .dark-theme .fadable-item {
     color: white;
 }

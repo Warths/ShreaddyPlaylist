@@ -89,6 +89,7 @@ nav {
     transition: filter 1s;
 }
 
+.streamer-theme .options-toggler,
 .dark-theme .options-toggler {
     filter: invert()
 }
@@ -96,6 +97,8 @@ nav {
 span {
     transition: color 1s;
 }
+
+.streamer-theme span,
 .dark-theme span {
     color: rgb(248, 248, 248)
 }

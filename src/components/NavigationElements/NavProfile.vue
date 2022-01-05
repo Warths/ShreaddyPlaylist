@@ -32,6 +32,8 @@ export default {
 span {
   transition: color 1s
 }
+
+.streamer-theme span,
 .dark-theme span {
   color: rgb(241, 241, 241)!important;
 }

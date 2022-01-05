@@ -117,6 +117,9 @@ export default {
 span, small {
     transition: color 1s
 }
+
+.streamer-theme span,
+.streamer-theme small,
 .dark-theme span,
 .dark-theme small {
     color: white;
