@@ -1,5 +1,5 @@
 <template>
-    <div class="card-text align-self-end fs-4 d-flex align-items-center">
+    <div class="card-text fs-4 d-flex align-items-center">
         <requester-badge v-for="badge in requester.badges" :badge="badge" :key="badge.alttext"/>
         <p class="m-0 fw-bold" :class="contrastedOutLine" :style="displayNameColor">{{ requester.displayName }}</p>
     </div>

@@ -21,7 +21,8 @@
             :song="content" :key="content.id" 
             :showPanel="options.moderator.fields.adminTools.value" 
             :userLevel="userLevel"
-            :darkTheme="options.regular.fields.darkTheme.value"/>
+            :darkTheme="options.regular.fields.darkTheme.value"
+            :fold="options.regular.fields.foldPlaylist.value"/>
         </transition-group>
     </div>
     

@@ -23,9 +23,13 @@
                 </div>
             </transition>
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
-            <base-row class="fs-animated fs-4" :text="song.title"/>
-            <base-row class="fs-animated fs-5" :text="song.artist"/>
-            <requester-row :requester="song.requester" :darkTheme="darkTheme"/>
+            <div class="w-100 justify-content-between d-flex flex-wrap" :class="foldClass">
+                <div class="d-flex flex-column mw-100">
+                    <base-row class="fs-animated fs-4" style="min-width: 0" :text="song.title"/>
+                    <base-row class="fs-animated fs-5" :text="song.artist"/>
+                </div>
+                <requester-row class="ms-auto" :requester="song.requester" :darkTheme="darkTheme"/>
+            </div>
         </div>
     </div>
 </div>
@@ -38,6 +42,9 @@ import BaseRow from "./BaseRow.vue"
 
 export default {
     computed: {
+        foldClass() {
+            return this.fold ? "" : "flex-column"
+        },
         tagClasses() {
           let classes = []
           for (let tag of this.song.tags) {
@@ -54,7 +61,7 @@ export default {
             return this.adminPanelVisible ? "py-1" : "py-2 pb-1"
         }
     },
-    props: ["song", "showPanel", "userLevel", "darkTheme"],
+    props: ["song", "showPanel", "userLevel", "darkTheme", "fold"],
     components: {TagList, RequesterRow, BaseRow}
 }
 </script>
