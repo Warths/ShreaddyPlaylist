@@ -216,7 +216,7 @@ body.dark-theme {
 }
 
 body.streamer-theme {
-  background-color: rgba(0,0,0,0)
+  background-color: rgb(85, 85, 85)
 }
 
 /* VEIL APPARITION ANIMATION */

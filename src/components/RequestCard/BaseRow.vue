@@ -37,7 +37,12 @@ export default {
     position: absolute
 }
 
+.VIP .fadable-item,
 .dark-theme .fadable-item {
     color: white;
+}
+
+.VIP .fadable-item {
+    text-shadow: 1px 1px 3px black, 1px 1px 3px black;
 }
 </style>

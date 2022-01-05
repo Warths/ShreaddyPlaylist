@@ -120,16 +120,12 @@ export default {
 circle {
   position:absolute;
   fill: transparent;
-  stroke: rgb(146, 146, 146);
+  stroke: rgb(129, 129, 129);
   transform-origin: center;
   transform: rotate(-90deg);
   transition: stroke 1s
 }
 
-.dark-theme circle {
-    stroke: rgb(221, 221, 221);
-
-}
 
 .ready {
     animation-duration: .3s;
@@ -148,13 +144,8 @@ circle {
 .main-icon {
     transform-origin: center;
     transform: scale(0.57);
-    opacity: 0.7;
-    filter: grayscale(100%);
+    filter: grayscale(100%) contrast(0%);
     transition: all 0.5s;
-}
-.dark-theme .main-icon{
-    opacity: 0.9;
-    filter: grayscale(100%) invert();
 }
 
 .main-icon.loading {

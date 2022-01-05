@@ -63,16 +63,49 @@ export default {
 
 .card {
     transition:background 1s;
+    border-radius: 0.4em;
 }
+@keyframes vip {
+    0% {
+        background-position-x: 0em;
+    }
+    100% {
+        background-position-x: 10em;
+    }
+}
+
+
 .dark-theme .card {
     background:rgb(43, 43, 43)
 }
+.streamer-theme .card {
+    background-color: #00000080
+}
+.VIP,
+.dark-theme .VIP,
+.streamer-theme .VIP {
+    background-color: #f8eba7;
+    background-image: url("https://playlist.warths.fr/images/background_VIP_Alpha.png");
+    background-size: 10em;
+    background-blend-mode: multiply;
+    animation: vip linear infinite 5s;
+}
+
+.dark-theme .VIP {
+    background-color: rgb(58, 58, 58);
+
+}
+
+.streamer-theme .VIP {
+    background-color: #b9884752
+}
+
+
+.dark-theme.VIP
 .fs-animated {
     transition: font-size 1s;
 }
-.streamer-theme .card {
-    background: rgba(0,0,0,0.5);
-}
+
 .streamer-theme .fs-4{
     font-size: 2em !important
 }

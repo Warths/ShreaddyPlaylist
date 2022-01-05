@@ -6,7 +6,7 @@
                 <span>Playlist</span>
             </a>
             <transition name="fade">
-                <div v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
+                <div class="loading-icons" v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
                     <cooldown 
                         name="light"
                         :icon="require('../../assets/sun.png')" 
@@ -67,6 +67,11 @@ nav {
     background:rgb(43, 43, 43) !important
 }
 
+.streamer-theme nav{
+    background: rgba(0,0,0,0) !important;
+    box-shadow: none !important;
+}
+
 .options-toggler {
     padding: 0.25rem 0.75rem;
     font-size: 1.25rem;
@@ -93,5 +98,9 @@ span {
 }
 .dark-theme span {
     color: rgb(248, 248, 248)
+}
+
+.streamer-theme .loading-icons {
+    filter: brightness(150%)
 }
 </style>
