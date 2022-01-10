@@ -18,6 +18,7 @@
         </div>
         <transition-group name="playlist" tag="div" class="playlist position-relative">
             <card class="playlist-item" v-for="(content) in list" 
+            v-on:sendCommand="e => publish(e)"
             :song="content" :key="content.id" 
             :showPanel="options.moderator.fields.adminTools.value" 
             :userLevel="userLevel"
@@ -54,6 +55,10 @@ export default {
         },
         shuffleItems() {
             this.list = this.list.sort((a, b) => 0.5 - Math.random())
+        },
+        publish(cmd) {
+            console.log("publishing")
+            this.pubsub.publish("irc", {"message": cmd}, "twitch", this.getCookie("access_token"))
         }
     },
     computed: {

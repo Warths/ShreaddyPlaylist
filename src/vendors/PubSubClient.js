@@ -157,6 +157,7 @@ export default class PubSubClient {
         // Parsing received message
 
         let data = JSON.parse(event.data);
+        console.log(data)
         //console.log("Data RECV <<");
         //console.log(JSON.stringify(data, null, 2))
 

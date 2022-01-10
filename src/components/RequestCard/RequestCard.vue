@@ -5,15 +5,15 @@
             <!-- QUICK BUTTONS -->
             <transition name="fade">
                 <div v-if="adminPanelVisible" class="d-flex flex-wrap gap-1">
-                        <admin-button text="Play" :song="song" command="!play %id%"/>
-                        <admin-button text="Freeze" :song="song" command="!freeze %id%"/>
+                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Play" :song="song" command="!play %id%"/>
+                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Freeze" :song="song" command="!freeze %id%"/>
                         <!-- Custom Dropdown button-->
-                        <admin-button-drop-down text="Boost" :song="song" command="!boost %requester.displayName% %choice%" :choices="[[50, '+50%'], [100, '+100%'], [200, '+200%']]"/>
+                        <admin-button-drop-down v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Boost" :song="song" command="!boost %requester.displayName% %choice%" :choices="[[50, '+50%'], [100, '+100%'], [200, '+200%']]"/>
 
-                        <admin-button text="Preview" :song="song" command="!function %id%"/>
+                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Preview" :song="song" command="!function %id%"/>
 
-                        <admin-button class="ms-auto" text="Delete" :song="song" command="!delete %id%" :danger="true"/>
-                        <admin-button text="Banlist" :song="song" command="!banlist %artist% ; %song% ; %reason%" :danger="true"/>
+                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" class="ms-auto" text="Delete" :song="song" command="!delete %id%" :danger="true"/>
+                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Banlist" :song="song" command="!banlist %artist% ; %song% ; %reason%" :danger="true"/>
                 </div>
             </transition>
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
@@ -58,6 +58,7 @@ export default {
         }
     },
     props: ["song", "showPanel", "userLevel", "darkTheme", "fold"],
+    emits: ["sendCommand"],
     components: {TagList, RequesterRow, BaseRow, AdminButton, AdminButtonDropDown}
 }
 </script>
