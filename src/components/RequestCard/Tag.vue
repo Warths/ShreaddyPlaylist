@@ -54,7 +54,7 @@ img {
 }
 
 .streamer-theme .tag {
-    font-size: 1em;
+    font-size: 1.1em;
 }
 
 .shadowed {
