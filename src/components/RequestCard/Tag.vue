@@ -42,7 +42,7 @@ img {
 
 
 .fs-animated {
-    transition: font-size 1s, line-height 1s;
+    transition: line-height 1s;
 }
 
 .tag {
