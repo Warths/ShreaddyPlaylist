@@ -8,7 +8,7 @@
                         <admin-button text="Play" :song="song" command="!play %id%"/>
                         <admin-button text="Freeze" :song="song" command="!freeze %id%"/>
                         <!-- Custom Dropdown button-->
-                        <admin-button-drop-down text="Boost" :song="song" command="!boost %requester% %choice%" :choices="[[50, '+50%'], [100, '+100%'], [200, '+200%']]"/>
+                        <admin-button-drop-down text="Boost" :song="song" command="!boost %requester.displayName% %choice%" :choices="[[50, '+50%'], [100, '+100%'], [200, '+200%']]"/>
 
                         <admin-button text="Preview" :song="song" command="!function %id%"/>
 
