@@ -233,11 +233,11 @@ body.streamer-theme {
     width: 100vw;
     height: 100vh;
     background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
 
 }
 
 .options-menu {
-    backdrop-filter: blur(3px);
     position:absolute;
     z-index: 2;
     left: calc(100% - 300px);
