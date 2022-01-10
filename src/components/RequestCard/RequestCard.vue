@@ -5,21 +5,15 @@
             <!-- QUICK BUTTONS -->
             <transition name="fade">
                 <div v-if="adminPanelVisible" class="d-flex flex-wrap gap-1">
-                        <div class="pt-1"><button type="button" class="btn btn-primary bg-purple border-0 p-1 p-sm-2">Play</button></div>
-                        <div class="pt-1"><button type="button" class="btn btn-primary bg-purple border-0 p-1 p-sm-2">Freeze</button></div>
+                        <admin-button text="Play" :song="song" command="!play %id%"/>
+                        <admin-button text="Freeze" :song="song" command="!freeze %id%"/>
                         <!-- Custom Dropdown button-->
-                        <div class="btn-group pt-1">
-                            <button type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 p-sm-2" data-bs-toggle="dropdown" aria-expanded="false">Boost</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">+50%</a></li>
-                                <li><a class="dropdown-item" href="#">+100%</a></li>
-                                <li><a class="dropdown-item" href="#">+250%</a></li>
-                            </ul>
-                        </div>
-                        <div class="pt-1"><button type="button" class="btn btn-primary bg-purple border-0 p-1 p-sm-2">Preview</button></div>
+                        <admin-button-drop-down text="Boost" :song="song" command="!boost %requester% %choice%" :choices="[[50, '+50%'], [100, '+100%'], [200, '+200%']]"/>
 
-                        <div class="pt-1 ms-auto"><button type="button" class="btn btn-danger bg-purple border-0 p-1 p-sm-2">Delete</button></div>
-                        <div class="pt-1"><button type="button" class="btn btn-danger bg-purple border-0 p-1 p-sm-2">Banlist</button></div>
+                        <admin-button text="Preview" :song="song" command="!function %id%"/>
+
+                        <admin-button class="ms-auto" text="Delete" :song="song" command="!delete %id%" :danger="true"/>
+                        <admin-button text="Banlist" :song="song" command="!banlist %artist% ; %song% ; %reason%" :danger="true"/>
                 </div>
             </transition>
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
@@ -39,6 +33,8 @@
 import TagList from "./TagList.vue"
 import RequesterRow from "./RequesterRow.vue"
 import BaseRow from "./BaseRow.vue"
+import AdminButton from "./AdminButton.vue"
+import AdminButtonDropDown from './AdminButtonDropDown.vue'
 
 export default {
     computed: {
@@ -62,7 +58,7 @@ export default {
         }
     },
     props: ["song", "showPanel", "userLevel", "darkTheme", "fold"],
-    components: {TagList, RequesterRow, BaseRow}
+    components: {TagList, RequesterRow, BaseRow, AdminButton, AdminButtonDropDown}
 }
 </script>
 
