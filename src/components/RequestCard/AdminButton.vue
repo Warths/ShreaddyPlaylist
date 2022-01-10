@@ -1,17 +1,30 @@
 <template>
-    <div class="pt-1">
-        <button type="button" @click="$emit('sendCommand', formatCommand())" class="btn btn-primary bg-purple border-0 p-1 px-2" :class="dangerClass">{{ text }}</button>
+    <!-- CMD Button-->
+    <div v-if="typeof(action) == 'string'" class="pt-1" :class="this.class">
+        <button type="button" @click="$emit('sendCommand', formatCommand(this.action))" class="btn btn-primary bg-purple border-0 p-1 px-2">{{ text }}</button>
+    </div>
+    <!-- Action Button -->
+    <div v-else-if="typeof(action) == 'function'" class="pt-1" :class="this.class">
+        <button type="button" @click="action()" class="btn btn-primary bg-purple border-0 p-1 px-2">{{ text }}</button>
+    </div>
+    <!-- Group Button -->
+    <div v-else-if="typeof(action) == 'object'" class="btn-group pt-1" :class="this.class">
+        <button type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 px-2" data-bs-toggle="dropdown" aria-expanded="false">{{ text }}</button>
+        <ul class="dropdown-menu">
+            <li v-for="(choice, i) in action.choices" :key="i"><a @click="$emit('sendCommand', formatCommand(this.action.cmd, choice[0]))" class="dropdown-item" href="#">{{ choice[1] }}</a></li>
+        </ul>
     </div>
 </template>
 
 <script>
 export default {
     methods: {
-        formatCommand() {
-            let cmd = this.command
+        formatCommand(cmd, choice) {
+            cmd = cmd.replace("%choice%", choice)
             for (let key in this.song) {
-                if (typeof(this.song[key] == "object")) {
+                if (typeof(this.song[key]) == "object") {
                     for (let subkey in this.song[key]) {
+                        console.log(key, subkey)
                         cmd = cmd.replace(`%${key}.${subkey}%`, this.song[key][subkey])
                     }
                 } else {
@@ -21,12 +34,13 @@ export default {
             return cmd
         }
     },
-    computed: {
-        dangerClass() {
-            return this.danger ? "btn-danger" : ""
-        }
-    },
     emits: ["sendCommand"],
-    props: ["song", "text", "command", "danger"]
+    props: ["song", "text", "danger", "action", "class"]
 }
 </script>
+
+<style scoped>
+.danger > .btn {
+    background-color: #dc3545 !important
+}
+</style>

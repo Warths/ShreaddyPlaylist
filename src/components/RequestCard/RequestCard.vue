@@ -5,15 +5,17 @@
             <!-- QUICK BUTTONS -->
             <transition name="fade">
                 <div v-if="adminPanelVisible" class="d-flex flex-wrap gap-1">
-                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Play" :song="song" command="!play %id%"/>
-                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Freeze" :song="song" command="!freeze %id%"/>
-                        <!-- Custom Dropdown button-->
-                        <admin-button-drop-down v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Boost" :song="song" command="!boost %requester.displayName% %choice%" :choices="[[50, '+50%'], [100, '+100%'], [200, '+200%']]"/>
+                        <admin-button 
+                            v-for="(button, i) of spec" 
+                            v-on:sendCommand="(e) => $emit('sendCommand', e)" 
 
-                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Preview" :song="song" command="!function %id%"/>
-
-                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" class="ms-auto" text="Delete" :song="song" command="!delete %id%" :danger="true"/>
-                        <admin-button v-on:sendCommand="(e) => $emit('sendCommand', e)" text="Banlist" :song="song" command="!banlist %artist% ; %song% ; %reason%" :danger="true"/>
+                            :text="button.text" 
+                            :song="song" 
+                            :action="button.action" 
+                            :class="button.style"
+                                                    
+                            :key="i"
+                        />
                 </div>
             </transition>
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
@@ -34,9 +36,43 @@ import TagList from "./TagList.vue"
 import RequesterRow from "./RequesterRow.vue"
 import BaseRow from "./BaseRow.vue"
 import AdminButton from "./AdminButton.vue"
-import AdminButtonDropDown from './AdminButtonDropDown.vue'
 
 export default {
+    data() {
+        return {
+            spec: [
+                {
+                    text: "Play",
+                    action: "!play %id%",
+                },
+                {
+                    text: "Freeze",
+                    action: "!freeze %id%",
+                },
+                {
+                    text: "Boost",
+                    action: {
+                        cmd: "!boost %requester.displayName% %choice%",
+                        choices: [[50, '+50%'], [100, '+100%'], [200, '+200%']]
+                    }
+                },
+                {
+                    text: "Preview",
+                    action: () => "prout"
+                },
+                {
+                    text: "Delete",
+                    action: "!banlist %artist% ; %song% ; %reason%",
+                    style: "ms-auto danger"
+                },
+                {
+                    text: "Banlist",
+                    action: "!banlist %artist% ; %song% ; %reason%",
+                    style: "danger"
+                }
+            ]
+        }
+    },
     computed: {
         foldClass() {
             return this.fold ? "" : "flex-column"
@@ -59,7 +95,7 @@ export default {
     },
     props: ["song", "showPanel", "userLevel", "darkTheme", "fold"],
     emits: ["sendCommand"],
-    components: {TagList, RequesterRow, BaseRow, AdminButton, AdminButtonDropDown}
+    components: {TagList, RequesterRow, BaseRow, AdminButton}
 }
 </script>
 
