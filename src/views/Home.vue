@@ -10,11 +10,14 @@
         </div>
     </div>
     <div class="playlist m-auto">
-        <div class="text-end p-2 d-flex flex-column">
+        <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
+            <searchbar v-if="userLevel > 0" class="flex-grow-2"/>
+            <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
                 <small v-if="options.regular.fields.displayPlaylistState.value && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
             </transition>
+            </div>
         </div>
         <transition-group name="playlist" tag="div" class="playlist position-relative">
             <card class="playlist-item" v-for="(content) in list" 
@@ -31,6 +34,7 @@
 
 <script>
 import card from "../components/RequestCard/RequestCard.vue"
+import Searchbar from '../components/Search/Searchbar.vue';
 
 export default {
     data() {
@@ -113,7 +117,7 @@ export default {
 
 
     },
-    components: {card},
+    components: {card, Searchbar},
     props: ["options", "userLevel", "pubsub"]
 }
 
@@ -161,6 +165,5 @@ span, small {
 .apparition-enter-active, .apparition-leave-active {
     transition: all .5s
 }
-
 </style>
 
