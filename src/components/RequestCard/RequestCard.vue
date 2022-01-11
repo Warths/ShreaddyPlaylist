@@ -24,7 +24,9 @@
                     <base-row class="fs-animated fs-4" style="min-width: 0" :text="song.title"/>
                     <base-row class="fs-animated fs-5" :text="song.artist"/>
                 </div>
-                <requester-row class="ms-auto" :requester="song.requester" :darkTheme="darkTheme"/>
+                <div class="d-flex align-items-end">
+                    <requester-row class="ms-auto" :requester="song.requester" :darkTheme="darkTheme"/>
+                </div>
             </div>
         </div>
     </div>
