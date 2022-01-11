@@ -149,10 +149,11 @@ export default {
 }
 
 .streamer-theme .fs-4{
-    font-size: 2.2em !important
+    font-size: 2.2em !important;
 }
 .streamer-theme .fs-5{
-    font-size: 1.7em !important
+    font-size: 1.9em !important;
+    margin-top: -0.2em;
 }
 .tags, .btn {
     transition: padding 1s ease;
