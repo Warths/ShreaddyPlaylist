@@ -45,13 +45,13 @@ p {
 
 
 .outlined-dark {
-    text-shadow: 0px 0px 1.5px rgb(0, 0, 0),
-                 0px 0px 1.5px rgb(0, 0, 0),
-                 0px 0px 1.5px rgb(0, 0, 0),
-                 0px 0px 1.5px rgb(0, 0, 0),
-                 0px 0px 1.5px rgb(0, 0, 0),
-                 0px 0px 1.5px rgb(0, 0, 0),
-                 0px 0px 1.5px rgb(0, 0, 0)
+    text-shadow: 0px 0px 1.5px black,
+                 0px 0px 1.5px  black,
+                 0px 0px 1.5px  black,
+                 0px 0px 1.5px  black,
+                 0px 0px 1.5px  black,
+                 0px 0px 1.5px  black,
+                 0px 0px 1.5px  black
 }
 .outlined-light {
     text-shadow: 0px 0px 1.5px white,
@@ -62,4 +62,29 @@ p {
                  0px 0px 1.5px white,
                  0px 0px 1.5px white
 }
+
+.streamer-theme .outlined-dark {
+    text-shadow:  1px  1px 1.5px black,
+                 -1px -1px 1.5px black,
+                  1px -1px 1.5px black,
+                 -1px  1px 1.5px black,
+                  2px  2px 1.5px black,
+                 -2px -2px 1.5px black,
+                  2px -2px 1.5px black,
+                 -2px  2px 1.5px black
+
+}
+
+.streamer-theme .outlined-light {
+    text-shadow:  1px  1px 1.5px white,
+                 -1px -1px 1.5px white,
+                  1px -1px 1.5px white ,
+                 -1px  1px 1.5px white,
+                  2px  2px 1.5px white,
+                 -2px -2px 1.5px white,
+                  2px -2px 1.5px white,
+                 -2px  2px 1.5px white,
+
+}
+
 </style>
