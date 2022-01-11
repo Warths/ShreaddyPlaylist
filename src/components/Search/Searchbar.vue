@@ -123,6 +123,13 @@ export default {
     background-color: rgb(43, 43, 43)
 }
 
+.streamer-theme .btn-outline-secondary,
+.streamer-theme .btn-outline-secondary:active,
+.streamer-theme .btn-outline-secondary:hover {
+    background-color: #ced4da;
+    border: 1px solid #ced4da;
+    color: #6c757d;
+}
 
 .pop-enter-active,
 .pop-leave-active {
