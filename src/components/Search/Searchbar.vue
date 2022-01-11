@@ -9,8 +9,8 @@
                 <div v-if="this.visible" class="dropdown-menu d-block">
                     <span 
                     v-for="(option, i) in options" 
-                    @click="setCurrent(option)" 
-                    class="dropdown-item" :key="i">{{option}}</span>
+                    @click="setCurrent(option.cmd)" 
+                    class="dropdown-item" :key="i">{{option.text}}</span>
                 </div>
                 </transition>
             </div>
@@ -28,9 +28,22 @@ export default {
             current: "!sr",
             visible: false,
             options: [
-                "!sr", 
-                "!edit", 
-                "!vip", "!vedit"
+                {
+                    cmd:"!sr", 
+                    text:"Ajouter une request"
+                },
+                {
+                    cmd:"!edit", 
+                    text:"Modifier une request"
+                },
+                {
+                    cmd:"!vip", 
+                    text:"Ajouter une request VIP"
+                },
+                {
+                    cmd:"!vedit", 
+                    text:"Modifier une request VIP"
+                },
             ]
         }
     },
@@ -63,6 +76,11 @@ export default {
 .dropdown-toggle {
     border-radius: 0.25rem 0 0 0.25rem;
     box-shadow:none !important;
+}
+
+.dropdown-item:active {
+    background-color: #e9ecef;
+    color:black
 }
 
 .form-control {
