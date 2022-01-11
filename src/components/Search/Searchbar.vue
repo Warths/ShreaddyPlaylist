@@ -6,7 +6,7 @@
                 <button @click="this.visible = !this.visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
                 <div v-if="this.visible" @click="this.visible = false" class="veil"></div>
                 <transition name="pop"> 
-                <div v-if="this.visible" class="dropdown-menu d-block">
+                <div v-if="this.visible" class="dropdown-menu d-block shadow-lg">
                     <span 
                     v-for="(option, i) in options" 
                     @click="setCurrent(option.cmd)" 
@@ -73,23 +73,54 @@ export default {
     transform-origin: top left;
 }
 
+.dark-theme .dropdown-menu {
+    background-color:rgb(43, 43, 43);
+}
+
+.dark-theme .dropdown-item:hover,
+.dark-theme .dropdown-item:active {
+    background-color:rgb(75, 75, 75);
+    color:white;
+}
+
 .dropdown-toggle {
     border-radius: 0.25rem 0 0 0.25rem;
     box-shadow:none !important;
 }
 
+.dark-theme .dropdown-item {
+    color:white
+}
+
 .dropdown-item:active {
     background-color: #e9ecef;
-    color:black
 }
 
 .form-control {
     box-shadow:none;
+    background: none;
+}
+
+.dark-theme .form-control {
+    border-color: #6c757d;
+    color:white;
 }
 
 .form-control:focus {
     z-index:1;
-    border: 1px solid #6c757d;
+    border: 1px solid #62686e;
+}
+
+.btn-outline-secondary:active,
+.btn-outline-secondary:hover {
+    background-color: #ced4da;
+    border: 1px solid #ced4da;
+
+}
+
+.dark-theme .btn-outline-secondary:active,
+.dark-theme .btn-outline-secondary:hover {
+    background-color: rgb(43, 43, 43)
 }
 
 
