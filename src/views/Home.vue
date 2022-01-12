@@ -9,9 +9,11 @@
             <button @click="shuffleItems">Shuffle</button>
         </div>
     </div>
-    <div class="playlist m-auto">
+    <div class="playlist m-auto px-1">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
-            <searchbar v-if="userLevel > 0" class="flex-grow-2" :pubsub="pubsub" :identity="identity"/>
+            <transition name="apparition">
+                <searchbar v-if="userLevel > 0 && options.regular.fields.requestForm.value" class="flex-grow-2" :pubsub="pubsub" :identity="identity"/>
+            </transition>
             <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
