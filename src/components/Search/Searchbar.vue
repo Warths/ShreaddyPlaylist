@@ -17,7 +17,7 @@
             <form class="flex-grow-1 position-relative" @submit.prevent="sendCommand()">
                 <input v-model="inputValue" type="text" class="form-control" aria-label="Text input with dropdown button" :disabled="disabled">
                 <transition name="pop">
-                    <div v-if="displayResponse" class="alert position-absolute top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
+                    <div v-if="displayResponse" class="alert position-absolute text-center w-75 top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
                 </transition> 
             </form>
         </div>
@@ -57,10 +57,19 @@ export default {
             ],
             text: {
                 "request_limit_reached": "Limite de request atteinte",
+                "no_argument": "Request vide",
                 "artist_added": "Requête ajoutée !",
-                "artist_added_edit": "Requête ajoutée !",
-                "artist_added_vip": "Requête ajoutée !",
-                "artist_added_vip_edit": "Requête ajoutée !",
+                "artist_added_edit": "Requête modifiée !",
+                "artist_added_vip": "Requête VIP ajoutée !",
+                "artist_added_edit_vip": "Requête VIP modifiée !",
+                "song_added": "Requête ajoutée !",
+                "song_added_edit": "Requête modifiée !",
+                "song_added_vip": "Requête VIP ajoutée !",
+                "song_added_edit_vip": "Requête VIP modifiée !",
+                "no_match": "Aucun résultat",
+                "no_match_edit": "Aucun résultat",
+                "no_match_vip": "Aucun résultat",
+                "no_match_edit_vip": "Aucun résultat"
             }
         }
     },
@@ -80,34 +89,38 @@ export default {
             setTimeout(this.handleResponseTimeOut, 5000)
         },
         handleResponseTimeOut() {
-            if (this.disabled) {
-                this.response("Timeout", "error")
+            if (this.disabled && this.responseText == "") {
+                this.response("La requête n'a pas été receptionnée. Shreaddy est peut être hors ligne ?", "error")
             }
         },
         response(text, type="success") {
-            console.log("displaying response")
             this.responseText = text
             this.responseType = type == "success" ? "alert-dark" : "alert-danger"
             this.displayResponse = true
-            setTimeout(this.hideResponse, 4000) 
+            setTimeout(this.hideResponse, 5000) 
         },
         hideResponse() {
             this.displayResponse = false
             this.disabled = false
+            this.responseText = ""
         },
         handleResponse(response) {
             if (this.identity.user_id == response.message.requester) {
-
-            }
-            this.response(response.message.response)
+                let key = response.message.response
+                if (this.text.hasOwnProperty(key)) {
+                    this.response(this.text[key])
+                } else {
+                    this.response(key)
+                }
+            }        
         }
     },
-    props: ["pubsub", "identity"],
     mounted() {
         this.pubsub.subscribe(["request_response"])
         this.pubsub.addHandler("request_response", e => {this.handleResponse(e)})
+    },
+    props: ["pubsub", "identity"],
 
-    }
 }
 </script>
 
