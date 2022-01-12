@@ -50,12 +50,11 @@ export default {
         options: {
             regular: {
                 fields: {
-                  /*
                   requestForm: {
                     name: "options-request-form",
                     value: this.getCookieOrDefault("options-request-form", true, true),
                     text: "Formulaire de request"
-                  }, */
+                  },
                   lightmixCooldown: {
                     name: "options-lightmix-cooldown",
                     value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
