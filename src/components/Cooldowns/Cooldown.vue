@@ -1,5 +1,5 @@
 <template>
-<span class="me-2">
+<div class="me-2">
     <tippy :content="toolTipText" placement="bottom" :offset="[0,18]">
         <svg :height="size" :width="size" class="wrapper" :class="availableClass" >
             <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
@@ -13,7 +13,7 @@
             </transition>
         </svg>
     </tippy>
-</span>
+</div>
 </template>
 
 <script>

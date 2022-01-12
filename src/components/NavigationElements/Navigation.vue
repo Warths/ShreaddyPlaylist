@@ -6,7 +6,7 @@
                 <span>Playlist</span>
             </a>
             <transition name="fade">
-                <div class="loading-icons" v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
+                <div class="loading-icons d-flex" v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
                     <cooldown 
                         name="light"
                         :icon="require('../../assets/sun.png')" 
