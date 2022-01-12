@@ -14,7 +14,12 @@
                 </div>
                 </transition>
             </div>
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+            <form class="flex-grow-1 position-relative" @submit.prevent="sendCommand()">
+                <input v-model="inputValue" type="text" class="form-control" aria-label="Text input with dropdown button" :disabled="disabled">
+                <transition name="pop">
+                    <div v-if="displayResponse" class="alert position-absolute top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
+                </transition> 
+            </form>
         </div>
     </div>
 </div>
@@ -25,6 +30,11 @@
 export default {
     data() {
         return {
+            responseText: "",
+            displayResponse: false,
+            responseType: "",
+            disabled: false,
+            inputValue: "",
             current: "!sr",
             visible: false,
             options: [
@@ -44,14 +54,58 @@ export default {
                     cmd:"!vedit", 
                     text:"Modifier une request VIP"
                 },
-            ]
+            ],
+            text: {
+                "request_limit_reached": "Limite de request atteinte",
+                "artist_added": "Requête ajoutée !",
+                "artist_added": "Requête ajoutée !",
+                "artist_added": "Requête ajoutée !",
+            }
         }
     },
     methods: {
         setCurrent(option) {
             this.current = option
             this.visible = false
+        },
+        sendCommand() {
+            this.disabled = true
+            this.pubsub.publish(
+                "irc", 
+                {"message": `${this.current} ${this.inputValue}`}, 
+                "twitch", 
+                this.getCookie("access_token")
+            )
+            setTimeout(this.handleResponseTimeOut, 5000)
+        },
+        handleResponseTimeOut() {
+            if (this.disabled) {
+                this.response("Timeout", "error")
+            }
+        },
+        response(text, type="success") {
+            console.log("displaying response")
+            this.responseText = text
+            this.responseType = type == "success" ? "alert-dark" : "alert-danger"
+            this.displayResponse = true
+            setTimeout(this.hideResponse, 4000) 
+        },
+        hideResponse() {
+            this.displayResponse = false
+            this.disabled = false
+        },
+        handleResponse(response) {
+            if (this.identity.user_id == response.message.requester) {
+
+            }
+            this.response(response.message.response)
         }
+    },
+    props: ["pubsub", "identity"],
+    mounted() {
+        this.pubsub.subscribe(["request_response"])
+        this.pubsub.addHandler("request_response", e => {this.handleResponse(e)})
+
     }
 }
 </script>
@@ -99,6 +153,8 @@ export default {
 .form-control {
     box-shadow:none;
     background: none;
+    border-radius: 0 0.25rem 0.25rem 0;
+    transition: opacity .5s ease, background-color .5s ease, border-color .5s ease;
 }
 
 .dark-theme .form-control {
@@ -133,7 +189,7 @@ export default {
 
 .pop-enter-active,
 .pop-leave-active {
-    transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+    transition: opacity .2s ease-out, transform .2s ease-out;
 }
 
 .pop-enter-from,
@@ -142,4 +198,18 @@ export default {
     transform: scale(80%);
     opacity:0;
 }
+
+.form-control[disabled] {
+    background-color: rgba(0,0,0,0.1);
+    opacity: 0.5;
+}
+
+.dark-theme .form-control[disabled] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.alert {
+    z-index: 3
+}
+
 </style>
