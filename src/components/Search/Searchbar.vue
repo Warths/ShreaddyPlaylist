@@ -57,7 +57,10 @@ export default {
             ],
             text: {
                 "request_limit_reached": "Limite de request atteinte",
-                "no_argument": "Request vide",
+                "no_argument": "Requête vide",
+                "no_argument_edit": "Requête vide",
+                "no_argument_vip": "Requête vide",
+                "no_argument_edit_vip": "Requête vide",
                 "artist_added": "Requête ajoutée !",
                 "artist_added_edit": "Requête modifiée !",
                 "artist_added_vip": "Requête VIP ajoutée !",
@@ -78,7 +81,10 @@ export default {
                 "banlisted_artist_edit": "Artiste banlistée",
                 "banlisted_artist_vip": "Artiste banlistée",
                 "banlisted_artist_edit_vip": "Artiste banlistée",
-                "not_enough_characters": "Pas assez de caractères dans la requête"
+                "not_enough_characters": "Pas assez de caractères dans la requête",
+                "not_enough_characters_edit": "Pas assez de caractères dans la requête",
+                "not_enough_characters_vip": "Pas assez de caractères dans la requête",
+                "not_enough_characters_edit_vip": "Pas assez de caractères dans la requête",
             }
         }
     },
@@ -180,7 +186,8 @@ export default {
     transition: opacity .5s ease, background-color .5s ease, border-color .5s ease;
 }
 
-.dark-theme .form-control {
+.dark-theme .form-control,
+.streamer-theme .form-control {
     border-color: #6c757d;
     color:white;
 }
