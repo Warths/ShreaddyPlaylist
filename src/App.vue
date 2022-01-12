@@ -27,6 +27,7 @@
   <router-view 
     :options="options" 
     :userLevel="userLevel"
+    :identity="identity"
     :pubsub="pubsub"
   />
 </template>

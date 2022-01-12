@@ -11,7 +11,7 @@
     </div>
     <div class="playlist m-auto">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
-            <searchbar v-if="userLevel > 0" class="flex-grow-2"/>
+            <searchbar v-if="userLevel > 0" class="flex-grow-2" :pubsub="pubsub" :identity="identity"/>
             <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
@@ -40,7 +40,6 @@ export default {
     data() {
         return {
             list: [],
-            identity: null,
             playlistState: undefined,
         }
     },
@@ -118,7 +117,7 @@ export default {
 
     },
     components: {card, Searchbar},
-    props: ["options", "userLevel", "pubsub"]
+    props: ["options", "userLevel", "identity", "pubsub"]
 }
 
 </script>
