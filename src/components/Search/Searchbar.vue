@@ -58,8 +58,9 @@ export default {
             text: {
                 "request_limit_reached": "Limite de request atteinte",
                 "artist_added": "Requête ajoutée !",
-                "artist_added": "Requête ajoutée !",
-                "artist_added": "Requête ajoutée !",
+                "artist_added_edit": "Requête ajoutée !",
+                "artist_added_vip": "Requête ajoutée !",
+                "artist_added_vip_edit": "Requête ajoutée !",
             }
         }
     },
