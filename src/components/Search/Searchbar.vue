@@ -15,7 +15,7 @@
                 </transition>
             </div>
             <form class="flex-grow-1 position-relative" @submit.prevent="sendCommand()">
-                <input v-model="inputValue" type="text" class="form-control" aria-label="Text input with dropdown button" :disabled="disabled">
+                <input v-model="inputValue" type="text" class="form-control" aria-label="Text input with dropdown button" :disabled="waitingForResponse">
                 <transition name="pop">
                     <div v-if="displayResponse" class="alert position-absolute text-center w-75 top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
                 </transition> 
@@ -33,7 +33,7 @@ export default {
             responseText: "",
             displayResponse: false,
             responseType: "",
-            disabled: false,
+            waitingForResponse: false,
             inputValue: "",
             current: "!sr",
             visible: false,
@@ -96,7 +96,7 @@ export default {
             this.visible = false
         },
         sendCommand() {
-            this.disabled = true
+            this.waitingForResponse = true
             this.pubsub.publish(
                 "irc", 
                 {"message": `${this.current} ${this.inputValue}`}, 
@@ -106,7 +106,7 @@ export default {
             setTimeout(this.handleResponseTimeOut, 5000)
         },
         handleResponseTimeOut() {
-            if (this.disabled && this.responseText == "") {
+            if (this.waitingForResponse && this.responseText == "") {
                 this.response("La requête n'a pas été receptionnée. Shreaddy est peut être hors ligne ?", "error")
             }
         },
@@ -118,11 +118,11 @@ export default {
         },
         hideResponse() {
             this.displayResponse = false
-            this.disabled = false
+            this.waitingForResponse = false
             this.responseText = ""
         },
         handleResponse(response) {
-            if (this.identity.user_id == response.message.requester) {
+            if (this.identity.user_id == response.message.requester && this.waitingForResponse) {
                 let key = response.message.response
                 if (this.text.hasOwnProperty(key)) {
                     this.response(this.text[key])
