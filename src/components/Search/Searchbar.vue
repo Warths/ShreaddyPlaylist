@@ -69,7 +69,16 @@ export default {
                 "no_match": "Aucun résultat",
                 "no_match_edit": "Aucun résultat",
                 "no_match_vip": "Aucun résultat",
-                "no_match_edit_vip": "Aucun résultat"
+                "no_match_edit_vip": "Aucun résultat",
+                "banlisted_song": "Musique banlistée",
+                "banlisted_song_edit": "Musique banlistée",
+                "banlisted_song_vip": "Musique banlistée",
+                "banlisted_song_edit_vip": "Musique banlistée",
+                "banlisted_artist": "Artiste banlistée",
+                "banlisted_artist_edit": "Artiste banlistée",
+                "banlisted_artist_vip": "Artiste banlistée",
+                "banlisted_artist_edit_vip": "Artiste banlistée",
+                "not_enough_characters": "Pas assez de caractères dans la requête"
             }
         }
     },
