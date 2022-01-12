@@ -85,6 +85,8 @@ export default {
                 "not_enough_characters_edit": "Pas assez de caractères dans la requête",
                 "not_enough_characters_vip": "Pas assez de caractères dans la requête",
                 "not_enough_characters_edit_vip": "Pas assez de caractères dans la requête",
+                "no_request_queued_edit": "Aucune requête à éditer",
+                "no_request_queued_edit_vip": "Aucune requête VIP à éditer"
             }
         }
     },
