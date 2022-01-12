@@ -45,7 +45,7 @@ export default {
             spec: [
                 {
                     text: "Play",
-                    action: "!play %id%",
+                    action: "!playing %id%",
                 },
                 {
                     text: "Freeze",
@@ -64,7 +64,7 @@ export default {
                 },
                 {
                     text: "Delete",
-                    action: "!banlist %artist% ; %song% ; %reason%",
+                    action: "!delete %id%",
                     style: "ms-auto danger"
                 },
                 {
