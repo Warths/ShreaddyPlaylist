@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 import Navigation from "./components/NavigationElements/Navigation.vue"
 import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
@@ -108,6 +109,7 @@ export default {
   components: {Navigation, OptionList},
   mixins: [UrlUtils],
   computed: {
+      ...mapGetters(["option"]),
       userLevel() {
         if (this.identity == null) {
             return 0

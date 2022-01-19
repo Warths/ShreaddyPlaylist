@@ -6,7 +6,10 @@
 </template>
 
 <script>
+import {mapMutations} from "vuex"
+
 export default {
+    methods: mapMutations(["updateOption"]),
     computed: {
         inputValue: {
             get() {
@@ -14,7 +17,7 @@ export default {
             },
             set(value) {
                 this.setCookie(this.option.name, value)
-                this.$emit("updateOption", {value, name:this.name})
+                this.updateOption({value, name:this.name})
             }
         }
     },

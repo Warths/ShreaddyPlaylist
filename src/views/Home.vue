@@ -12,7 +12,7 @@
     <div class="playlist m-auto px-1">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
             <transition name="apparition">
-                <searchbar v-if="userLevel > 0 && options.regular.fields.requestForm.value" class="flex-grow-2" :identity="identity"/>
+                <searchbar v-if="userLevel > 0 && option('requestForm')" class="flex-grow-2" :identity="identity"/>
             </transition>
             <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import card from "../components/RequestCard/RequestCard.vue";
 import Searchbar from '../components/Search/Searchbar.vue';
 
@@ -68,6 +68,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["option"]),
         playlistStateText() {
             let states = {
                 open: [],
@@ -112,8 +113,8 @@ export default {
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
-        this.addHandler(["playlist", e => {this.list = e.message.data.public}])
-        this.addHandler(["playlist_state", e => {console.log(e);this.playlistState = e.message; console.log(this)}])
+        this.addHandler(["playlist", e => this.list = e.message.data.public])
+        this.addHandler(["playlist_state", e => this.playlistState = e.message])
         this.subscribe(["playlist_state"])
         this.subscribe(["playlist"])
 
