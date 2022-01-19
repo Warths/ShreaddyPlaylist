@@ -128,8 +128,6 @@ export default class PubSubClient {
     }
 
     addHandler(topic, func) {
-        console.log(topic)
-        console.log(func)
         if (this.handlers[topic] == undefined) {
             this.handlers[topic] = [];
         }
