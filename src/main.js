@@ -8,7 +8,7 @@ import globals from './mixins/Globals.vue'
 import ContrastUtils from './mixins/ContrastUtils.vue'
 import TimeUtils from './mixins/TimeUtils.vue'
 import tippy from 'tippy.js';
-import store from './store.js'
+import store from './store/index.js'
 import 'tippy.js/dist/tippy.css'; // optional for styling
 
 const app = createApp(App)
