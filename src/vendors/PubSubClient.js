@@ -4,7 +4,7 @@ export default class PubSubClient {
      * @param {str} ip             SERVER IP 
      * @param {int} ping_interval  SERVER PING INTERVAL
      */
-    constructor(ip, ping_interval = 240) {
+    constructor(ip, ping_interval = 240, log=false) {
         this.ip = ip;
         this.ping_interval = ping_interval * 1000;
         this.last_ping = null
@@ -13,6 +13,7 @@ export default class PubSubClient {
         this.ws = null;
         this.handlers = {};
         this.nonceHandlers = {}
+        this.log = log
         setInterval(() => this.tick(), 100);
 
     }
@@ -127,6 +128,8 @@ export default class PubSubClient {
     }
 
     addHandler(topic, func) {
+        console.log(topic)
+        console.log(func)
         if (this.handlers[topic] == undefined) {
             this.handlers[topic] = [];
         }
@@ -146,8 +149,10 @@ export default class PubSubClient {
     handleSends() {
         while (this.queue.length > 0) {
             let data = this.queue.shift();
-            //console.log("Data SEND >>");
-            //console.log(JSON.stringify(data, null, 2))
+            if (this.log) {
+                console.log("Data SEND >>");
+                console.log(JSON.stringify(data, null, 2))
+            }
             data = JSON.stringify(data);
             this.ws.send(data);
         }
@@ -156,10 +161,13 @@ export default class PubSubClient {
     handleMessage(event) {
         // Parsing received message
 
-        let data = JSON.parse(event.data);
-        console.log(data)
-        //console.log("Data RECV <<");
-        //console.log(JSON.stringify(data, null, 2))
+        let data = JSON.parse(event.data); 
+
+        if (this.log) {
+            console.log(data)
+            console.log("Data RECV <<");
+            console.log(JSON.stringify(data, null, 2))
+        }
 
 
         // ANY Handlers
