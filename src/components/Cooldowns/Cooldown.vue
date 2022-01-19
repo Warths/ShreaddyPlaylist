@@ -18,6 +18,8 @@
 
 <script>
 
+import {mapActions} from "vuex"
+
 export default {
     data() {
         return {
@@ -28,6 +30,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["subscribe", "addHandler"]),
         update() {
             if (this.state == undefined) {
                 return
@@ -67,10 +70,10 @@ export default {
     mounted() {
         let cooldown = `${this.name}_cooldown`
         let available = `${this.name}_availability`
-        this.pubsub.addHandler(available, e => this.available = e.message.available)
-        this.pubsub.addHandler(cooldown, e => this.state = e.message)
-        this.pubsub.subscribe([available])
-        this.pubsub.subscribe([cooldown])
+        this.addHandler([available, e => this.available = e.message.available])
+        this.addHandler([cooldown, e => this.state = e.message])
+        this.subscribe([available])
+        this.subscribe([cooldown])
         setInterval(() => this.update(), 30)
     },
     props: {
@@ -93,10 +96,6 @@ export default {
         name: {
             type: String,
             required: true
-        },
-        pubsub: {
-            type: Object,
-            required: true,
         },
         toolTipText: {
             type: String,

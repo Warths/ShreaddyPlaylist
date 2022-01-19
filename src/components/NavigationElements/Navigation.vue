@@ -11,13 +11,11 @@
                         name="light"
                         :icon="require('../../assets/sun.png')" 
                         toolTipText="Cooldown des contrôles RGB"
-                        :pubsub="pubsub"
                     />
                     <cooldown 
                         name="light_fx"
                         :icon="require('../../assets/fx.png')" 
                         toolTipText="Cooldown des contrôles<br>des effets visuels"
-                        :pubsub="pubsub"
                     />                    
                 </div>
             </transition>
@@ -54,7 +52,7 @@ export default {
         }
     },
     components: { NavLink, NavProfile, Cooldown }, 
-    props: ["userLevel", "identity", "userData", "options", "pubsub"]
+    props: ["userLevel", "identity", "userData", "options"]
 }
 </script>
 

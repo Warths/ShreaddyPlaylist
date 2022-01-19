@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import {mapActions} from "vuex"
 
 export default {
     data() {
@@ -94,18 +95,14 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["subscribe", "addHandler", "publish"]),
         setCurrent(option) {
             this.current = option
             this.visible = false
         },
         sendCommand() {
             this.waitingForResponse = true
-            this.pubsub.publish(
-                "irc", 
-                {"message": `${this.current} ${this.inputValue}`}, 
-                "twitch", 
-                this.getCookie("access_token")
-            )
+            this.publish(["irc", {"message": `${this.current} ${this.inputValue}`}, "twitch", this.getCookie("access_token")])
             setTimeout(this.handleResponseTimeOut, 5000)
         },
         handleResponseTimeOut() {
@@ -136,10 +133,10 @@ export default {
         }
     },
     mounted() {
-        this.pubsub.subscribe(["request_response"])
-        this.pubsub.addHandler("request_response", e => {this.handleResponse(e)})
+        this.subscribe(["request_response"])
+        this.addHandler(["request_response", (e) => {this.handleResponse(e)}])
     },
-    props: ["pubsub", "identity"],
+    props: ["identity"],
 
 }
 </script>

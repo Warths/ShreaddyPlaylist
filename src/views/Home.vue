@@ -12,7 +12,7 @@
     <div class="playlist m-auto px-1">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
             <transition name="apparition">
-                <searchbar v-if="userLevel > 0 && options.regular.fields.requestForm.value" class="flex-grow-2" :pubsub="pubsub" :identity="identity"/>
+                <searchbar v-if="userLevel > 0 && options.regular.fields.requestForm.value" class="flex-grow-2" :identity="identity"/>
             </transition>
             <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import card from "../components/RequestCard/RequestCard.vue"
+import { mapActions } from "vuex";
+import card from "../components/RequestCard/RequestCard.vue";
 import Searchbar from '../components/Search/Searchbar.vue';
 
 export default {
@@ -46,6 +47,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["publish", "subscribe", "addHandler"]),
         clicked() {
             this.list = this.list.reverse();
         },
@@ -62,8 +64,7 @@ export default {
             this.list = this.list.sort((a, b) => 0.5 - Math.random())
         },
         publish(cmd) {
-            console.log("publishing")
-            this.pubsub.publish("irc", {"message": cmd}, "twitch", this.getCookie("access_token"))
+            this.publish(["irc", {"message": cmd}, "twitch", this.getCookie("access_token")])
         }
     },
     computed: {
@@ -111,15 +112,15 @@ export default {
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
-        this.pubsub.addHandler("playlist", e => {this.list = e.message.data.public})
-        this.pubsub.addHandler("playlist_state", e => {this.playlistState = e.message})
-        this.pubsub.subscribe(["playlist_state"])
-        this.pubsub.subscribe(["playlist"])
+        this.addHandler(["playlist", e => {this.list = e.message.data.public}])
+        this.addHandler(["playlist_state", e => {console.log(e);this.playlistState = e.message; console.log(this)}])
+        this.subscribe(["playlist_state"])
+        this.subscribe(["playlist"])
 
 
     },
     components: {card, Searchbar},
-    props: ["options", "userLevel", "identity", "pubsub"]
+    props: ["options", "userLevel", "identity"]
 }
 
 </script>

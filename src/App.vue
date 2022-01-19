@@ -22,13 +22,11 @@
     :identity="identity" 
     :userLevel="userLevel" 
     :userData="userData" 
-    :pubsub="pubsub"
   />
   <router-view 
     :options="options" 
     :userLevel="userLevel"
     :identity="identity"
-    :pubsub="pubsub"
   />
 </template>
 
@@ -36,7 +34,6 @@
 import Navigation from "./components/NavigationElements/Navigation.vue"
 import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
-import PubSubClient from './vendors/PubSubClient.js'
 
 export default {
   data() {
@@ -45,8 +42,6 @@ export default {
         userData: null,
         devTools: false,
         showOptions: false,
-        pubsub: new PubSubClient("wss://pubsub.warths.fr/"),
-        //pubsub: new PubSubClient("wss://pubsub.warths.fr"),
         options: {
             regular: {
                 fields: {
