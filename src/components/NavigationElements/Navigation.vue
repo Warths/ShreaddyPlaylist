@@ -6,7 +6,7 @@
                 <span>Playlist</span>
             </a>
             <transition name="fade">
-                <div class="loading-icons d-flex" v-if="options.regular.fields.lightmixCooldown.value && userLevel != 0">
+                <div class="loading-icons d-flex" v-if="option('lightmixCooldown') && userLevel != 0">
                     <cooldown 
                         name="light"
                         :icon="require('../../assets/sun.png')" 
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 import Cooldown from "../Cooldowns/Cooldown.vue"
 import NavLink from "./NavLink.vue"
 import NavProfile from "./NavProfile.vue"
@@ -47,6 +48,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["option"]),
         href() {
             return `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
         }

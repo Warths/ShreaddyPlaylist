@@ -1,6 +1,6 @@
 <template>
 <!-- ALL MUSIC CARDS -->
-    <div v-if="options.moderator.fields.devTools.value && userLevel == 2" class="d-flex justify-content-around">
+    <div v-if="option('devTools') && userLevel == 2" class="d-flex justify-content-around">
         <div>
             <button @click="clicked">Reverse</button>
             <button @click="addItem">Add</button>
@@ -17,7 +17,7 @@
             <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
-                <small v-if="options.regular.fields.displayPlaylistState.value && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
+                <small v-if="option('displayPlaylistState').value && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
             </transition>
             </div>
         </div>
@@ -25,10 +25,10 @@
             <card class="playlist-item" v-for="(content) in list" 
             v-on:sendCommand="e => publish(e)"
             :song="content" :key="content.id" 
-            :showPanel="options.moderator.fields.adminTools.value" 
+            :showPanel="option('adminTools')" 
             :userLevel="userLevel"
-            :darkTheme="options.regular.fields.darkTheme.value"
-            :fold="options.regular.fields.foldPlaylist.value"/>
+            :darkTheme="option('darkTheme')"
+            :fold="option('foldPlaylist')"/>
         </transition-group>
     </div>
     

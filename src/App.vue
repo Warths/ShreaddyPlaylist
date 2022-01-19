@@ -9,7 +9,7 @@
         <button @click="showOptions = False" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
-      <option-list :options="options" :userLevel="userLevel" v-on:updateOption="(event) => updateOption(event)"/>
+      <option-list :userLevel="userLevel" v-on:updateOption="(event) => updateOption(event)"/>
       <div class="d-flex justify-content-center">
         <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
       </div>
@@ -18,13 +18,11 @@
 
   <Navigation 
     @toggleOptions="showOptions = !showOptions" 
-    :options="options" 
     :identity="identity" 
     :userLevel="userLevel" 
     :userData="userData" 
   />
   <router-view 
-    :options="options" 
     :userLevel="userLevel"
     :identity="identity"
   />
@@ -42,68 +40,7 @@ export default {
         identity: null,
         userData: null,
         devTools: false,
-        showOptions: false,
-        options: {
-            regular: {
-                fields: {
-                  requestForm: {
-                    name: "options-request-form",
-                    value: this.getCookieOrDefault("options-request-form", true, true),
-                    text: "Formulaire de request"
-                  },
-                  lightmixCooldown: {
-                    name: "options-lightmix-cooldown",
-                    value: this.getCookieOrDefault("options-lightmix-cooldown", false, true),
-                    text: "Temps de recharge LightMix"
-                  },
-                  displayPlaylistState: {
-                    name: "options-display-playlist-state",
-                    value: this.getCookieOrDefault("options-display-playlist-state", true, true),
-                    text: "Affiche le statut de la playlist"
-                  },
-                  foldPlaylist: {
-                    name: "options-fold-playlist",
-                    value: this.getCookieOrDefault("options-fold-playlist", false, true),
-                    text: "Replier la playlist"
-                  },
-                  darkTheme: {
-                    name: "options-dark-theme",
-                    value: this.getCookieOrDefault("options-dark-theme", false, true),
-                    text: "Mode sombre",
-                    on_update: this.setTheme
-                  }
-                },
-                userLevel: 1
-            },
-            moderator: {
-              fields: {
-                /*
-                search: {
-                  name: "options-search",
-                  value: this.getCookieOrDefault("options-search", false, true),
-                  text: "Recherche"
-                },
-                */
-                devTools: {
-                  name: "options-devtools",
-                  value: this.getCookieOrDefault("options-devtools", false, true),
-                  text: "Outils de développement"
-                },
-                adminTools: {
-                  name: "options-admintools",
-                  value: this.getCookieOrDefault("options-admintools", this.prefersDarkTheme, true),
-                  text: "Raccourcis de modération"
-                },
-                streamerTheme: {
-                  name: "options-streamer-theme",
-                  value: this.getCookieOrDefault("options-streamer-theme", false, true),
-                  text: "Mode Streamer",
-                  on_update: this.setStreamerMode
-                }
-              },
-              userLevel: 2
-            }
-        }
+        showOptions: false
     }
   },
   components: {Navigation, OptionList},
@@ -129,13 +66,13 @@ export default {
         document.body.classList.add("animate-bg")
       }   
       document.body.classList.remove('dark-theme')
-      if (this.options.regular.fields.darkTheme.value) {
+      if (this.option("darkTheme")) {
         document.body.classList.add('dark-theme')
       }
     },
     setStreamerMode() {
       document.body.classList.remove("streamer-theme")
-      if (this.options.moderator.fields.streamerTheme.value) {
+      if (this.option("streamerTheme")) {
         document.body.classList.add("streamer-theme")
       }
     },

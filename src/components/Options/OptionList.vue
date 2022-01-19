@@ -9,6 +9,7 @@ import {mapState} from "vuex"
 import OptionGroup from './OptionGroup.vue'
 
 export default {
+
     computed: {
         ...mapState(["options"]),
         optionsFiltered() {
