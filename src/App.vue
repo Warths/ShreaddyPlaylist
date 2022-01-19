@@ -192,7 +192,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log(this.$store.state.count)
     this.setTheme(false)
     this.setStreamerMode()
     let token = this.getHashValue("access_token")
