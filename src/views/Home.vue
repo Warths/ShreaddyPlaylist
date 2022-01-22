@@ -1,14 +1,5 @@
 <template>
 <!-- ALL MUSIC CARDS -->
-    <div v-if="option('devTools') && userLevel == 2" class="d-flex justify-content-around">
-        <div>
-            <button @click="clicked">Reverse</button>
-            <button @click="addItem">Add</button>
-            <button @click="removeFirstItem">Remove First</button>
-            <button @click="removeLastItem">Remove Last</button>
-            <button @click="shuffleItems">Shuffle</button>
-        </div>
-    </div>
     <div class="playlist m-auto px-1">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
             <transition name="apparition">
@@ -17,7 +8,7 @@
             <div class="d-flex flex-column justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
-                <small v-if="option('displayPlaylistState').value && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
+                <small v-if="option('displayPlaylistState') && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
             </transition>
             </div>
         </div>
@@ -48,21 +39,6 @@ export default {
     },
     methods: {
         ...mapActions(["publish", "subscribe", "addHandler"]),
-        clicked() {
-            this.list = this.list.reverse();
-        },
-        addItem() {
-            this.list.push(this.list.length + 1);
-        },
-        removeFirstItem() {
-            this.list.shift() ;
-        },
-        removeLastItem() {
-            this.list.pop()
-        },
-        shuffleItems() {
-            this.list = this.list.sort((a, b) => 0.5 - Math.random())
-        },
         publish(cmd) {
             this.publish(["irc", {"message": cmd}, "twitch", this.getCookie("access_token")])
         }
