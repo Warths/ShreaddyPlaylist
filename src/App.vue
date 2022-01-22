@@ -9,7 +9,7 @@
         <button @click="showOptions = False" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
-      <option-list :userLevel="userLevel" v-on:updateOption="(event) => updateOption(event)"/>
+      <option-list :userLevel="userLevel"/>
       <div class="d-flex justify-content-center">
         <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
       </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {mapGetters, mapMutations, mapActions} from "vuex"
 import Navigation from "./components/NavigationElements/Navigation.vue"
 import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
@@ -55,35 +55,11 @@ export default {
             return 2
         }
         return 1
-      },
-      prefersDarkTheme() {
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
       }
   },
-  methods: {
-    setTheme(animate = true) {     
-      if (animate) {
-        document.body.classList.add("animate-bg")
-      }   
-      document.body.classList.remove('dark-theme')
-      if (this.option("darkTheme")) {
-        document.body.classList.add('dark-theme')
-      }
-    },
-    setStreamerMode() {
-      document.body.classList.remove("streamer-theme")
-      if (this.option("streamerTheme")) {
-        document.body.classList.add("streamer-theme")
-      }
-    },
-    updateOption(event) {
-      this.options[event.group].fields[event.name].value = event.value
-      let func = this.options[event.group].fields[event.name].on_update
-      if (func) {func()}
-    },
-    showError(errorText) {
-      return "NOT IMPLEMENTED"
-    },
+  methods: { 
+    ...mapMutations(["updateOption"]),
+    ...mapActions(["setStartupTheme"]),
     setIdentity(token) {
       // Checking if token is valid
       let headers = {"Authorization": `Bearer ${token}`};
@@ -112,10 +88,6 @@ export default {
           })
         }
       )
-      .catch(error => {
-          // Error Management TODO
-          this.showError(error.message)
-      })
     },
     disconnect() {
         this.showOptions = false
@@ -126,10 +98,8 @@ export default {
     }
   },
   beforeMount() {
-    this.setTheme(false)
-    this.setStreamerMode()
+    this.setStartupTheme()
     let token = this.getHashValue("access_token")
-
     if (token == null) {
         token = this.getCookie("access_token")
     }

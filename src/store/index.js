@@ -32,6 +32,10 @@ export default createStore({
                         name: "options-dark-theme",
                         value: cookies.methods.getCookieOrDefault("options-dark-theme", false, true),
                         text: "Mode sombre",
+                        onUpdate: (value) => {
+                          document.body.classList.toggle("dark-theme", value)
+
+                        }
                       }
                     },
                     userLevel: 1
@@ -47,6 +51,9 @@ export default createStore({
                       name: "options-streamer-theme",
                       value: cookies.methods.getCookieOrDefault("options-streamer-theme", false, true),
                       text: "Mode Streamer",
+                      onUpdate: (value) => {
+                        document.body.classList.toggle("streamer-theme", value)
+                      }
                     }
                   },
                   userLevel: 2
@@ -56,15 +63,21 @@ export default createStore({
     },
     mutations: {
         updateOption(state, option) {
-            if (state.options.regular.fields.hasOwnProperty(option.name)){
-                state.options.regular.fields[option.name].value = option.value
-            }
-            if (state.options.moderator.fields.hasOwnProperty(option.name)){
-                state.options.moderator.fields[option.name].value = option.value
+            for (let category in state.options) {
+                if (state.options[category].fields.hasOwnProperty(option.name)){
+                    state.options[category].fields[option.name].value = option.value
+                    if (state.options[category].fields[option.name].hasOwnProperty("onUpdate")){
+                        state.options[category].fields[option.name].onUpdate(option.value)
+                    }
+                }
             }
         } 
     },
     actions: {
+        setStartupTheme(context) {
+            document.body.classList.toggle("dark-theme", context.getters.option('darkTheme'))
+            document.body.classList.toggle("streamer-theme", context.getters.option('streamerTheme'))
+        },
         subscribe(context, payload) {
             this.state.pubsub.subscribe(payload)
         },
@@ -77,11 +90,10 @@ export default createStore({
     },
     getters: {
         option: (state) => (fieldName) => {
-            if (state.options.regular.fields.hasOwnProperty(fieldName)){
-                return state.options.regular.fields[fieldName].value
-            }
-            if (state.options.moderator.fields.hasOwnProperty(fieldName)){
-                return state.options.moderator.fields[fieldName].value
+            for (let category in state.options) {
+                if (state.options[category].fields.hasOwnProperty(fieldName)){
+                    return state.options[category].fields[fieldName].value
+                }
             }
         }
     }
