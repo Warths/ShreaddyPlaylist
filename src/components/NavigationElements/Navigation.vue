@@ -48,8 +48,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["option"]),
-        ...mapState(["userLevel", "identity", "userData"]),
+        ...mapGetters(["option", "userLevel"]),
+        ...mapState(["identity", "userData"]),
         href() {
             return `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
         }
