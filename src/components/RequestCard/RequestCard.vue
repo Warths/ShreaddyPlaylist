@@ -7,13 +7,10 @@
                 <div v-if="adminPanelVisible" class="d-flex flex-wrap gap-1">
                         <admin-button 
                             v-for="(button, i) of spec" 
-                            v-on:sendCommand="(e) => $emit('sendCommand', e)" 
-
                             :text="button.text" 
                             :song="song" 
                             :action="button.action" 
-                            :class="button.style"
-                                                    
+                            :class="button.style"                        
                             :key="i"
                         />
                 </div>
@@ -25,7 +22,7 @@
                     <base-row class="fs-animated fs-5" :text="song.artist"/>
                 </div>
                 <div class="d-flex align-items-end">
-                    <requester-row class="ms-auto" :requester="song.requester" :darkTheme="darkTheme"/>
+                    <requester-row class="ms-auto" :requester="song.requester"/>
                 </div>
             </div>
         </div>
@@ -34,6 +31,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import TagList from "./TagList.vue"
 import RequesterRow from "./RequesterRow.vue"
 import BaseRow from "./BaseRow.vue"
@@ -76,8 +74,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["option"]),
         foldClass() {
-            return this.fold ? "" : "flex-column"
+            return this.option("foldPlaylist") ? "" : "flex-column"
         },
         tagClasses() {
           let classes = []
@@ -89,14 +88,13 @@ export default {
           return classes.join(" ")
         },
         adminPanelVisible() {
-            return this.showPanel && this.userLevel == 2
+            return this.option("adminTools") && this.userLevel == 2
         },
         tagWrapperClass() {
             return this.adminPanelVisible ? "py-1" : "py-2 pb-1"
         }
     },
-    props: ["song", "showPanel", "userLevel", "darkTheme", "fold"],
-    emits: ["sendCommand"],
+    props: ["song"],
     components: {TagList, RequesterRow, BaseRow, AdminButton}
 }
 </script>

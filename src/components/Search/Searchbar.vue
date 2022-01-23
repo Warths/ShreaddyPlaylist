@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex"
+import {mapActions, mapState} from "vuex"
 
 export default {
     data() {
@@ -94,6 +94,7 @@ export default {
             }
         }
     },
+    computed: mapState(["identity"]),
     methods: {
         ...mapActions(["subscribe", "addHandler", "publish"]),
         setCurrent(option) {
@@ -135,9 +136,7 @@ export default {
     mounted() {
         this.subscribe(["request_response"])
         this.addHandler(["request_response", (e) => {this.handleResponse(e)}])
-    },
-    props: ["identity"],
-
+    }
 }
 </script>
 

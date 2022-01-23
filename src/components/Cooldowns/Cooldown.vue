@@ -1,14 +1,14 @@
 <template>
 <div class="me-2">
     <tippy :content="toolTipText" placement="bottom" :offset="[0,18]">
-        <svg :height="size" :width="size" class="wrapper" :class="availableClass" >
-            <circle class="print" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="stroke"/>
-            <circle :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)" :style="{...dash, ...stroke}"/>
-            <image class="main-icon" :href="icon" :height="size" :width="size" :class="loadingClass"/>
+        <svg :height="32" :width="32" class="wrapper" :class="availableClass" >
+            <circle class="print" :cx="32/2" :cy="32/2" :r="32/2 - (strokeWidth/2)" :style="stroke"/>
+            <circle :cx="32/2" :cy="32/2" :r="32/2 - (strokeWidth/2)" :style="{...dash, ...stroke}"/>
+            <image class="main-icon" :href="icon" :height="32" :width="32" :class="loadingClass"/>
             <transition name="fade">
-                <svg v-if="this.unknown" :height="size" :width="size" >
-                    <circle class="corner-circle corner" :cx="size/2" :cy="size/2" :r="size/2 - (strokeWidth/2)"/>
-                    <image class="corner" href="../../assets/questionmark.png" :height="size" :width="size"/>
+                <svg v-if="this.unknown" :height="32" :width="32" >
+                    <circle class="corner-circle corner" :cx="32/2" :cy="32/2" :r="32/2 - (strokeWidth/2)"/>
+                    <image class="corner" href="../../assets/questionmark.png" :height="32" :width="32"/>
                 </svg>
             </transition>
         </svg>

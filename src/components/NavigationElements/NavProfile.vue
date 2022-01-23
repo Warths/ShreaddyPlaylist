@@ -8,8 +8,10 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
     computed: {
+      ...mapState(["identity", "userData"]),
       ready() {
         return this.userData != null
       },
@@ -24,7 +26,6 @@ export default {
         return this.userData.profile_image_url
       }
     },
-    props: ["identity", "userData"],
 }
 </script>
 

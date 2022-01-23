@@ -1,15 +1,15 @@
 <template>
   <!-- OPTIONS -->
   <transition name="fade"> 
-    <div @click="showOptions = False" v-if="showOptions" class="options-veil"></div>
+    <div @click="showOptions = false" v-if="showOptions" class="options-veil"></div>
   </transition>
   <transition name="slide">
     <div v-if="showOptions" class="options-menu text-light">
       <div class="d-flex align-items-center m-3">
-        <button @click="showOptions = False" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+        <button @click="showOptions = false" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
-      <option-list :userLevel="userLevel"/>
+      <option-list/>
       <div class="d-flex justify-content-center">
         <button @click="disconnect" type="button" class="btn btn-danger">Déconnexion</button>
       </div>
@@ -18,18 +18,16 @@
 
   <Navigation 
     @toggleOptions="showOptions = !showOptions" 
-    :identity="identity" 
     :userLevel="userLevel" 
     :userData="userData" 
   />
   <router-view 
     :userLevel="userLevel"
-    :identity="identity"
   />
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from "vuex"
+import {mapGetters, mapMutations, mapActions, mapState} from "vuex"
 import Navigation from "./components/NavigationElements/Navigation.vue"
 import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
@@ -37,8 +35,6 @@ import UrlUtils from './mixins/UrlUtils.vue'
 export default {
   data() {
     return {
-        identity: null,
-        userData: null,
         devTools: false,
         showOptions: false
     }
@@ -46,56 +42,12 @@ export default {
   components: {Navigation, OptionList},
   mixins: [UrlUtils],
   computed: {
-      ...mapGetters(["option"]),
-      userLevel() {
-        if (this.identity == null) {
-            return 0
-        }
-        if (this.moderators.includes(this.identity.login)) {
-            return 2
-        }
-        return 1
-      }
+      ...mapGetters(["option", "userLevel"]),
+      ...mapState(["identity", "userData"])
   },
   methods: { 
     ...mapMutations(["updateOption"]),
-    ...mapActions(["setStartupTheme"]),
-    setIdentity(token) {
-      // Checking if token is valid
-      let headers = {"Authorization": `Bearer ${token}`};
-      fetch("https://id.twitch.tv/oauth2/validate", {headers})
-      .then(response => response.json())
-      .then(data => {
-        // Check if there's a client ID in response
-        if (!data.hasOwnProperty("client_id")) {
-            throw new Error("Session invalide. Loggez-vous à nouveau. Si le problème persiste, contactez un administrateur")
-        }
-        // Check If client ID corresponds to the app
-        if (data.client_id != this.clientId) {
-          throw new Error("Session invalide, car delivrée par une application tierce.")
-        }
-        this.identity = data
-        this.setCookie("access_token", token)
-        return data
-      })
-      // Getting User Infos
-      .then((user) => {
-          headers["Client-Id"] = this.clientId
-          fetch(`https://api.twitch.tv/helix/users?id=${user.user_id}`, {headers})
-          .then(request => request.json())
-          .then(data => {
-              this.userData = data["data"][0]
-          })
-        }
-      )
-    },
-    disconnect() {
-        this.showOptions = false
-        this.setCookie("access_token", null)
-        this.identity = null
-        this.userData = null
-
-    }
+    ...mapActions(["setStartupTheme", "setIdentity", "disconnect"]),
   },
   beforeMount() {
     this.setStartupTheme()

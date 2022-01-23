@@ -5,7 +5,7 @@
             <transition name="apparition">
                 <searchbar v-if="userLevel > 0 && option('requestForm')" class="flex-grow-2" :identity="identity"/>
             </transition>
-            <div class="d-flex flex-column justify-content-center">
+            <div class="d-flex flex-column my-2 justify-content-center">
             <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
                 <small v-if="option('displayPlaylistState') && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
@@ -17,8 +17,6 @@
             v-on:sendCommand="e => publish(e)"
             :song="content" :key="content.id" 
             :showPanel="option('adminTools')" 
-            :userLevel="userLevel"
-            :darkTheme="option('darkTheme')"
             :fold="option('foldPlaylist')"/>
         </transition-group>
     </div>
@@ -26,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import card from "../components/RequestCard/RequestCard.vue";
 import Searchbar from '../components/Search/Searchbar.vue';
 
@@ -44,7 +42,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["option"]),
+        ...mapGetters(["option", "userLevel"]),
+        ...mapState(["identity"]),
         playlistStateText() {
             let states = {
                 open: [],
@@ -97,7 +96,6 @@ export default {
 
     },
     components: {card, Searchbar},
-    props: ["options", "userLevel", "identity"]
 }
 
 </script>

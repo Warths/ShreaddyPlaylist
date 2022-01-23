@@ -6,11 +6,16 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 import RequesterBadge from "./RequesterBadge.vue"
 
 export default {
-    props: ["requester", "darkTheme"],
+    props: ["requester"],
     computed:{
+        ...mapGetters(["option"]),
+        darkTheme() {
+          return this.option("darkTheme")
+        },
         backgroundColor() {
             return this.darkTheme ? [0,0,0] : [255, 255, 255] 
         },

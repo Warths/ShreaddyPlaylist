@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapState, mapGetters} from "vuex"
 import OptionGroup from './OptionGroup.vue'
 
 export default {
-
     computed: {
+        ...mapGetters(["userLevel"]),
         ...mapState(["options"]),
         optionsFiltered() {
             let options = {}
@@ -22,7 +22,6 @@ export default {
             return options
         }
     },
-    props: ["userLevel"],
     components: {OptionGroup}
 }
 </script>

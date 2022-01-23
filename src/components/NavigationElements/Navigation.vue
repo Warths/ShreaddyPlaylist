@@ -23,7 +23,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <nav-link v-if="userLevel == 0" :href="href" :text="text"/>
-                    <nav-profile v-else :identity="identity" :userLevel="userLevel" :userData="userData"/>
+                    <nav-profile v-else/>
                 </li>
             </ul>
             <div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {mapGetters, mapState} from "vuex"
 import Cooldown from "../Cooldowns/Cooldown.vue"
 import NavLink from "./NavLink.vue"
 import NavProfile from "./NavProfile.vue"
@@ -49,12 +49,12 @@ export default {
     },
     computed: {
         ...mapGetters(["option"]),
+        ...mapState(["userLevel", "identity", "userData"]),
         href() {
             return `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${window.location.protocol}//${window.location.host}/`
         }
     },
     components: { NavLink, NavProfile, Cooldown }, 
-    props: ["userLevel", "identity", "userData", "options"]
 }
 </script>
 
