@@ -42,11 +42,11 @@ export default {
         return {
             spec: [
                 {
-                    text: "Play",
+                    text: "Jouer",
                     action: "!playing %id%",
                 },
                 {
-                    text: "Freeze",
+                    text: "Geler",
                     action: "!freeze %id%",
                 },
                 {
@@ -60,12 +60,12 @@ export default {
                         ]
                     }
                 },
+                // {
+                //     text: "Preview",
+                //     action: () => "prout"
+                // },
                 {
-                    text: "Preview",
-                    action: () => "prout"
-                },
-                {
-                    text: "Delete",
+                    text: "Supprimer",
                     action: "!delete %id%",
                     style: "ms-auto danger"
                 },
@@ -82,7 +82,7 @@ export default {
                             ["raisons techniques", "Autre"]
                         ]
                     },
-                    style: "danger"
+                    style: "danger reverse-dropdown"
                 }
             ]
         }
