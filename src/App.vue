@@ -1,12 +1,12 @@
 <template>
   <!-- OPTIONS -->
   <transition name="fade"> 
-    <div @click="showOptions = false" v-if="showOptions" class="options-veil"></div>
+    <div @click="toggleShowOptions(false)" v-if="showOptions" class="options-veil"></div>
   </transition>
   <transition name="slide">
     <div v-if="showOptions" class="options-menu text-light">
       <div class="d-flex align-items-center m-3">
-        <button @click="showOptions = false" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+        <button @click="toggleShowOptions(false)" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
         <h4 class="m-0 ms-2">Options</h4>
       </div>
       <option-list/>
@@ -17,7 +17,7 @@
   </transition>
 
   <Navigation 
-    @toggleOptions="showOptions = !showOptions" 
+    @toggleOptions="toggleShowOptions()" 
     :userLevel="userLevel" 
     :userData="userData" 
   />
@@ -33,19 +33,14 @@ import OptionList from './components/Options/OptionList.vue'
 import UrlUtils from './mixins/UrlUtils.vue'
 
 export default {
-  data() {
-    return {
-        showOptions: false
-    }
-  },
   components: {Navigation, OptionList},
   mixins: [UrlUtils],
   computed: {
       ...mapGetters(["option", "userLevel"]),
-      ...mapState(["identity", "userData"])
+      ...mapState(["identity", "userData", "showOptions"])
   },
   methods: { 
-    ...mapMutations(["updateOption"]),
+    ...mapMutations(["updateOption", "toggleShowOptions"]),
     ...mapActions(["setStartupTheme", "setIdentity", "disconnect"]),
   },
   beforeMount() {

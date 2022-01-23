@@ -4,6 +4,7 @@ import cookies from '../mixins/Cookies.vue'
 export default createStore({
     state() {
         return {
+            showOptions: false,
             clientId: "kh3yohkrwpbo6m71sryrw8hm0gls90",
             moderators: ["mepha", "warths"],
             userData: null,
@@ -81,6 +82,16 @@ export default createStore({
         },
         updateIdentity(state, data) {
           state.identity = data
+        },
+        toggleShowOptions(state, forceState) {
+          console.log(forceState)
+          if (forceState == undefined) {
+            state.showOptions = !state.showOptions
+            console.log(state.showOptions)
+            return
+          }
+          state.showOptions = forceState
+          console.log(state.showOptions)
         }
     },
     actions: {
