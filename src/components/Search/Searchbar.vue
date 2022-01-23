@@ -15,9 +15,9 @@
                 </transition>
             </div>
             <form class="flex-grow-1 position-relative" @submit.prevent="sendCommand()">
-                <input v-model="inputValue" type="text" class="form-control" aria-label="Text input with dropdown button" :disabled="waitingForResponse">
+                <input v-model="inputValue" id="searchbar" autocomplete="off" type="text" class="form-control"  :disabled="waitingForResponse">
                 <transition name="pop">
-                    <div v-if="displayResponse" class="alert position-absolute text-center w-75 top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
+                    <div @click="hideResponse(true)" v-if="displayResponse" class="alert position-absolute text-center w-75 top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
                 </transition> 
             </form>
         </div>
@@ -117,10 +117,15 @@ export default {
             this.displayResponse = true
             setTimeout(this.hideResponse, 5000) 
         },
-        hideResponse() {
+        hideResponse(placeCursor=false) {
             this.displayResponse = false
             this.waitingForResponse = false
             this.responseText = ""
+            if (placeCursor) {
+                let searchbar = document.getElementById("searchbar");
+                searchbar.focus()
+                searchbar.select()
+            }
         },
         handleResponse(response) {
             if (this.identity.user_id == response.message.requester && this.waitingForResponse) {
