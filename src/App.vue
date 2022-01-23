@@ -35,7 +35,6 @@ import UrlUtils from './mixins/UrlUtils.vue'
 export default {
   data() {
     return {
-        devTools: false,
         showOptions: false
     }
   },
@@ -85,7 +84,7 @@ body.streamer-theme {
 
 .options-veil {
     position:fixed;
-    z-index: 5;
+    z-index: 2000;
     width: 100vw;
     height: 100vh;
     background: rgba(0,0,0,0.5);
@@ -94,7 +93,7 @@ body.streamer-theme {
 .options-menu {
     backdrop-filter: blur(5px);
     position:absolute;
-    z-index: 10;
+    z-index: 2001;
     left: calc(100% - 300px);
     min-height: 100vh;
     width: 300px;
