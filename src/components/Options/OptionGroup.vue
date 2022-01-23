@@ -16,8 +16,5 @@ import OptionItem from "./OptionItem.vue"
 export default {
     props: ["groupName", "options"],
     components: {OptionItem},
-    mounted() {
-        console.log(this.options)
-    }
 }
 </script>

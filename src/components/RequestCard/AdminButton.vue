@@ -26,7 +26,6 @@ export default {
             for (let key in this.song) {
                 if (typeof(this.song[key]) == "object") {
                     for (let subkey in this.song[key]) {
-                        console.log(key, subkey)
                         cmd = cmd.replace(`%${key}.${subkey}%`, this.song[key][subkey])
                     }
                 } else {
