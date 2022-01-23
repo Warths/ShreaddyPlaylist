@@ -34,7 +34,7 @@ export default createStore({
                       },
                       darkTheme: {
                         name: "options-dark-theme",
-                        value: cookies.methods.getCookieOrDefault("options-dark-theme", false, true),
+                        value: cookies.methods.getCookieOrDefault("options-dark-theme", true, true),
                         text: "Mode sombre",
                         onUpdate: (value) => {
                           document.body.classList.toggle("dark-theme", value)
