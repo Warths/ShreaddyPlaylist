@@ -9,19 +9,27 @@
     </div>
     <!-- Group Button -->
     <div v-else-if="typeof(action) == 'object'" class="btn-group pt-1" :class="this.class">
-        <button type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 px-2" data-bs-toggle="dropdown" aria-expanded="false">{{ text }}</button>
-        <ul class="dropdown-menu">
+        <button @click="show = !show" type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 px-2">{{ text }}</button>
+        <transition name="pop">
+        <ul v-if="show" class="dropdown-menu d-block top-100 start-100 my-1 shadow-lg">
             <li v-for="(choice, i) in action.choices" :key="i"><a @click="sendCommand(formatCommand(this.action.cmd, choice[0]))" class="dropdown-item" href="#">{{ choice[1] }}</a></li>
         </ul>
+        </transition>
     </div>
 </template>
 
 <script>
 import { mapActions} from "vuex"
 export default {
+    data() {
+        return {
+            show: false,
+        }
+    },
     methods: {
         ...mapActions(["sendCommand"]),
         formatCommand(cmd, choice) {
+            this.show = false;
             cmd = cmd.replace("%choice%", choice)
             for (let key in this.song) {
                 if (typeof(this.song[key]) == "object") {
@@ -43,4 +51,44 @@ export default {
 .danger > .btn {
     background-color: #dc3545 !important
 }
+
+.dropdown-menu {
+    transform-origin: top right;
+    transform: translateX(-100%);
+}
+
+.dark-theme .dropdown-menu {
+    background-color:rgb(43, 43, 43);
+}
+
+.dark-theme .dropdown-item:hover,
+.dark-theme .dropdown-item:active {
+    background-color:rgb(75, 75, 75);
+    color:white;
+}
+
+.dropdown-toggle {
+    box-shadow:none !important;
+}
+
+.dark-theme .dropdown-item {
+    color:white
+}
+
+.dropdown-item:active {
+    background-color: #e9ecef;
+}
+
+
+.pop-enter-active,
+.pop-leave-active {
+    transition: opacity .2s ease-out, transform .2s ease-out;
+}
+
+.pop-enter-from,
+.pop-leave-to {
+    transform: translateX(-100%) scale(80%);
+    opacity:0;
+}
+
 </style>
