@@ -53,7 +53,11 @@ export default {
                     text: "Boost",
                     action: {
                         cmd: "!boost %requester.displayName% %choice%",
-                        choices: [[50, '+50%'], [100, '+100%'], [200, '+200%']]
+                        choices: [
+                            [50, '+50%'], 
+                            [100, '+100%'], 
+                            [200, '+200%']
+                        ]
                     }
                 },
                 {
@@ -67,7 +71,17 @@ export default {
                 },
                 {
                     text: "Banlist",
-                    action: "!banlist %artist% ; %song% ; %reason%",
+                    action: {
+                        cmd: "!banlist %artist% ; %title% ; %choice%",
+                        choices: [
+                            ["mauvaise qualité audio", "Audio"],
+                            ["genre hors-règles", "Genre"],
+                            ["difficulté trop élevée", "Difficulté"],
+                            ["accordage ou diapason non couvert", "Accordage"],
+                            ["Mauvaise partition", "Charte"],
+                            ["raisons techniques", "Autre"]
+                        ]
+                    },
                     style: "danger"
                 }
             ]
