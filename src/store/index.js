@@ -122,7 +122,7 @@ export default createStore({
             this.state.pubsub.subscribe(payload)
         },
         publish(context, payload) {
-            this.state.pubsub.publish(payload)
+            this.state.pubsub.publish(...payload)
         },
         addHandler(context, payload) {
             this.state.pubsub.addHandler(...payload)
@@ -134,7 +134,8 @@ export default createStore({
           context.commit("updateUserData", null)
         },
         sendCommand(context, cmd) {
-            context.actions.publish(["irc", {"message": cmd}, "twitch", this.getCookie("access_token")])
+            console.log("sendCommand!")
+            context.dispatch("publish", ["irc", {"message": cmd}, "twitch", cookies.methods.getCookie("access_token")])
         }
     },
     getters: {
