@@ -16,9 +16,9 @@
                 </div>
             </transition>
             <tag-list :class="tagWrapperClass" :tags="song.tags"/>
-            <div class="w-100 justify-content-between d-flex flex-wrap" :class="foldClass">
-                <div class="d-flex flex-column mw-100">
-                    <base-row class="fs-animated fs-4" style="min-width: 0" :text="song.title"/>
+            <div class="w-100 justify-content-between d-flex" :class="foldClass">
+                <div class="d-flex flex-column mw-100" style="min-width: 0">
+                    <base-row class="fs-animated fs-4" :text="song.title"/>
                     <base-row class="fs-animated fs-5" :text="song.artist"/>
                 </div>
                 <div class="d-flex align-items-end">
@@ -74,7 +74,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["option"]),
+        ...mapGetters(["option", "userLevel"]),
         foldClass() {
             return this.option("foldPlaylist") ? "" : "flex-column"
         },
