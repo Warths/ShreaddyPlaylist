@@ -1,9 +1,13 @@
-import { createStore, mapState } from "vuex"
+import { createStore } from "vuex"
 import PubSubClient from '../vendors/PubSubClient.js'
 import cookies from '../mixins/Cookies.vue'
 export default createStore({
     state() {
         return {
+            clientId: "kh3yohkrwpbo6m71sryrw8hm0gls90",
+            moderators: ["mepha", "warths"],
+            userData: null,
+            identity: null,
             pubsub: new PubSubClient("wss://pubsub.warths.fr/"),
             options: {
                 regular: {
@@ -71,12 +75,48 @@ export default createStore({
                     }
                 }
             }
-        } 
+        },
+        updateUserData(state, data) {
+          state.userData = data
+        },
+        updateIdentity(state, data) {
+          state.identity = data
+        }
     },
     actions: {
+        setIdentity(context, token) {
+          // Checking if token is valid
+          let headers = {"Authorization": `Bearer ${token}`};
+          fetch("https://id.twitch.tv/oauth2/validate", {headers})
+          .then(response => response.json())
+          .then(data => {
+            // Check if there's a client ID in response
+            if (!data.hasOwnProperty("client_id")) {
+                throw new Error("Session invalide. Loggez-vous à nouveau. Si le problème persiste, contactez un administrateur")
+            }
+            // Check If client ID corresponds to the app
+            if (data.client_id != context.state.clientId) {
+              throw new Error("Session invalide, car delivrée par une application tierce.")
+            }
+            context.commit("updateIdentity", data)
+            cookies.methods.setCookie("access_token", token)
+            return data
+          })
+          // Getting User Infos
+          .then((user) => {
+              headers["Client-Id"] = context.state.clientId
+              fetch(`https://api.twitch.tv/helix/users?id=${user.user_id}`, {headers})
+              .then(request => request.json())
+              .then(data => {
+                  context.commit("updateUserData", data["data"][0])
+              })
+            }
+          )
+        },
         setStartupTheme(context) {
             document.body.classList.toggle("dark-theme", context.getters.option('darkTheme'))
             document.body.classList.toggle("streamer-theme", context.getters.option('streamerTheme'))
+            setTimeout(() => document.body.classList.add("animate-bg"), 100)
         },
         subscribe(context, payload) {
             this.state.pubsub.subscribe(payload)
@@ -87,14 +127,32 @@ export default createStore({
         addHandler(context, payload) {
             this.state.pubsub.addHandler(...payload)
         },
+        disconnect(context) {
+          // TODO showOption to state this.showOptions = false
+          cookies.methods.setCookie("access_token", null)
+          context.commit("updateIdentity", null)
+          context.commit("updateUserData", null)
+        },
+        sendCommand(context, cmd) {
+            context.actions.publish(["irc", {"message": cmd}, "twitch", this.getCookie("access_token")])
+        }
     },
     getters: {
-        option: (state) => (fieldName) => {
-            for (let category in state.options) {
-                if (state.options[category].fields.hasOwnProperty(fieldName)){
-                    return state.options[category].fields[fieldName].value
-                }
-            }
+      option: (state) => (fieldName) => {
+          for (let category in state.options) {
+              if (state.options[category].fields.hasOwnProperty(fieldName)){
+                  return state.options[category].fields[fieldName].value
+              }
+          }
+      },
+      userLevel: (state) => {
+        if (state.identity == null) {
+            return 0
         }
+        if (state.moderators.includes(state.identity.login)) {
+            return 2
+        }
+        return 1
+      }
     }
 })
