@@ -11,7 +11,7 @@
     <div v-else-if="typeof(action) == 'object'" class="btn-group pt-1" :class="this.class">
         <button @click="show = !show" type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 px-2">{{ text }}</button>
         <transition name="pop">
-        <ul v-if="show" class="dropdown-menu d-block top-100 start-100 my-1 shadow-lg">
+        <ul v-if="show" class="dropdown-menu d-block my-1 shadow-lg">
             <li v-for="(choice, i) in action.choices" :key="i"><a @click="sendCommand(formatCommand(this.action.cmd, choice[0]))" class="dropdown-item" href="#">{{ choice[1] }}</a></li>
         </ul>
         </transition>
@@ -53,8 +53,14 @@ export default {
 }
 
 .dropdown-menu {
+    transform-origin: top left;
+    top: 100%;
+}
+
+.reverse-dropdown .dropdown-menu {
     transform-origin: top right;
     transform: translateX(-100%);
+    left: 100%
 }
 
 .dark-theme .dropdown-menu {
@@ -79,7 +85,12 @@ export default {
     background-color: #e9ecef;
 }
 
-
+.dropdown-menu {
+    transition: background-color 1s;
+}
+.dropdown-menu .a {
+    transition: color 1s;
+}
 .pop-enter-active,
 .pop-leave-active {
     transition: opacity .2s ease-out, transform .2s ease-out;
@@ -87,8 +98,12 @@ export default {
 
 .pop-enter-from,
 .pop-leave-to {
-    transform: translateX(-100%) scale(80%);
+    transform: scale(80%);
     opacity:0;
 }
 
+.reverse-dropdown .pop-enter-from,
+.reverse-dropdown .pop-leave-to {
+    transform: translateX(-100%) scale(80%)
+}
 </style>
