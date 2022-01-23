@@ -122,9 +122,10 @@ export default {
             this.waitingForResponse = false
             this.responseText = ""
             if (placeCursor) {
+                setTimeout(() => {
                 let searchbar = document.getElementById("searchbar");
                 searchbar.focus()
-                searchbar.select()
+                }, 550)
             }
         },
         handleResponse(response) {
