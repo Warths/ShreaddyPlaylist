@@ -15,7 +15,7 @@
             <li v-for="(choice, i) in action.choices" :key="i"><a @click="sendCommand(formatCommand(this.action.cmd, choice[0]))" class="dropdown-item" href="#">{{ choice[1] }}</a></li>
         </ul>
         </transition>
-        <div v-if="show" class="veil" @click="show=false"></div>
+        <div v-if="show" class="veil" @click="(e) => veilClick(e)"></div>
     </div>
 </template>
 
@@ -29,6 +29,17 @@ export default {
     },
     methods: {
         ...mapActions(["sendCommand"]),
+        veilClick(e) {
+            this.show = false
+            setTimeout(() => {
+                    let element = document.elementFromPoint(e.clientX, e.clientY)
+                    element.focus()
+                    console.log(element)
+                }, 20
+            )
+
+            
+        },
         formatCommand(cmd, choice) {
             this.show = false;
             cmd = cmd.replace("%choice%", choice)
@@ -50,7 +61,7 @@ export default {
 
 <style scoped>
 .veil {
-    z-index: 1;
+    z-index: 10;
     height: 1000vh;
     width: 1000vw;
     position: absolute;
