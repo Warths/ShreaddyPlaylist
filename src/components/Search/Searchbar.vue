@@ -3,10 +3,10 @@
     <div class="w-100">
         <div class="input-group">
             <div class="input-group-prepend">
-                <button @click="this.visible = !this.visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
-                <div v-if="this.visible" @click="this.visible = false" class="veil"></div>
+                <button @click="visible = !visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
+                <div v-if="visible" @click="veilClick()" class="veil"></div>
                 <transition name="pop"> 
-                <div v-if="this.visible" class="dropdown-menu d-block shadow-lg">
+                <div v-if="visible" class="dropdown-menu d-block shadow-lg">
                     <span 
                     v-for="(option, i) in options" 
                     @click="setCurrent(option.cmd)" 
@@ -100,6 +100,10 @@ export default {
         setCurrent(option) {
             this.current = option
             this.visible = false
+        },
+        veilClick() {
+            this.visible = false
+            
         },
         sendCommand() {
             this.waitingForResponse = true
