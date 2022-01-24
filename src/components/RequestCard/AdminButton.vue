@@ -15,6 +15,7 @@
             <li v-for="(choice, i) in action.choices" :key="i"><a @click="sendCommand(formatCommand(this.action.cmd, choice[0]))" class="dropdown-item" href="#">{{ choice[1] }}</a></li>
         </ul>
         </transition>
+        <div v-if="show" class="veil" @click="show=false"></div>
     </div>
 </template>
 
@@ -48,6 +49,16 @@ export default {
 </script>
 
 <style scoped>
+.veil {
+    z-index: 1;
+    height: 1000vh;
+    width: 1000vw;
+    position: absolute;
+    top:0;
+    left:0;
+    transform: translate(-50%, -50%)
+}
+
 .danger > .btn {
     background-color: #dc3545 !important
 }
