@@ -84,14 +84,11 @@ export default createStore({
           state.identity = data
         },
         toggleShowOptions(state, forceState) {
-          console.log(forceState)
           if (forceState == undefined) {
             state.showOptions = !state.showOptions
-            console.log(state.showOptions)
             return
           }
           state.showOptions = forceState
-          console.log(state.showOptions)
         }
     },
     actions: {
@@ -145,7 +142,6 @@ export default createStore({
           context.commit("updateUserData", null)
         },
         sendCommand(context, cmd) {
-            console.log("sendCommand!")
             context.dispatch("publish", ["irc", {"message": cmd}, "twitch", cookies.methods.getCookie("access_token")])
         }
     },

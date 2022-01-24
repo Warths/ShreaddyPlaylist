@@ -21,9 +21,6 @@ export default {
             }
         }
     },
-    props: ["id", "name", "option"],
-    mounted() {
-        console.log(this.name)
-    }
+    props: ["id", "name", "option"]
 }
 </script>

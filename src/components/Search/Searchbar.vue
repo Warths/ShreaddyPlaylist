@@ -4,7 +4,7 @@
         <div class="input-group">
             <div class="input-group-prepend">
                 <button @click="visible = !visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
-                <div v-if="visible" @click="veilClick()" class="veil"></div>
+                <div v-if="visible" @click="(e) => {veilClick(e)}" class="veil"></div>
                 <transition name="pop"> 
                 <div v-if="visible" class="dropdown-menu d-block shadow-lg">
                     <span 
@@ -101,8 +101,14 @@ export default {
             this.current = option
             this.visible = false
         },
-        veilClick() {
+        veilClick(e) {
             this.visible = false
+            setTimeout(() => {
+                    let element = document.elementFromPoint(e.clientX, e.clientY)
+                    element.focus()
+                }, 20
+            )
+
             
         },
         sendCommand() {
@@ -153,7 +159,7 @@ export default {
 
 <style scoped>
 .veil {
-    z-index: 1;
+    z-index: 10;
     height: 1000vh;
     width: 1000vw;
     position: absolute;
