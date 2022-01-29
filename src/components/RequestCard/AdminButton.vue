@@ -9,13 +9,12 @@
     </div>
     <!-- Group Button -->
     <div v-else-if="typeof(action) == 'object'" class="btn-group pt-1" :class="this.class">
-        <button @click="show = !show" type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 px-2">{{ text }}</button>
+        <button @blur="show = false" @click="show = !show" type="button" class="btn btn-primary dropdown-toggle bg-purple border-0 p-1 px-2">{{ text }}</button>
         <transition name="pop">
         <ul v-if="show" class="dropdown-menu d-block my-1 shadow-lg">
             <li v-for="(choice, i) in action.choices" :key="i"><a @click="sendCommand(formatCommand(this.action.cmd, choice[0]))" class="dropdown-item" href="#">{{ choice[1] }}</a></li>
         </ul>
         </transition>
-        <div v-if="show" class="veil" @click="(e) => veilClick(e)"></div>
     </div>
 </template>
 
@@ -29,17 +28,6 @@ export default {
     },
     methods: {
         ...mapActions(["sendCommand"]),
-        veilClick(e) {
-            this.show = false
-            setTimeout(() => {
-                    let element = document.elementFromPoint(e.clientX, e.clientY)
-                    element.focus()
-                    console.log(element)
-                }, 20
-            )
-
-            
-        },
         formatCommand(cmd, choice) {
             this.show = false;
             cmd = cmd.replace("%choice%", choice)
@@ -60,16 +48,6 @@ export default {
 </script>
 
 <style scoped>
-.veil {
-    z-index: 10;
-    height: 1000vh;
-    width: 1000vw;
-    position: absolute;
-    top:0;
-    left:0;
-    transform: translate(-50%, -50%)
-}
-
 .danger > .btn {
     background-color: #dc3545 !important
 }
