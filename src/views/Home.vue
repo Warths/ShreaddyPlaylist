@@ -13,7 +13,7 @@
             </div>
         </div>
         <transition-group name="playlist" tag="div" class="playlist position-relative">
-            <card class="playlist-item" v-for="(content) in list" 
+            <card class="playlist-item" v-for="content in listProcessed" 
             v-on:sendCommand="e => publish(e)"
             :song="content" :key="content.id" 
             :showPanel="option('adminTools')" 
@@ -44,6 +44,15 @@ export default {
     computed: {
         ...mapGetters(["option", "userLevel"]),
         ...mapState(["identity"]),
+        listProcessed() {
+            let list = []
+            console.log(this.list)
+            for (let i in this.list.public) {
+                list.push({public: this.list.public[i], admin: this.list.admin[i]})
+            }
+            console.log(list)
+            return list
+        },
         playlistStateText() {
             let states = {
                 open: [],
@@ -88,7 +97,7 @@ export default {
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
-        this.addHandler(["playlist", e => this.list = e.message.data.public])
+        this.addHandler(["playlist", e => this.list = e.message.data])
         this.addHandler(["playlist_state", e => this.playlistState = e.message])
         this.subscribe(["playlist_state"])
         this.subscribe(["playlist"])
