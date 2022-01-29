@@ -3,8 +3,7 @@
     <div class="w-100">
         <div class="input-group">
             <div class="input-group-prepend">
-                <button @click="visible = !visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
-                <div v-if="visible" @click="(e) => {veilClick(e)}" class="veil"></div>
+                <button @blur="visible = false" @click="visible = !visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
                 <transition name="pop"> 
                 <div v-if="visible" class="dropdown-menu d-block shadow-lg">
                     <span 
@@ -101,16 +100,6 @@ export default {
             this.current = option
             this.visible = false
         },
-        veilClick(e) {
-            this.visible = false
-            setTimeout(() => {
-                    let element = document.elementFromPoint(e.clientX, e.clientY)
-                    element.focus()
-                }, 20
-            )
-
-            
-        },
         sendCommand() {
             this.waitingForResponse = true
             this.publish(["irc", {"message": `${this.current} ${this.inputValue}`}, "twitch", this.getCookie("access_token")])
@@ -158,17 +147,6 @@ export default {
 
 
 <style scoped>
-.veil {
-    z-index: 10;
-    height: 1000vh;
-    width: 1000vw;
-    position: absolute;
-    top:0;
-    left:0;
-    transform: translate(-50%, -50%)
-}
-
-
 .dropdown-menu {
     transform-origin: top left;
 }
