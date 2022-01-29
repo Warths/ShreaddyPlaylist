@@ -15,14 +15,20 @@
                         />
                 </div>
             </transition>
-            <tag-list :class="tagWrapperClass" :tags="song.tags"/>
-            <div class="w-100 justify-content-between d-flex" :class="foldClass">
-                <div class="d-flex flex-column mw-100" style="min-width: 0">
-                    <base-row class="fs-animated fs-4" :text="song.title"/>
-                    <base-row class="fs-animated fs-5" :text="song.artist"/>
+            <div class="d-flex gap-1">
+                <div class="bg-light text-light flex-grow-1 basis-50">
                 </div>
-                <div class="d-flex align-items-end">
-                    <requester-row class="ms-auto" :requester="song.requester"/>
+                <div class="flex-grow-1 basis-50">
+                    <tag-list :class="tagWrapperClass" :tags="song.public.tags"/>
+                    <div class="w-100 justify-content-between d-flex" :class="foldClass">
+                        <div class="d-flex flex-column mw-100" style="min-width: 0">
+                            <base-row class="fs-animated fs-4" :text="song.public.title"/>
+                            <base-row class="fs-animated fs-5" :text="song.public.artist"/>
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <requester-row class="ms-auto" :requester="song.public.requester"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,7 +100,7 @@ export default {
         },
         tagClasses() {
           let classes = []
-          for (let tag of this.song.tags) {
+          for (let tag of this.song.public.tags) {
               if (tag.hasOwnProperty('class')) {
                   classes.push(tag.class)
               }
@@ -187,6 +193,10 @@ export default {
 .fade-enter-to,
 .fade-leave-from {
     max-height:50px
+}
+
+.basis-50 {
+    flex-basis: 50%;
 }
 </style>
 
