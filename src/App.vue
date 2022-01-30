@@ -41,9 +41,10 @@ export default {
   },
   methods: { 
     ...mapMutations(["updateOption", "toggleShowOptions"]),
-    ...mapActions(["setStartupTheme", "setIdentity", "disconnect"]),
+    ...mapActions(["setStartupTheme", "setIdentity", "disconnect", "init"]),
   },
   beforeMount() {
+    this.init()
     this.setStartupTheme()
     let token = this.getHashValue("access_token")
     if (token == null) {
