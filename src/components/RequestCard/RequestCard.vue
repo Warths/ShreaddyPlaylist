@@ -15,9 +15,20 @@
                         />
                 </div>
             </transition>
-            <div class="d-flex gap-2">
-                <div v-if="this.option('moreInfo')" class="d-flex flex-column w-50 py-1 overflow-hidden">
-                    <tag-list class="ms-auto overflow-hidden " :tags="song.admin.tags"/>
+            <tag-list class="pt-1" :tags="mergeTags ? merged : song.public.tags"/>
+            <div class="d-flex gap-2">                    
+                    <div class="d-flex flex-column" :class="this.option('moreInfo') ? 'w-50' : 'w-100'">
+                    <div class="w-100 justify-content-between d-flex" :class="foldClass">
+                        <div class="d-flex flex-column mw-100" style="min-width: 0">
+                            <base-row class="fs-animated fs-4" :text="song.public.title"/>
+                            <base-row class="fs-animated fs-5" :text="song.public.artist"/>
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <requester-row class="ms-auto" :requester="song.public.requester"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="this.option('moreInfo')" class="d-flex flex-column w-50 overflow-hidden">
                     <div class="w-100 justify-content-between d-flex flex-column">
                         <div class="d-flex flex-column mw-100 pe-1">
                             <base-row class="fs-animated opacity-0 fs-4" :text="song.admin.title"/>
@@ -30,18 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-column py-1" :class="this.option('moreInfo') ? 'w-50' : 'w-100'">
-                    <tag-list :tags="mergeTags ? merged : song.public.tags"/>
-                    <div class="w-100 justify-content-between d-flex" :class="foldClass">
-                        <div class="d-flex flex-column mw-100" style="min-width: 0">
-                            <base-row class="fs-animated fs-4" :text="song.public.title"/>
-                            <base-row class="fs-animated fs-5" :text="song.public.artist"/>
-                        </div>
-                        <div class="d-flex align-items-end">
-                            <requester-row class="ms-auto" :requester="song.public.requester"/>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -108,14 +108,11 @@ export default {
     computed: {
         ...mapGetters(["option", "userLevel"]),
         mergeTags() {
-            return this.option("moreTags") && !this.option('moreInfo') && this.userLevel > 1
+            // return this.option("moreTags") && !this.option('moreInfo') && this.userLevel > 1
+            return (this.option("moreTags") || this.option('moreInfo')) && this.userLevel > 1
         },
         merged() {
-            if (this.song.public.id == "titix3887030703456") {
-                return this.song.admin.tags.concat(this.song.public.tags)
-            }
             return this.song.public.tags.concat(this.song.admin.tags)
-
         },
         foldClass() {
             return this.option("foldPlaylist") ? "" : "flex-column"
