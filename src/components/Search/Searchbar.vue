@@ -2,7 +2,7 @@
 <div class="d-flex align-items-center flex-grow-1">
     <div class="w-100">
         <div class="input-group">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend" @click="hideResponse(false)">
                 <button @blur="visible = false" @click="visible = !visible" class="btn btn-outline-secondary dropdown-toggle" type="button">{{ current }}</button>
                 <transition name="pop"> 
                 <div v-if="visible" class="dropdown-menu d-block shadow-lg">
@@ -13,10 +13,10 @@
                 </div>
                 </transition>
             </div>
-            <form class="flex-grow-1 position-relative" @submit.prevent="sendCommand()">
-                <input v-model="inputValue" id="searchbar" autocomplete="off" type="text" class="form-control"  :disabled="waitingForResponse">
+            <form @click="hideResponse(true)" class="flex-grow-1 position-relative" @submit.prevent="sendCommand()">
+                <input v-model="inputValue" id="searchbar" autocomplete="off" type="text" class="form-control" :disabled="waitingForResponse">
                 <transition name="pop">
-                    <div @click="hideResponse(true)" v-if="displayResponse" class="alert position-absolute text-center w-75 top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
+                    <div id="response-modal" @click="hideResponse(true)" v-if="displayResponse" class="alert position-absolute text-center w-75 top-100 start-50 translate-middle-x my-1" :class="responseType">{{ responseText }}</div>
                 </transition> 
             </form>
         </div>
