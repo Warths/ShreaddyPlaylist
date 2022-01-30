@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
 import OptionItem from "./OptionItem.vue"
 
 export default {
