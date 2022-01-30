@@ -15,11 +15,23 @@
                         />
                 </div>
             </transition>
-            <div class="d-flex gap-1">
-                <div class="bg-light text-light flex-grow-1 basis-50">
+            <div class="d-flex">
+                <div v-if="this.option('moreInfo')" class="d-flex flex-column w-50 p-1 overflow-hidden">
+                    <tag-list class="ms-auto overflow-hidden" :tags="song.admin.tags"/>
+                    <div class="w-100 justify-content-between d-flex flex-column">
+                        <div class="d-flex flex-column mw-100">
+                            <base-row class="fs-animated opacity-0 fs-4" :text="song.admin.title"/>
+                            <base-row class="text-end fs-animated fs-5" :text="song.admin.artist"/>
+                        </div>
+                        <div class="position-relative clip-to-right w-100 guitars">
+                            <div v-if="!option('foldPlaylist')" class="d-flex">
+                                <requester-row class="ms-auto" :requester="song.admin.requester"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex-grow-1 basis-50">
-                    <tag-list :class="tagWrapperClass" :tags="song.public.tags"/>
+                <div class="d-flex flex-column p-1" :class="this.option('moreInfo') ? 'w-50' : 'w-100'">
+                    <tag-list :tags="mergeTags ? merged : song.public.tags"/>
                     <div class="w-100 justify-content-between d-flex" :class="foldClass">
                         <div class="d-flex flex-column mw-100" style="min-width: 0">
                             <base-row class="fs-animated fs-4" :text="song.public.title"/>
@@ -95,6 +107,16 @@ export default {
     },
     computed: {
         ...mapGetters(["option", "userLevel"]),
+        mergeTags() {
+            return this.option("moreTags") && !this.option('moreInfo') && this.userLevel > 1
+        },
+        merged() {
+            if (this.song.public.id == "titix3887030703456") {
+                return this.song.admin.tags.concat(this.song.public.tags)
+            }
+            return this.song.public.tags.concat(this.song.admin.tags)
+
+        },
         foldClass() {
             return this.option("foldPlaylist") ? "" : "flex-column"
         },
@@ -197,6 +219,26 @@ export default {
 
 .basis-50 {
     flex-basis: 50%;
+}
+
+.clip-to-right {
+    position:relative;
+    overflow-x:hidden;
+}
+
+
+.clip-to-right > * {
+    position: absolute;
+    right:0;
+}
+
+.guitars {
+    transition: height 1s;
+    height: 28px
+}
+
+.streamer-theme .guitars {
+    height: 42px;
 }
 </style>
 
