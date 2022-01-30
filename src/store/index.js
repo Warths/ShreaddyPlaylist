@@ -7,10 +7,36 @@ export default createStore({
             showOptions: false,
             clientId: "kh3yohkrwpbo6m71sryrw8hm0gls90",
             moderators: ["mepha", "warths"],
+            playlistState: undefined,
             userData: null,
             identity: null,
             pubsub: new PubSubClient("wss://pubsub.warths.fr/"),
             options: {
+                playlist: {
+                  fields: {
+                    regularOpen: {
+                      name: "regular-open",
+                      value: cookies.methods.getCookieOrDefault("regular-open", true, true),
+                      text: "Request Standards",
+                      onUpdate: (value, origin, state) => {
+                        if (origin != "pubsub") {
+                          state.pubsub.publish("irc", {"message": "!toggle"}, "twitch", cookies.methods.getCookie("access_token"))
+                        }
+                      }
+                    },
+                    vipOpen: {
+                      name: "vip-open",
+                      value: cookies.methods.getCookieOrDefault("vip-open", true, true),
+                      text: "Requests VIP",
+                      onUpdate: (value, origin, state) => {
+                        if (origin != "pubsub") {
+                          state.pubsub.publish("irc", {"message": "!viptoggle"}, "twitch", cookies.methods.getCookie("access_token"))
+                        }
+                      }
+                    }
+                  },
+                  userLevel: 2
+                },
                 regular: {
                     fields: {
                       requestForm: {
@@ -20,7 +46,7 @@ export default createStore({
                       },
                       lightmixCooldown: {
                         name: "options-lightmix-cooldown",
-                        value: cookies.methods.getCookieOrDefault("options-lightmix-cooldown", false, true),
+                        value: cookies.methods.getCookieOrDefault("options-lightmix-cooldown", true, true),
                         text: "Temps de recharge LightMix"
                       },
                       displayPlaylistState: {
@@ -49,7 +75,7 @@ export default createStore({
                   fields: {
                     adminTools: {
                       name: "options-admintools",
-                      value: cookies.methods.getCookieOrDefault("options-admintools", false, true),
+                      value: cookies.methods.getCookieOrDefault("options-admintools", true, true),
                       text: "Raccourcis de modération"
                     },
                     streamerTheme: {
@@ -67,7 +93,7 @@ export default createStore({
                     },
                     moreTags: {
                       name: "options-more-tags",
-                      value: cookies.methods.getCookieOrDefault("options-more-tags", false, true),
+                      value: cookies.methods.getCookieOrDefault("options-more-tags", true, true),
                       text: "Plus de tags",
                     }
                   },
@@ -77,12 +103,12 @@ export default createStore({
         }
     },
     mutations: {
-        updateOption(state, option) {
+        updateOption(state, {value, name, origin}) {
             for (let category in state.options) {
-                if (state.options[category].fields.hasOwnProperty(option.name)){
-                    state.options[category].fields[option.name].value = option.value
-                    if (state.options[category].fields[option.name].hasOwnProperty("onUpdate")){
-                        state.options[category].fields[option.name].onUpdate(option.value)
+                if (state.options[category].fields.hasOwnProperty(name)){
+                    state.options[category].fields[name].value = value
+                    if (state.options[category].fields[name].hasOwnProperty("onUpdate")){
+                        state.options[category].fields[name].onUpdate(value, origin, state)
                     }
                 }
             }
@@ -93,6 +119,10 @@ export default createStore({
         updateIdentity(state, data) {
           state.identity = data
         },
+        updatePlaylistState(state, data) {
+          state.playlistState = data
+          
+        },
         toggleShowOptions(state, forceState) {
           if (forceState == undefined) {
             state.showOptions = !state.showOptions
@@ -102,6 +132,22 @@ export default createStore({
         }
     },
     actions: {
+        init(context) {
+          context.dispatch("addHandler", ["playlist_state", (e) => { 
+            context.commit("updatePlaylistState", e.message);
+            context.dispatch("handlePlaylistStateUpdate", e.message)
+          }])
+          context.dispatch("subscribe", ["playlist_state"])
+        },
+        handlePlaylistStateUpdate(context, data) {
+          console.log(data)
+          if (data.Standard != this.getters.option("regularOpen")) {
+              context.commit("updateOption", {name: "regularOpen", value:data.Standard, origin:"pubsub"})
+          }
+          if (data.Standard != this.getters.option("vipOpen")) {
+            context.commit("updateOption", {name: "vipOpen", value:data.VIP, origin:"pubsub"})
+          }
+        },
         setIdentity(context, token) {
           // Checking if token is valid
           let headers = {"Authorization": `Bearer ${token}`};
@@ -150,6 +196,7 @@ export default createStore({
           cookies.methods.setCookie("access_token", null)
           context.commit("updateIdentity", null)
           context.commit("updateUserData", null)
+          context.commit("toggleShowOptions", null)
         },
         sendCommand(context, cmd) {
             context.dispatch("publish", ["irc", {"message": cmd}, "twitch", cookies.methods.getCookie("access_token")])

@@ -3,10 +3,10 @@
     <div class="playlist m-auto px-1" :class="option('moreInfo') ? 'more-info' : ''">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
             <transition name="apparition">
-                <searchbar v-if="userLevel > 0 && option('requestForm')" class="flex-grow-2" :identity="identity"/>
+                <searchbar v-if="userLevel > 0 && option('requestForm')" class="flex-grow-2"/>
             </transition>
             <div class="d-flex flex-column my-2 justify-content-center">
-            <span class="fw-bold m-0 playlist-item" >Il y a {{list.length}} musique{{list.length > 1 ? "s" : ""}} dans la playlist</span>
+            <span class="fw-bold m-0 playlist-item" >Il y a {{length}} musique{{length > 1 ? "s" : ""}} dans la playlist</span>
             <transition name="apparition">
                 <small v-if="option('displayPlaylistState') && this.playlistState" class="m-0 apparition-item">{{ playlistStateText }}</small>
             </transition>
@@ -25,35 +25,41 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 import card from "../components/RequestCard/RequestCard.vue";
 import Searchbar from '../components/Search/Searchbar.vue';
 
 export default {
     data() {
         return {
-            list: [],
-            playlistState: undefined,
+            list: undefined,
         }
     },
     methods: {
         ...mapActions(["publish", "subscribe", "addHandler"]),
+        ...mapMutations(["updatePlaylistState"]),
         publish(cmd) {
             this.publish(["irc", {"message": cmd}, "twitch", this.getCookie("access_token")])
         }
     },
     computed: {
         ...mapGetters(["option", "userLevel"]),
-        ...mapState(["identity"]),
+        ...mapState(["playlistState"]),
         listProcessed() {
             let list = []
-            console.log(this.list)
+            if (this.list == undefined) {
+                return list
+            }
             for (let i in this.list.public) {
                 list.push({public: this.list.public[i], admin: this.list.admin[i]})
             }
-
-            console.log(list)
             return list
+        },
+        length() {
+            if (this.list == undefined) {
+                return 0
+            }
+            return this.list.public.length
         },
         playlistStateText() {
             let states = {
@@ -96,12 +102,13 @@ export default {
             return `${texts.open} ${texts.closed}`
         }
     },
+    updated() {
+        console.log(this.list)
+    },
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
         this.addHandler(["playlist", e => this.list = e.message.data])
-        this.addHandler(["playlist_state", e => this.playlistState = e.message])
-        this.subscribe(["playlist_state"])
         this.subscribe(["playlist"])
 
 
