@@ -27,6 +27,7 @@ export default {
             lastEventDate: 0,
             state: undefined,
             available: true,
+            mountDate: Date.now()
         }
     },
     methods: {
@@ -67,7 +68,7 @@ export default {
             return this.state == undefined && this.age > 5000
         }
     },
-    mounted() {
+    created() {
         let cooldown = `${this.name}_cooldown`
         let available = `${this.name}_availability`
         this.addHandler([available, e => this.available = e.message.available])
@@ -100,10 +101,6 @@ export default {
         toolTipText: {
             type: String,
             default: "Test"
-        },
-        mountDate: {
-            type: Number,
-            default: Date.now()
         }
     }
 }
