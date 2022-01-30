@@ -11,6 +11,7 @@ export default createStore({
             userData: null,
             identity: null,
             pubsub: new PubSubClient("wss://pubsub.warths.fr/"),
+            forcedOptions: {},
             options: {
                 playlist: {
                   fields: {
@@ -103,6 +104,9 @@ export default createStore({
         }
     },
     mutations: {
+        updateForcedOptions(state, data) {
+          state.forcedOptions = data
+        },
         updateOption(state, {value, name, origin}) {
             for (let category in state.options) {
                 if (state.options[category].fields.hasOwnProperty(name)){
@@ -204,6 +208,12 @@ export default createStore({
     },
     getters: {
       option: (state) => (fieldName) => {
+          for (let option in state.forcedOptions) {
+
+            if (fieldName == option) {
+              return state.forcedOptions[option]
+            }
+          }
           for (let category in state.options) {
               if (state.options[category].fields.hasOwnProperty(fieldName)){
                   return state.options[category].fields[fieldName].value

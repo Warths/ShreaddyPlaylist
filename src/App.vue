@@ -40,13 +40,27 @@ export default {
       ...mapState(["identity", "userData", "showOptions"])
   },
   methods: { 
-    ...mapMutations(["updateOption", "toggleShowOptions"]),
+    ...mapMutations(["updateOption", "toggleShowOptions", "updateForcedOptions"]),
     ...mapActions(["setStartupTheme", "setIdentity", "disconnect", "init"]),
   },
   beforeMount() {
     this.init()
     this.setStartupTheme()
     let token = this.getHashValue("access_token")
+    let force = this.getHashValue("force_options")
+    let formattedForcedOptions = {}
+    console.log(force)
+    if (force) {
+      for (let fragment of force.split(";")) {
+        let [fragmentName, fragmentValue] = [...fragment.split(":")]
+        if (fragmentValue == undefined) {
+          fragmentValue = true
+        }
+        formattedForcedOptions[fragmentName] = fragmentValue
+      }
+      this.updateForcedOptions(formattedForcedOptions)
+    }
+
     if (token == null) {
         token = this.getCookie("access_token")
     }
