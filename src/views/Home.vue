@@ -102,9 +102,6 @@ export default {
             return `${texts.open} ${texts.closed}`
         }
     },
-    updated() {
-        console.log(this.list)
-    },
     mounted() {
         // Setting App to update regularly
         history.replaceState(null, null, ' ');
