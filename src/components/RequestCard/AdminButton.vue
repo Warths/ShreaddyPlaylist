@@ -31,13 +31,13 @@ export default {
         formatCommand(cmd, choice) {
             this.show = false;
             cmd = cmd.replace("%choice%", choice)
-            for (let key in this.song) {
-                if (typeof(this.song[key]) == "object") {
-                    for (let subkey in this.song[key]) {
-                        cmd = cmd.replace(`%${key}.${subkey}%`, this.song[key][subkey])
+            for (let key in this.song.public) {
+                if (typeof(this.song.public[key]) == "object") {
+                    for (let subkey in this.song.public[key]) {
+                        cmd = cmd.replace(`%${key}.${subkey}%`, this.song.public[key][subkey])
                     }
                 } else {
-                    cmd = cmd.replace(`%${key}%`, this.song[key])
+                    cmd = cmd.replace(`%${key}%`, this.song.public[key])
                 }
             }
             return cmd
