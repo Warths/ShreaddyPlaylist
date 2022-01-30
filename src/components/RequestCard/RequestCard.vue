@@ -15,22 +15,22 @@
                         />
                 </div>
             </transition>
-            <div class="d-flex">
-                <div v-if="this.option('moreInfo')" class="d-flex flex-column w-50 p-1 overflow-hidden">
+            <div class="d-flex gap-1">
+                <div v-if="this.option('moreInfo')" class="d-flex flex-column w-50 py-1 overflow-hidden">
                     <tag-list class="ms-auto overflow-hidden" :tags="song.admin.tags"/>
                     <div class="w-100 justify-content-between d-flex flex-column">
                         <div class="d-flex flex-column mw-100">
                             <base-row class="fs-animated opacity-0 fs-4" :text="song.admin.title"/>
                             <base-row class="text-end fs-animated fs-5" :text="song.admin.artist"/>
                         </div>
-                        <div class="position-relative clip-to-right w-100 guitars">
-                            <div v-if="!option('foldPlaylist')" class="d-flex">
+                        <div v-if="!option('foldPlaylist')" class="position-relative clip-to-right w-100 guitars">
+                            <div class="d-flex">
                                 <requester-row class="ms-auto" :requester="song.admin.requester"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-column p-1" :class="this.option('moreInfo') ? 'w-50' : 'w-100'">
+                <div class="d-flex flex-column py-1" :class="this.option('moreInfo') ? 'w-50' : 'w-100'">
                     <tag-list :tags="mergeTags ? merged : song.public.tags"/>
                     <div class="w-100 justify-content-between d-flex" :class="foldClass">
                         <div class="d-flex flex-column mw-100" style="min-width: 0">
@@ -70,7 +70,7 @@ export default {
                 {
                     text: "Boost",
                     action: {
-                        cmd: "!boost %requester.displayName% %choice%",
+                        cmd: "!boost %id% %choice%",
                         choices: [
                             [50, '+50%'], 
                             [100, '+100%'], 
