@@ -1,6 +1,6 @@
 <template>
 <!-- ALL MUSIC CARDS -->
-    <div class="playlist m-auto px-1">
+    <div class="playlist m-auto px-1" :class="option('moreInfo') ? 'more-info' : ''">
         <div class="text-end p-2 d-flex justify-content-end gap-3 flex-wrap flex-wrap-reverse">
             <transition name="apparition">
                 <searchbar v-if="userLevel > 0 && option('requestForm')" class="flex-grow-2" :identity="identity"/>
@@ -12,10 +12,11 @@
             </transition>
             </div>
         </div>
-        <transition-group name="playlist" tag="div" class="playlist position-relative">
+        <transition-group name="playlist" tag="div" class="playlist position-relative" :class="option('moreInfo') ? 'more-info' : ''">
             <card class="playlist-item" v-for="content in listProcessed" 
             v-on:sendCommand="e => publish(e)"
-            :song="content" :key="content.id" 
+            :song="content" 
+            :key="content.public.id" 
             :showPanel="option('adminTools')" 
             :fold="option('foldPlaylist')"/>
         </transition-group>
@@ -50,6 +51,7 @@ export default {
             for (let i in this.list.public) {
                 list.push({public: this.list.public[i], admin: this.list.admin[i]})
             }
+
             console.log(list)
             return list
         },
@@ -125,9 +127,18 @@ span, small {
     transition: max-width 1s;
     max-width: 800px;
 }
+
+.more-info {
+    max-width: 1000px
+}
 .streamer-theme .playlist {
     max-width: 1200px
 }
+
+.streamer-theme .more-info {
+    max-width: 1600px;
+}
+
 .playlist-item {
   transition: all .5s
 }
