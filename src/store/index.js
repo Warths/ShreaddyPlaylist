@@ -59,6 +59,16 @@ export default createStore({
                       onUpdate: (value) => {
                         document.body.classList.toggle("streamer-theme", value)
                       }
+                    },
+                    moreInfo: {
+                      name: "options-more-info",
+                      value: cookies.methods.getCookieOrDefault("options-more-info", false, true),
+                      text: "Plus d'infos",
+                    },
+                    moreTags: {
+                      name: "options-more-tags",
+                      value: cookies.methods.getCookieOrDefault("options-more-tags", false, true),
+                      text: "Plus de tags",
                     }
                   },
                   userLevel: 2
