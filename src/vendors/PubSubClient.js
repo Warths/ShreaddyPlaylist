@@ -13,7 +13,7 @@ export default class PubSubClient {
         this.ws = null;
         this.handlers = {};
         this.nonceHandlers = {}
-        this.log = true
+        this.log = log
         setInterval(() => this.tick(), 100);
 
     }
