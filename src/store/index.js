@@ -17,7 +17,7 @@ export default createStore({
                     regularOpen: {
                       name: "regular-open",
                       value: cookies.methods.getCookieOrDefault("regular-open", true, true),
-                      text: "Request Standards",
+                      text: "Requêtes Standards",
                       onUpdate: (value, origin, state) => {
                         if (origin != "pubsub") {
                           state.pubsub.publish("irc", {"message": "!toggle"}, "twitch", cookies.methods.getCookie("access_token"))
@@ -27,7 +27,7 @@ export default createStore({
                     vipOpen: {
                       name: "vip-open",
                       value: cookies.methods.getCookieOrDefault("vip-open", true, true),
-                      text: "Requests VIP",
+                      text: "Requêtes VIP",
                       onUpdate: (value, origin, state) => {
                         if (origin != "pubsub") {
                           state.pubsub.publish("irc", {"message": "!viptoggle"}, "twitch", cookies.methods.getCookie("access_token"))
@@ -144,7 +144,7 @@ export default createStore({
           if (data.Standard != this.getters.option("regularOpen")) {
               context.commit("updateOption", {name: "regularOpen", value:data.Standard, origin:"pubsub"})
           }
-          if (data.Standard != this.getters.option("vipOpen")) {
+          if (data.VIP != this.getters.option("vipOpen")) {
             context.commit("updateOption", {name: "vipOpen", value:data.VIP, origin:"pubsub"})
           }
         },
