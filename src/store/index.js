@@ -67,7 +67,8 @@ export default createStore({
                         onUpdate: (value) => {
                           document.body.classList.toggle("dark-theme", value)
 
-                        }
+                        },
+                        disabledIf: "streamerTheme"
                       }
                     },
                     userLevel: 1
@@ -96,6 +97,7 @@ export default createStore({
                       name: "options-more-tags",
                       value: cookies.methods.getCookieOrDefault("options-more-tags", true, true),
                       text: "Plus de tags",
+                      disabledIf: "moreInfo"
                     }
                   },
                   userLevel: 2
