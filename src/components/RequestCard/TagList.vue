@@ -1,5 +1,5 @@
 <template>
-    <transition-group tag="div" name="tags" class="tags d-flex position-relative">
+    <transition-group tag="div" name="tags" class="tags">
         <tag class="tags-item" v-for="tag in tags" :tag="tag" :key="tag.id"/>
     </transition-group>
 </template>
@@ -20,13 +20,12 @@ export default {
     overflow:hidden;
 }
 .tags-item {
-    transition: all 1s;
+    transition: top 1s, left 1s, opacity 1s, transform 1s;
 }
 
 .tags-enter-from, 
 .tags-leave-to {
     opacity: 0;
-    transform: scale(0)
 }
 
 .tags-leave-active {
