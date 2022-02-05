@@ -14,7 +14,7 @@ export default {
     computed:{
         ...mapGetters(["option"]),
         darkTheme() {
-          return this.option("darkTheme")
+          return this.option("darkTheme") || this.option("streamerTheme")
         },
         backgroundColor() {
             return this.darkTheme ? [0,0,0] : [255, 255, 255] 
